@@ -30,7 +30,7 @@ export function getVampireRect() {
 }
 
 export function setVampireLose() {
-    vampireElem.src = "imgs/vampire-stationary.png"
+    vampireElem.src = "imgs/vampire-death.png"
 }
 
 function handleRun(delta, speedScale) {

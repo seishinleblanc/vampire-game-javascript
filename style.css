@@ -3,32 +3,63 @@
     user-select: none;
 }
 
+@font-face {
+    font-family: 'VT323-Regular';
+    src: url('/my-first-js-game/fonts/VT323-Regular.ttf');
+  }
+
 body {
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    background-color: rgb(17, 17, 17);
 }
 
 .world {
     overflow: hidden;
     position: relative;
+    /* background-image: url("./imgs/background.jpg");
+    background-size: cover; */
 }
 
 .score {
     position: absolute;
-    font-size: 3vmin;
-    right: 1vmin;
+    font-size: 4vmin;
+    right: 7vmin;
     top: 1vmin;
+    color:rgb(129, 12, 12);
 }
 
 .start-screen {
     position: absolute;
-    font-size: 5vmin;
+    font-size: 7vmin;
+    font-family: VT323-Regular;
+    color: rgb(129, 12, 12);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.blinking {
+
+    animation: opacity 2s ease-in-out infinite;
+    opacity: 1;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .hide {

@@ -37,7 +37,7 @@ export function getCrossRects() {
 function createCross() {
     const cross = document.createElement("img")
     cross.dataset.cross = true
-    cross.src = "imgs/cactus.png"
+    cross.src = "imgs/cross.png"
     cross.classList.add("cross")
     setCustomProperty(cross, "--left", 100)
     worldElem.append(cross)
