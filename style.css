@@ -51,7 +51,7 @@ body {
     bottom: calc(var(--bottom) * 1%);
 }
 
-.cactus {
+.cross {
     position: absolute;
     left: calc(var(--left) * 1%);
     height: 30%;
