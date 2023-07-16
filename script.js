@@ -85,7 +85,7 @@ function handleLose() {
         document.addEventListener("keydown", handleStart, { once: true}) 
         startScreenElem.classList.remove("hide")
         myMusic.pause()
-    }, 100)
+    }, 300)
 }
 
 function setPixelToWorldScale() {
