@@ -42,10 +42,25 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.end-screen {
+    position: absolute;
+    font-size: 7vmin;
+    text-align: center;
+    font-family: VT323-Regular;
+    color: rgb(129, 12, 12);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .blinking {
 
     animation: opacity 2s ease-in-out infinite;
     opacity: 1;
+}
+
+.bigger-text {
+    font-size: 11vmin;
 }
 
 @keyframes opacity {
