@@ -9,6 +9,7 @@ const SPEED_SCALE_INCREASE = 0.00001
 const worldElem = document.querySelector('[data-world]')
 const scoreElem = document.querySelector('[data-score]')
 const startScreenElem = document.querySelector('[data-start-screen]')
+const endScreenElem = document.querySelector('[data-end-screen]')
 const myMusic = document.querySelector("[data-backgroundmusic]")
 const fireSound = document.querySelector("[data-firesound]")
 const deathSound = document.querySelector("[data-deathsound]")
@@ -16,6 +17,7 @@ const deathSound = document.querySelector("[data-deathsound]")
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
 document.addEventListener("keydown", handleStart, { once: true })
+endScreenElem.classList.add("hide")
 
 
 let lastTime
@@ -71,6 +73,7 @@ function handleStart() {
     setupVampire()
     setupCross()
     startScreenElem.classList.add("hide")
+    endScreenElem.classList.add("hide")
     window.requestAnimationFrame(update)
     myMusic.play()
     myMusic.volume = 0.25
@@ -83,7 +86,7 @@ function handleLose() {
     deathSound.volume = 0.5
     setTimeout(() => {
         document.addEventListener("keydown", handleStart, { once: true}) 
-        startScreenElem.classList.remove("hide")
+        endScreenElem.classList.remove("hide")
         myMusic.pause()
     }, 300)
 }
