@@ -3,3 +3,5 @@ Game over if you touch one of them!
 
 -----
 It features start and end screens, a high-score counter, animated sprites and background, collision detection, randomized item generation and simple physics. 
+
+Deployment link: https://vampire-run-game.netlify.app/
