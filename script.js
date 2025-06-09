@@ -122,6 +122,7 @@ const myMusic = document.querySelector("[data-backgroundmusic]")
 const fireSound = document.querySelector("[data-firesound]")
 const deathSound = document.querySelector("[data-deathsound]")
 const dialogueMood = document.getElementById("dialogue-mood")
+const gameOverMusic = document.querySelector("[data-gameovermusic]")
 
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
@@ -186,9 +187,13 @@ function handleStart() {
     dialogueBox.classList.remove("fade-in")
     dialogueBox.classList.add("hidden")
 
+    // Stop ambient and game over music
     dialogueMood.pause()
     dialogueMood.currentTime = 0
+    gameOverMusic.pause()
+    gameOverMusic.currentTime = 0
 
+    // Start gameplay
     window.requestAnimationFrame(update)
     myMusic.play()
     myMusic.volume = 0.25
@@ -199,9 +204,18 @@ function handleLose() {
     fireSound.play()
     deathSound.play()
     deathSound.volume = 0.5
+
+    // Stop gameplay music
+    myMusic.pause()
+    myMusic.currentTime = 0
+
+    // Play game over music
+    gameOverMusic.currentTime = 0
+    gameOverMusic.volume = 0.4
+    gameOverMusic.play()
+
     setTimeout(() => {
         endScreenElem.classList.remove("hide")
-        myMusic.pause()
         document.addEventListener("keydown", handleStart, { once: true })
         document.addEventListener("click", handleStart, { once: true })
         document.addEventListener("touchstart", handleStart, { once: true })
@@ -304,3 +318,4 @@ window.addEventListener("touchstart", handleTitleKey, { once: true })
 window.addEventListener("load", () => {
     // Title screen waits
 })
+
