@@ -99,4 +99,117 @@ body {
 
 .ground {
     --left: 0;
-    pos
+    position: absolute;
+    width: 300%;
+    bottom: 0;
+    left: calc(var(--left) * 1%);
+}
+
+.vampire {
+    --bottom: 0;
+    position: absolute;
+    left: 1%;
+    height: 30%;
+    bottom: calc(var(--bottom) * 1%);
+}
+
+.cross {
+    position: absolute;
+    left: calc(var(--left) * 1%);
+    height: 30%;
+    bottom: 0;
+}
+
+/* ✨ Updated Dialogue Box */
+
+.dialogue-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95vmin;
+    max-width: 1000px;
+    background-color: rgba(20, 20, 20, 0.95);
+    color: white;
+    border: 2px solid rgb(129, 12, 12);
+    border-radius: 12px;
+    padding: 2vmin;
+    font-family: VT323-Regular;
+    font-size: 4.5vmin;
+    display: flex;
+    align-items: flex-start;
+    gap: 2vmin;
+    z-index: 999;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    min-height: 18vmin; /* prevents size jump */
+}
+
+
+.dialogue-box img {
+    width: 14vmin;
+    height: 14vmin;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid rgb(255, 0, 64);
+    box-sizing: content-box; /* ⬅ Prevents border from affecting box size */
+    padding: 0;
+    margin: 0;
+    image-rendering: pixelated;
+    display: block;
+}
+
+
+.dialogue-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    min-width: 0;
+    min-height: 12vmin; /* prevents text area shrinking */
+    word-wrap: break-word;
+}
+
+.speaker-name {
+    font-size: 4vmin;
+    font-weight: bold;
+    color: crimson;
+    margin-bottom: 1vmin;
+}
+
+.dialogue-content button {
+    align-self: flex-end;
+    margin-top: 1vmin;
+    padding: 0.7vmin 2.5vmin;
+    font-size: 3.2vmin;
+    font-family: VT323-Regular;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dialogue-content button:hover {
+    background-color: rgb(170, 20, 20);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.game-title {
+    font-size: 10vmin;
+    margin-bottom: 2vmin;
+    color: crimson;
+    text-shadow: 0 0 5px black;
+}
+
+.speaker-name.mirelle {
+    color: crimson;
+}
+
+.speaker-name.carmilla {
+    color: #d6c2e7; /* soft pale violet or similar */
+}
+
