@@ -4,24 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vampire Game</title>
+    <title>Carmilla: Blood Escape</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" type="module"></script>
 </head>
 <body>
     <div class="world" data-world>
-        <div class="score" data-score>0</div>
-        <div class="start-screen blinking" data-start-screen>Press Any Key To Start</div>
-        <div class="end-screen " data-end-screen>
+
+
+        <!-- ✨ Title Screen -->
+        <<div class="start-screen blinking" data-start-screen>
+            <div class="start-screen-content">
+                <div class="game-title">Carmilla: Blood Escape</div>
+                <div class="start-subtitle">Press Any Key To Start</div>
+            </div>
+        </div>
+        
+
+        <!-- 🩸 End Screen -->
+        <div class="end-screen" data-end-screen>
             <div class="bigger-text">You Have Died</div>
             <div class="blinking">Press Any Key To Continue</div>
-            </div>
-        <img src="imgs/ground.png" class="ground" data-ground>
-        <img src="imgs/ground.png" class="ground" data-ground>
-        <img src="imgs/vampire-stationary.png" class="vampire" data-vampire>
-        <audio loop src="sound/background.mp3" class="backgroundmusic" data-backgroundmusic></audio>
-        <audio src="sound/fire-sound.wav" class="firesound" data-firesound></audio>
-        <audio src="sound/vampire-death-sound-female.wav" class="deathsound" data-deathsound></audio>
+        </div>
+
+        <!-- 🎮 Actual Game Area (hidden until game starts) -->
+        <div class="game-area hide" data-game-area>
+            <div class="score" data-score>0</div>
+            <img src="imgs/ground.png" class="ground" data-ground>
+            <img src="imgs/ground.png" class="ground" data-ground>
+            <img src="imgs/vampire-stationary.png" class="vampire" data-vampire>
+            <audio loop src="sound/background.mp3" class="backgroundmusic" data-backgroundmusic></audio>
+            <audio src="sound/fire-sound.wav" class="firesound" data-firesound></audio>
+            <audio src="sound/vampire-death-sound-female.wav" class="deathsound" data-deathsound></audio>
+        </div>
     </div>
+
+    <!-- ✨ Dialogue Box -->
+    <div id="dialogue-box" class="dialogue-box hidden">
+        <img id="avatar" src="imgs/avatar-mirelle.png" alt="Mirelle" />
+        <div class="dialogue-content">
+            <div id="speaker-name" class="speaker-name">Mirelle</div>
+            <div id="dialogue-text">...</div>
+            <button id="next-button">Next</button>
+        </div>
+    </div>
+
+    <!-- 🎵 Dialogue Mood Track -->
+    <audio loop id="dialogue-mood" src="sound/dialogue-mood.wav"></audio>
+
 </body>
 </html>
+
