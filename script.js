@@ -125,10 +125,6 @@ const dialogueMood = document.getElementById("dialogue-mood")
 
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
-document.addEventListener("keydown", handleTitleKey, { once: true })
-document.addEventListener("click", handleTitleKey, { once: true })
-document.addEventListener("touchstart", handleTitleKey, { once: true })
-
 endScreenElem.classList.add("hide")
 
 let lastTime
@@ -225,7 +221,6 @@ function setPixelToWorldScale() {
 }
 
 // 🩸 Dialogue System
-
 const dialogueBox = document.getElementById("dialogue-box")
 const dialogueText = document.getElementById("dialogue-text")
 const nextButton = document.getElementById("next-button")
@@ -233,40 +228,17 @@ const avatarElem = document.getElementById("avatar")
 const speakerNameElem = document.getElementById("speaker-name")
 
 const dialogueLines = [
-    {
-        text: "Carmilla, wake up.",
-        speaker: "Mirelle",
-        avatar: "imgs/avatar-mirelle.png"
-    },
-    {
-        text: "...What? What's happening?",
-        speaker: "Carmilla",
-        avatar: "imgs/avatar-carmilla.png"
-    },
-    {
-        text: "Hunters. They breached the gate. You need to get out—now.",
-        speaker: "Mirelle",
-        avatar: "imgs/avatar-mirelle.png"
-    },
-    {
-        text: "What about you?",
-        speaker: "Carmilla",
-        avatar: "imgs/avatar-carmilla.png"
-    },
-    {
-        text: "I'll hold them off. Take the back exit—",
-        speaker: "Mirelle",
-        avatar: "imgs/avatar-mirelle.png"
-    },
-    {
-        text: "But be careful. They've set traps along the path. Watch your footing.",
-        speaker: "Mirelle",
-        avatar: "imgs/avatar-mirelle.png"
-    }
+    { text: "Carmilla, wake up.", speaker: "Mirelle", avatar: "imgs/avatar-mirelle.png" },
+    { text: "...What? What's happening?", speaker: "Carmilla", avatar: "imgs/avatar-carmilla.png" },
+    { text: "Hunters. They breached the gate. You need to get out—now.", speaker: "Mirelle", avatar: "imgs/avatar-mirelle.png" },
+    { text: "What about you?", speaker: "Carmilla", avatar: "imgs/avatar-carmilla.png" },
+    { text: "I'll hold them off. Take the back exit—", speaker: "Mirelle", avatar: "imgs/avatar-mirelle.png" },
+    { text: "But be careful. They've set traps along the path. Watch your footing.", speaker: "Mirelle", avatar: "imgs/avatar-mirelle.png" }
 ]
 
 let currentLine = 0
 let dialogueActive = false
+let lastAdvanceTime = 0
 
 function handleTitleKey() {
     startScreenElem.classList.add("hide")
@@ -294,14 +266,17 @@ function showDialogue() {
 
     showDialogueLine(currentLine)
 
-    // Allow all inputs to advance dialogue
     document.addEventListener("keydown", advanceDialogue)
     document.addEventListener("click", advanceDialogue)
     document.addEventListener("touchstart", advanceDialogue)
     nextButton.addEventListener("click", advanceDialogue)
 }
 
-function advanceDialogue() {
+function advanceDialogue(e) {
+    const now = Date.now()
+    if (now - lastAdvanceTime < 300) return
+    lastAdvanceTime = now
+
     currentLine++
     if (currentLine < dialogueLines.length) {
         showDialogueLine(currentLine)
@@ -311,6 +286,8 @@ function advanceDialogue() {
         cleanupDialogueListeners()
         handleStart()
     }
+
+    if (e) e.preventDefault()
 }
 
 function cleanupDialogueListeners() {
@@ -320,7 +297,10 @@ function cleanupDialogueListeners() {
     nextButton.removeEventListener("click", advanceDialogue)
 }
 
+window.addEventListener("keydown", handleTitleKey, { once: true })
+window.addEventListener("click", handleTitleKey, { once: true })
+window.addEventListener("touchstart", handleTitleKey, { once: true })
+
 window.addEventListener("load", () => {
     // Title screen waits
 })
-
