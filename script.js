@@ -319,3 +319,15 @@ window.addEventListener("load", () => {
     // Title screen waits
 })
 
+// 📱 Tap-to-jump on mobile (simulates pressing Space)
+window.addEventListener("touchstart", (e) => {
+    if (!dialogueActive && !startScreenElem.classList.contains("hide")) return
+    const jumpEvent = new KeyboardEvent("keydown", {
+        key: " ",
+        code: "Space",
+        bubbles: true,
+    })
+    document.dispatchEvent(jumpEvent)
+})
+
+
