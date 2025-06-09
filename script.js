@@ -187,13 +187,11 @@ function handleStart() {
     dialogueBox.classList.remove("fade-in")
     dialogueBox.classList.add("hidden")
 
-    // Stop ambient and game over music
     dialogueMood.pause()
     dialogueMood.currentTime = 0
     gameOverMusic.pause()
     gameOverMusic.currentTime = 0
 
-    // Start gameplay
     window.requestAnimationFrame(update)
     myMusic.play()
     myMusic.volume = 0.25
@@ -205,11 +203,9 @@ function handleLose() {
     deathSound.play()
     deathSound.volume = 0.5
 
-    // Stop gameplay music
     myMusic.pause()
     myMusic.currentTime = 0
 
-    // Play game over music
     gameOverMusic.currentTime = 0
     gameOverMusic.volume = 0.4
     gameOverMusic.play()
@@ -254,7 +250,8 @@ let currentLine = 0
 let dialogueActive = false
 let lastAdvanceTime = 0
 
-function handleTitleKey() {
+function handleTitleKey(e) {
+    if (e) e.preventDefault()
     startScreenElem.classList.add("hide")
     showDialogue()
 }
@@ -280,10 +277,13 @@ function showDialogue() {
 
     showDialogueLine(currentLine)
 
-    document.addEventListener("keydown", advanceDialogue)
-    document.addEventListener("click", advanceDialogue)
-    document.addEventListener("touchstart", advanceDialogue)
-    nextButton.addEventListener("click", advanceDialogue)
+    // ⏳ Delay adding input listeners to avoid immediate skip
+    setTimeout(() => {
+        document.addEventListener("keydown", advanceDialogue)
+        document.addEventListener("click", advanceDialogue)
+        document.addEventListener("touchstart", advanceDialogue)
+        nextButton.addEventListener("click", advanceDialogue)
+    }, 300)
 }
 
 function advanceDialogue(e) {
@@ -311,23 +311,15 @@ function cleanupDialogueListeners() {
     nextButton.removeEventListener("click", advanceDialogue)
 }
 
+// 🎮 Start game after first input (click, key, or touch)
 window.addEventListener("keydown", handleTitleKey, { once: true })
 window.addEventListener("click", handleTitleKey, { once: true })
 window.addEventListener("touchstart", handleTitleKey, { once: true })
 
-window.addEventListener("load", () => {
-    // Title screen waits
-})
-
-// 📱 Tap-to-jump on mobile (simulates pressing Space)
+// 📱 Tap-to-jump support
 window.addEventListener("touchstart", (e) => {
-    if (!dialogueActive && !startScreenElem.classList.contains("hide")) return
-    const jumpEvent = new KeyboardEvent("keydown", {
-        key: " ",
-        code: "Space",
-        bubbles: true,
-    })
-    document.dispatchEvent(jumpEvent)
-})
+    const event = new KeyboardEvent("keydown", { key: " ", code: "Space", bubbles: true })
+    document.dispatchEvent(event)
+}, { passive: false })
 
 
