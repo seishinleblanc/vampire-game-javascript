@@ -271,9 +271,11 @@ function showDialogue() {
     void dialogueBox.offsetWidth
     dialogueBox.classList.add("fade-in")
 
-    dialogueMood.currentTime = 0
-    dialogueMood.volume = 0.4
-    dialogueMood.play()
+    if (dialogueMood.paused) {
+        dialogueMood.currentTime = 0
+        dialogueMood.volume = 0.4
+        dialogueMood.play()
+    }
 
     showDialogueLine(currentLine)
 
