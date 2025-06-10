@@ -113,6 +113,12 @@ body {
     bottom: calc(var(--bottom) * 1%);
 }
 
+.vampire.damaged {
+    filter: brightness(2) sepia(1) hue-rotate(-20deg) saturate(5);
+    transition: filter 0.1s;
+  }
+  
+
 .cross {
     position: absolute;
     left: calc(var(--left) * 1%);
@@ -213,3 +219,151 @@ body {
     color: #d6c2e7; /* soft pale violet or similar */
 }
 
+  
+  .hearts {
+    position: absolute;
+    top: 2vmin;
+    left: 2vmin;
+    display: flex;
+    gap: 1vmin;
+    z-index: 999;
+  }
+  
+  .heart {
+    width: 6vmin;
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .full-heart {
+    transform: scale(1.15);
+    transform-origin: center;
+  }
+
+  #screen-flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 0, 0, 0.15);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 9999;
+  }
+  
+  #screen-flash.active {
+    opacity: 1;
+    transition: none;
+  }
+
+  #transition-overlay {
+    position: fixed;
+    inset: 0;
+    background: black;
+    pointer-events: none;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  #transition-overlay.fade-out {
+    opacity: 1;
+  }
+  
+  #transition-overlay.fade-in {
+    opacity: 0;
+  }
+  
+  #combat-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 9999;
+  }
+  
+  #combat-container.hide {
+    display: none !important;
+  }
+  
+  #combat-world {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  #combat-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    z-index: 0;
+  }
+  
+  
+  #combat-vampire {
+    position: absolute;
+    width: 64px; /* Try 64 or 96px depending on how big the sprite is */
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    image-rendering: pixelated;
+  }
+  
+  #dialogue-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    transform: translateX(calc(var(--left, 0) * 1%));
+    z-index: -10;
+    pointer-events: none;
+    image-rendering: pixelated;
+    transition: none;
+  }
+
+  #title-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    display: block;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  

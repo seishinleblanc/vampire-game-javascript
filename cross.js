@@ -1,5 +1,6 @@
 import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
 
+
 const SPEED = 0.05
 const CROSS_INTERVAL_MIN = 500
 const CROSS_INTERVAL_MAX = 2000
