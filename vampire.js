@@ -8,7 +8,7 @@ import {
   const vampireElem = document.querySelector("[data-vampire]");
   const JUMP_SPEED = 0.45;
   const GRAVITY = 0.0015;
-  const MOVE_SPEED = 0.015;
+  const MOVE_SPEED = 0.02;
   // ← now 5 frames instead of 2
   const VAMPIRE_FRAME_COUNT = 5;
   const FRAME_TIME = 100;
@@ -46,7 +46,18 @@ import {
   }
   
   export function getVampireRect() {
-    return vampireElem.getBoundingClientRect();
+    const r = vampireElem.getBoundingClientRect();
+  
+    // tweak these percentages until the box hugs her feet and torso, not the transparent area
+    const insetX = r.width  * 0.35;  // chop off 20% on left & right
+    const insetY = r.height * 0.35;  // chop off 15% at the top
+  
+    return {
+      left:   r.left   + insetX,
+      right:  r.right  - insetX,
+      top:    r.top    + insetY,
+      bottom: r.bottom            // we keep the full bottom so feet still touch ground
+    };
   }
   
   export function setVampireLose() {
