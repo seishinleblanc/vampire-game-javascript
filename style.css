@@ -87,7 +87,7 @@ body {
   bottom: 0;
   z-index: 3;
   visibility: hidden;
-}d
+}
 
 .vampire.damaged {
   filter: brightness(2) sepia(1) hue-rotate(-20deg) saturate(5);
