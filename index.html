@@ -1,101 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carmilla: Blood Escape</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" type="module"></script>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carmilla: Blood Escape</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" type="module" defer></script>
 </head>
 <body>
 
-    <!-- Scrolling Background -->
-    <img src="imgs/background-updated.png" class="background" data-background style="display: none">
-    <img src="imgs/background-updated.png" class="background" data-background style="display: none">
+  <!-- 🌌 Static Background Layers -->
+  <img src="imgs/background-updated.png" class="background" data-background hidden />
+  <img src="imgs/background-updated.png" class="background" data-background hidden />
+  <img src="imgs/backgrounds/farground.png" class="farground" alt="Farground" />
+  <img src="imgs/title-bg.png" id="title-bg" alt="Title Background" />
 
-     <!-- ✨ Title Screen Background -->
-     <img src="imgs/title-bg.png" class="title-bg" id="title-bg" alt="Title Background" />
+  <!-- 🌍 World Container -->
+  <div class="world" data-world>
 
-     <!-- 🌌 Static Farground -->
-      <img src="imgs/backgrounds/farground.png" class="farground" alt="Farground" />
+    <!-- ❤️ Health Bar -->
+    <div class="hearts" data-hearts></div>
 
-
-    <div class="world" data-world>
-
-        <!-- 🎮 Health Bar -->
-        <div class="hearts" data-hearts></div>
-
-
-        <!-- ✨ Title Screen -->
-        <div class="start-screen blinking" data-start-screen>
-            <div class="start-screen-content">
-                <div class="game-title">Carmilla: Blood Escape</div>
-                <div class="start-subtitle">Press Any Key To Start</div>
-            </div>
-        </div>
-        
-
-        <!-- 🩸 End Screen -->
-        <div class="end-screen" data-end-screen>
-            <div class="bigger-text">You Have Died</div>
-            <div class="blinking">Press Any Key To Continue</div>
-        </div>
-
-
-        <!-- 🎮 Actual Game Area (hidden until game starts) -->
-        <div class="game-area hide" data-game-area>
-            <div class="score" data-score>0</div>
-            <img src="imgs/backgrounds/midground-1.png" class="midground" data-midground>
-            <img src="imgs/backgrounds/midground-2.png" class="midground" data-midground>
-            <img src="imgs/backgrounds/midground-1.png" class="midground" data-midground>
-            <img src="imgs/backgrounds/midground-2.png" class="midground" data-midground>
-            <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground>
-            <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground>
-            <img src="imgs/vampire-stationary.png" class="vampire" data-vampire>
-            <audio loop src="sound/background.mp3" class="backgroundmusic" data-backgroundmusic></audio>
-            <audio src="sound/fire-sound.wav" class="firesound" data-firesound></audio>
-            <audio src="sound/vampire-death-sound-female.wav" class="deathsound" data-deathsound></audio>
-        </div>
-    </div>
-
-    <!-- 🎮 Actual Combat Game Area (hidden until game starts) -->
-    <div id="combat-container" class="hide">
-        <div id="combat-world">
-          <img src="imgs/combat-map.png" id="combat-map" />
-          <img src="imgs/vampire-stationary.png" id="combat-vampire" />
-        </div>
+    <!-- 🧛 Title Screen -->
+    <div class="start-screen blinking" data-start-screen>
+      <div class="start-screen-content">
+        <div class="game-title">Carmilla: Blood Escape</div>
+        <div class="start-subtitle">Press Any Key To Start</div>
       </div>
-      
-     <!-- ✨ Background Image -->
-    <img id="dialogue-bg" src="imgs/gothic-bedroom.png" alt="Gothic Bedroom Background" />
-
-
-    <!-- ✨ Dialogue Box -->
-    <div id="dialogue-box" class="dialogue-box hidden">
-        <img id="avatar" src="imgs/avatar-mirelle.png" alt="Mirelle" />
-        <div class="dialogue-content">
-            <div id="speaker-name" class="speaker-name">Mirelle</div>
-            <div id="dialogue-text">...</div>
-            <button id="next-button">Next</button>
-        </div>
     </div>
 
-    <!-- 🎵 Dialogue Mood Track -->
-    <audio loop id="dialogue-mood" src="sound/dialogue-mood.wav"></audio>
+    <!-- ☠️ End Screen -->
+    <div class="end-screen hide" data-end-screen>
+      <div class="bigger-text">You Have Died</div>
+      <div class="blinking">Press Any Key To Continue</div>
+    </div>
 
-    <!-- 🎵 Game Over Mood Track -->
-    <audio src="sound/game-over-music.mp3" class="gameovermusic" data-gameovermusic></audio>
+    <!-- 🎮 Active Gameplay Area -->
+    <div class="game-area hide" data-game-area>
+      <div class="score" data-score>0</div>
 
-    <!-- 🎵 Combat Mood Track -->
-    <audio data-combatmusic src="sound/gothic-fight-music.mp3" loop></audio>
+      <!-- Layered Midground -->
+      <img src="imgs/backgrounds/midground-1.png" class="midground" data-midground />
+      <img src="imgs/backgrounds/midground-2.png" class="midground" data-midground />
+      <img src="imgs/backgrounds/midground-1.png" class="midground" data-midground />
+      <img src="imgs/backgrounds/midground-2.png" class="midground" data-midground />
 
+      <!-- Ground Tiles -->
+      <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground />
+      <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground />
 
-    <div id="screen-flash"></div>
-    
-    <div id="transition-overlay"></div>
+      <!-- Player -->
+      <img src="imgs/vampire-stationary.png" class="vampire" data-vampire />
 
+      <!-- 🎵 Audio -->
+      <audio loop src="sound/background.mp3" class="backgroundmusic" data-backgroundmusic></audio>
+      <audio src="sound/fire-sound.wav" class="firesound" data-firesound></audio>
+      <audio src="sound/vampire-death-sound-female.wav" class="deathsound" data-deathsound></audio>
+    </div>
+  </div>
 
+  <!-- 🖤 Dialogue Background -->
+  <img id="dialogue-bg" src="imgs/gothic-bedroom.png" alt="Gothic Bedroom Background" />
+
+  <!-- 🗨️ Dialogue Box -->
+  <div id="dialogue-box" class="dialogue-box hidden">
+    <img id="avatar" src="imgs/avatar-mirelle.png" alt="Mirelle" />
+    <div class="dialogue-content">
+      <div id="speaker-name" class="speaker-name">Mirelle</div>
+      <div id="dialogue-text">...</div>
+      <button id="next-button">Next</button>
+    </div>
+  </div>
+
+  <!-- 🎵 Other Audio -->
+  <audio loop id="dialogue-mood" src="sound/dialogue-mood.wav"></audio>
+  <audio src="sound/game-over-music.mp3" class="gameovermusic" data-gameovermusic></audio>
+  <audio loop src="sound/gothic-fight-music.mp3" data-combatmusic></audio>
+
+  <!-- 💥 Effects -->
+  <div id="screen-flash"></div>
+  <div id="transition-overlay"></div>
+
+  
 </body>
 </html>
+
 

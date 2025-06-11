@@ -1,49 +1,55 @@
-import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
+import { getCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
 
+const SPAWN_INTERVAL = 100     // world units between crosses
+const CROSS_OFFSET = 100       // spawn ahead of camera
+const REMOVE_DISTANCE = 50     // remove behind camera
 
-const SPEED = 0.05
-const CROSS_INTERVAL_MIN = 500
-const CROSS_INTERVAL_MAX = 2000
-const worldElem = document.querySelector("[data-world]")
+// Now attach crosses to the gameplay area so CSS visibility works
+const gameAreaElem = document.querySelector('[data-game-area]')
 
-let nextCrossTime
+let lastSpawnX
+
 export function setupCross() {
-    nextCrossTime = CROSS_INTERVAL_MIN
-    document.querySelectorAll("[data-cross]").forEach(cross => {
-        cross.remove()
-    })
+  lastSpawnX = -Infinity
+  document.querySelectorAll("[data-cross]").forEach(cross => cross.remove())
 }
 
-export function updateCross(delta, speedScale) {
-    document.querySelectorAll("[data-cross]").forEach(cross => {
-        incrementCustomProperty(cross, "--left", delta * speedScale * SPEED * -1)
-        if (getCustomProperty(cross, "--left") <= -100) {
-            cross.remove()
-        }
-    })
-
-    if (nextCrossTime <= 0) {
-        createCross()
-        nextCrossTime = randomNumberBetween(CROSS_INTERVAL_MIN, CROSS_INTERVAL_MAX) / speedScale
+export function updateCross(cameraX) {
+  // Remove crosses far behind
+  document.querySelectorAll("[data-cross]").forEach(cross => {
+    const crossX = Number(cross.dataset.worldX)
+    if (crossX < cameraX - REMOVE_DISTANCE) {
+      cross.remove()
+    } else {
+      const screenX = crossX - cameraX
+      setCustomProperty(cross, "--left", screenX)
     }
-    nextCrossTime -= delta
+  })
+
+  // Spawn new cross ahead
+  if (cameraX > lastSpawnX + SPAWN_INTERVAL) {
+    const newX = cameraX + CROSS_OFFSET
+    createCross(newX)
+    lastSpawnX = cameraX
+  }
 }
 
 export function getCrossRects() {
-    return [...document.querySelectorAll("[data-cross]")].map(cross => {
-        return cross.getBoundingClientRect()
-    })
+  return [...document.querySelectorAll("[data-cross]")]
+    .map(cross => cross.getBoundingClientRect())
 }
 
-function createCross() {
-    const cross = document.createElement("img")
-    cross.dataset.cross = true
-    cross.src = "imgs/cross.png"
-    cross.classList.add("cross")
-    setCustomProperty(cross, "--left", 100)
-    worldElem.append(cross)
+function createCross(worldX) {
+  const cross = document.createElement("img")
+  cross.dataset.cross = true
+  cross.dataset.worldX = worldX
+  cross.src = "imgs/cross.png"
+  cross.classList.add("cross")
+  setCustomProperty(cross, "--left", worldX)
+
+  // append into game area so CSS .game-area .cross applies
+  gameAreaElem.append(cross)
 }
 
-function randomNumberBetween(min, max) {
-    return Math.floor(Math.random() * (max - min +1) + min)
-}
+  
+  
