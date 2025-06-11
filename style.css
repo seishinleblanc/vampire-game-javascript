@@ -18,7 +18,7 @@ body {
 }
 
 .world {
-    overflow: hidden;
+    overflow: visible;
     position: relative;
 }
 
@@ -101,8 +101,11 @@ body {
     --left: 0;
     position: absolute;
     width: 300%;
+    height: 15vh;
+    /* object-fit: contain; */
     bottom: 0;
     left: calc(var(--left) * 1%);
+    transform: translateY(10vh);
 }
 
 .vampire {
@@ -358,6 +361,36 @@ body {
     opacity: 1;
     display: block;
   }
+
+  .farground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    image-rendering: pixelated;
+    z-index: -9; /* Must be above background (-10), below ground (1) */
+    pointer-events: none;
+    object-position: center -34vh;
+    clip-path: inset(0 0 20% 0); /* hides bottom 25% of image */
+  }
+
+  .midground {
+    opacity: 1;
+    --left: 0;
+    position: absolute;
+    bottom: -6.2vh;
+    width: 100%;
+    height: 50vw; /* or tweak for proper vertical placement */
+    left: calc(var(--left) * 1%);
+    z-index: 0; /* 👈 below .ground (1), above .farground (-5) */
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+  
+  
+  
   
   
   
