@@ -31,6 +31,10 @@ import {
   
   const GROUND_WIDTH = 300
   const BACKGROUND_WIDTH = 100 // each background image is 100vw wide
+
+  const MIDGROUND_WIDTH = 100
+  const midgroundElems = document.querySelectorAll("[data-midground]")
+
   
   export function setupGround() {
     // Ground setup
@@ -40,6 +44,13 @@ import {
     // Background setup
     setCustomProperty(backgroundElems[0], "--left", 0)
     setCustomProperty(backgroundElems[1], "--left", BACKGROUND_WIDTH)
+
+    // Midground setup
+    setCustomProperty(midgroundElems[0], "--left", 0)
+    setCustomProperty(midgroundElems[1], "--left", 100)
+    setCustomProperty(midgroundElems[2], "--left", 200)
+    setCustomProperty(midgroundElems[3], "--left", 300)
+
   }
   
   export function updateGround(delta, speedScale) {
@@ -58,5 +69,19 @@ import {
         incrementCustomProperty(bg, "--left", BACKGROUND_WIDTH * 2)
       }
     })
+
+    // Midground scroll
+    midgroundElems.forEach(mg => {
+      incrementCustomProperty(mg, "--left", delta * speedScale * SPEED * -0.4)
+    
+      const left = getCustomProperty(mg, "--left")
+      if (left <= -MIDGROUND_WIDTH) {
+        // Wrap this image forward by total width of the loop
+        incrementCustomProperty(mg, "--left", MIDGROUND_WIDTH * midgroundElems.length)
+      }
+    })
+    
+    
+
   }
   

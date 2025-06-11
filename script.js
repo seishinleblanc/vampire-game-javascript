@@ -171,7 +171,7 @@ function update(time) {
     removeHeart()
   }
 
-  if (!inCombatMode && score >= 50) {
+  if (!inCombatMode && score >= 150) {
     inCombatMode = true
     enterCombatMode(worldElem, transitionOverlay, myMusic, combatMusic)
   }
@@ -224,6 +224,8 @@ function handleStart() {
   document.querySelectorAll('[data-background]').forEach(bg => {
     bg.style.display = 'block'
   })
+
+  
 
   startScreenElem.classList.add("hide")
   endScreenElem.classList.add("hide")
