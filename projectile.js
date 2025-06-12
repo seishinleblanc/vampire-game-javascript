@@ -1,4 +1,5 @@
 import { getCustomProperty, setCustomProperty, incrementCustomProperty } from './updateCustomProperty.js'
+import { getWerewolfElements, damageWerewolf } from './werewolf.js'
 
 const PROJECTILE_SPEED = 0.1
 const FRAME_TIME = 100
@@ -45,6 +46,15 @@ export function updateProjectiles(delta, cameraX, worldWidth, crossRects) {
       proj.remove()
       return
     }
+
+    for (const wolf of getWerewolfElements()) {
+        if (isCollision(wolf.getBoundingClientRect(), projRect)) {
+          damageWerewolf(wolf)
+          proj.remove()
+          return
+        }
+      }
+  
 
     if (worldX < cameraX - REMOVE_DISTANCE ||
         worldX > cameraX + worldWidth + REMOVE_DISTANCE) {

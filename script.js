@@ -8,6 +8,7 @@ import {
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
+import { setupWerewolves, updateWerewolves, getWerewolfRects } from './werewolf.js'
 import { getCustomProperty } from './updateCustomProperty.js'
 
 
@@ -76,11 +77,12 @@ function update(time) {
   updatePlayerAndCamera(delta)
   updateGround(cameraX)
   updateCross(cameraX)
+  updateWerewolves(delta, speedScale, cameraX, WORLD_WIDTH, getVampireX())
   updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
   updateSpeedScale(delta)
   updateScore(delta)
 
-  if (!isInvincible && checkCrossCollision()) {
+  if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision())) {
     removeHeart()
   }
 
@@ -120,6 +122,11 @@ function checkCrossCollision() {
   return getCrossRects().some(rect => isCollision(rect, vampireRect))
 }
 
+function checkWerewolfCollision() {
+  const vampireRect = getVampireRect()
+  return getWerewolfRects().some(rect => isCollision(rect, vampireRect))
+}
+
 function isCollision(r1, r2) {
   return (
     r1.left < r2.right &&
@@ -151,6 +158,7 @@ function handleStart() {
   setupGround()
   setupVampire()
   setupCross()
+  setupWerewolves()
   setupProjectiles()
 
   // Hide title splash & show backgrounds
