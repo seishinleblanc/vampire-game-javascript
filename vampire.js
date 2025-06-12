@@ -49,8 +49,8 @@ import {
     const r = vampireElem.getBoundingClientRect();
   
     // tweak these percentages until the box hugs her feet and torso, not the transparent area
-    const insetX = r.width  * 0.35;  // chop off 20% on left & right
-    const insetY = r.height * 0.35;  // chop off 15% at the top
+    const insetX = r.width  * 0.35;  // chop off 35% on left & right
+    const insetY = r.height * 0.35;  // chop off 35% at the top
   
     return {
       left:   r.left   + insetX,

@@ -120,11 +120,6 @@ body {
   top: 1vmin;
   color: rgb(129, 12, 12);
   z-index: 999;
-  display: none;
-}
-
-.game-area .score {
-  display: block;
 }
 
 .hearts {
