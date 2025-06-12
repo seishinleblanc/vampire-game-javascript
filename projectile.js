@@ -11,7 +11,7 @@ export function setupProjectiles() {
   document.querySelectorAll('[data-projectile]').forEach(p => p.remove())
 }
 
-export function createProjectile(x, direction, bottom = 10) {
+export function createProjectile(x, direction, bottom = 17) {
   const proj = document.createElement('img')
   proj.dataset.projectile = true
   proj.dataset.direction = direction
@@ -40,7 +40,7 @@ export function updateProjectiles(delta, cameraX, worldWidth, crossRects) {
     incrementCustomProperty(proj, '--left', dir * PROJECTILE_SPEED * delta)
     const worldX = getCustomProperty(proj, '--left')
 
-    const projRect = proj.getBoundingClientRect()
+    const projRect = getProjectileRect(proj)
     if (crossRects.some(r => isCollision(r, projRect))) {
       proj.remove()
       return
@@ -52,6 +52,19 @@ export function updateProjectiles(delta, cameraX, worldWidth, crossRects) {
     }
   })
 }
+
+function getProjectileRect(proj) {
+    const r = proj.getBoundingClientRect()
+    const insetX = r.width * 0.3
+    const insetY = r.height * 0.3
+    return {
+      left: r.left + insetX,
+      right: r.right - insetX,
+      top: r.top + insetY,
+      bottom: r.bottom - insetY
+    }
+  }
+  
 
 function isCollision(r1, r2) {
   return (

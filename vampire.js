@@ -156,13 +156,22 @@ import {
   function handleAttack(delta) {
     if (currentAttackFrameTime >= ATTACK_FRAME_TIME) {
       attackFrame++
+
       if (attackFrame >= ATTACK_FRAME_COUNT) {
         isAttacking = false
         attackFrame = 0
         return
       }
+
       const frameNum = String(attackFrame).padStart(3, '0')
       vampireElem.src = `imgs/carmilla/attack/carmilla-attack${frameNum}.png`
+
+      if (attackFrame === ATTACK_FRAME_COUNT - 1) {
+        const startX = getVampireLeft() + (facingDirection === 1 ? 5 : -2)
+        const bottom = getCustomProperty(vampireElem, '--bottom') + 17
+        createProjectile(startX, facingDirection, bottom)
+      }
+
       currentAttackFrameTime -= ATTACK_FRAME_TIME
     }
     currentAttackFrameTime += delta
@@ -200,10 +209,7 @@ import {
     isAttacking = true
     attackFrame = 0
     currentAttackFrameTime = 0
-    vampireElem.src = 'imgs/carmilla/attack/carmilla-attack000.pmg'
-    const startX = getVampireLeft() + (facingDirection === 1 ? 5 : -2)
-    const bottom = getCustomProperty(vampireElem, '--bottom') + 10
-    createProjectile(startX, facingDirection, bottom)
+    vampireElem.src = 'imgs/carmilla/attack/carmilla-attack000.png'
   }
   
 
