@@ -84,7 +84,7 @@ body {
   position: absolute;
   height: 75%;
   left: calc(var(--left) * 1%);
-  bottom: 0;
+  bottom: calc(var(--bottom) * 1%);
   z-index: 3;
   visibility: hidden;
 }
