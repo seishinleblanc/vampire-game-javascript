@@ -157,6 +157,7 @@ function handleStart() {
   startScreenElem.classList.add('hide')
   endScreenElem.classList.add('hide')
   gameAreaElem.classList.remove('hide')
+  scoreElem.classList.remove('hide')
   dialogueBox.classList.add('hidden')
 
   dialogueMood.pause()
