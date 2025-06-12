@@ -153,6 +153,10 @@ function updateScore(delta) {
 }
 
 function handleStart() {
+  transitionOverlay.classList.remove('fade-out')
+  transitionOverlay.classList.add('fade-in')
+  setTimeout(() => transitionOverlay.classList.remove('fade-in'), 400)
+
   lastTime = null
   speedScale = 1
   score = 0
@@ -204,12 +208,18 @@ function handleLose() {
   worldElem.style.transform = 'translateX(0)'
   cameraX = 0
 
+// allow death animation to play before fading
+setTimeout(() => {
+  transitionOverlay.style.transition = 'opacity 2s ease'
+  transitionOverlay.classList.add('fade-out')
+}, 300)
+
   setTimeout(() => {
     endScreenElem.classList.remove('hide')
     document.addEventListener('keydown', handleStart, { once: true })
     document.addEventListener('click', handleStart, { once: true })
     document.addEventListener('touchstart', handleStart, { once: true })
-  }, 300)
+  }, 2300)
 }
 
 function removeHeart() {
@@ -317,6 +327,7 @@ function cleanupDialogueListeners() {
 }
 
 function showControls() {
+  transitionOverlay.classList.add('fade-out')
   controlsScreenElem.classList.remove('hide')
   document.addEventListener('keydown', handleControlsKey, { once: true })
   document.addEventListener('click', handleControlsKey, { once: true })
