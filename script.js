@@ -180,6 +180,7 @@ function handleStart() {
   endScreenElem.classList.add('hide')
   gameAreaElem.classList.remove('hide')
   scoreElem.classList.remove('hide')
+  heartContainer.classList.remove('hide')
   dialogueBox.classList.add('hidden')
   controlsScreenElem.classList.add('hide')
 
@@ -199,6 +200,9 @@ function handleLose() {
   deathSound.play()
   deathSound.volume = 0.5
 
+  scoreElem.classList.add('hide')
+  heartContainer.classList.add('hide')
+
   myMusic.pause()
   myMusic.currentTime = 0
   gameOverMusic.currentTime = 0
@@ -212,9 +216,11 @@ function handleLose() {
 setTimeout(() => {
   transitionOverlay.style.transition = 'opacity 2s ease'
   transitionOverlay.classList.add('fade-out')
+  transitionOverlay.style.zIndex = '1000'
 }, 300)
 
   setTimeout(() => {
+    transitionOverlay.style.zIndex = '998'
     endScreenElem.classList.remove('hide')
     document.addEventListener('keydown', handleStart, { once: true })
     document.addEventListener('click', handleStart, { once: true })
@@ -313,7 +319,7 @@ function advanceDialogue(e) {
     dialogueBox.classList.add('hidden')
     dialogueBg.style.opacity = '0'
     cleanupDialogueListeners()
-    showControls()
+    handleStart()
   }
 
   if (e) e.preventDefault()
@@ -337,13 +343,14 @@ function showControls() {
 function handleControlsKey(e) {
   if (e) e.preventDefault()
   controlsScreenElem.classList.add('hide')
-  handleStart()
+  transitionOverlay.classList.remove('fade-out')
+  showDialogue()
 }
 
 function handleTitleKey(e) {
   if (e) e.preventDefault()
   startScreenElem.classList.add('hide')
-  showDialogue()
+  showControls()
 }
 
 window.addEventListener('keydown', handleTitleKey, { once: true })
