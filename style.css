@@ -314,6 +314,14 @@ body {
   border-radius: 8px;
 }
 
+.end-screen {
+  padding: 2vmin;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid crimson;
+  border-radius: 8px;
+}
+
+
 .controls-screen p {
   margin: 1vmin 0;
   font-size: 4vmin;
@@ -347,7 +355,7 @@ body {
   inset: 0;
   background: black;
   pointer-events: none;
-  z-index: 10000;
+  z-index: 999;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
