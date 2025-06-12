@@ -75,7 +75,7 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
       incrementCustomProperty(wolf, '--left', Number(wolf.dataset.direction) * WEREWOLF_SPEED * delta * speedScale)
       wolf.style.transform = Number(wolf.dataset.direction) === 1 ? 'scaleX(1)' : 'scaleX(-1)'
 
-      if (Math.abs(getCustomProperty(wolf, '--left') - vampireX) < 5) {
+      if (Math.abs(getCustomProperty(wolf, '--left') - vampireX) < 7) {
         wolf.dataset.state = 'attack'
         frame = 0
         frameTime = 0
