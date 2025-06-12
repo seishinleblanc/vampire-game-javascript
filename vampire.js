@@ -14,12 +14,16 @@ import {
   const FRAME_TIME = 100;
   const JUMP_FRAME_COUNT = 5; // 000 used as idle frame
   const JUMP_FRAME_TIME = 100;
+  const IDLE_FRAME_COUNT = 5;
+  const IDLE_FRAME_TIME = 100;
   
   let isJumping;
   let vampireFrame;
   let currentFrameTime;
   let jumpFrame;
   let currentJumpFrameTime;
+  let idleFrame;
+  let currentIdleFrameTime;
   let yVelocity;
   let moveDirection = 0;
   // track last non-zero direction for flipping
@@ -31,6 +35,8 @@ import {
     currentFrameTime = 0;
     jumpFrame = 0;
     currentJumpFrameTime = 0;
+    idleFrame = 0;
+    currentIdleFrameTime = 0;
     yVelocity = 0;
     moveDirection = 0;
     facingDirection = 1;
@@ -38,6 +44,7 @@ import {
     setCustomProperty(vampireElem, "--bottom", -5);
     setCustomProperty(vampireElem, "--left", 10);
     vampireElem.style.transform = "scaleX(1)";
+    vampireElem.src = "imgs/carmilla/idle/carmilla-idle000.png";
   
     document.removeEventListener("keydown", onKeyDown);
     document.removeEventListener("keyup", onKeyUp);
@@ -100,7 +107,7 @@ import {
 
     // if not moving, show stationary
     if (moveDirection === 0) {
-      vampireElem.src = "imgs/carmilla/running/carmilla-running000.png";
+        handleIdle(delta);
       return;
     }
   
@@ -114,6 +121,17 @@ import {
     }
     currentFrameTime += delta * speedScale;
   }
+
+
+  function handleIdle(delta) {
+    if (currentIdleFrameTime >= IDLE_FRAME_TIME) {
+      idleFrame = (idleFrame + 1) % IDLE_FRAME_COUNT;
+      const frameNum = String(idleFrame).padStart(3, "0");
+      vampireElem.src = `imgs/carmilla/idle/carmilla-idle${frameNum}.png`;
+      currentIdleFrameTime -= IDLE_FRAME_TIME;
+    }
+    currentIdleFrameTime += delta;
+  }
   
   function handleJump(delta) {
     if (!isJumping) return;
@@ -123,53 +141,4 @@ import {
         if (jumpFrame < JUMP_FRAME_COUNT) {
           jumpFrame++;
         }
-        const frameNum = String(jumpFrame).padStart(3, "0");
-        vampireElem.src = `imgs/carmilla/jumping/carmilla-jumping${frameNum}.png`;
-        currentJumpFrameTime -= JUMP_FRAME_TIME;
-      }
-      currentJumpFrameTime += delta;
-
-    incrementCustomProperty(vampireElem, "--bottom", yVelocity * delta);
-  
-    if (getCustomProperty(vampireElem, "--bottom") <= 0) {
-      setCustomProperty(vampireElem, "--bottom", 0);
-      isJumping = false;
-      vampireElem.src = "imgs/carmilla/running/carmilla-running000.png"
-    }
-  
-    yVelocity -= GRAVITY * delta;
-  }
-  
-  function onKeyDown(e) {
-    if (e.code === "ArrowLeft" || e.code === "KeyA") moveDirection = -1;
-    if (e.code === "ArrowRight" || e.code === "KeyD") moveDirection = 1;
-    if (
-      e.code === "Space" ||
-      e.code === "KeyW" ||
-      e.code === "ArrowUp"
-    )
-      onJump();
-  }
-  
-  function onKeyUp(e) {
-    if (
-      (e.code === "ArrowLeft" && moveDirection === -1) ||
-      (e.code === "KeyA" && moveDirection === -1) ||
-      (e.code === "ArrowRight" && moveDirection === 1) ||
-      (e.code === "KeyD" && moveDirection === 1)
-    ) {
-      moveDirection = 0;
-    }
-  }
-  
-  function onJump() {
-    if (isJumping) return;
-    yVelocity = JUMP_SPEED;
-    isJumping = true;
-    jumpFrame = 0;
-    currentJumpFrameTime = 0;
-    vampireElem.src = "imgs/carmilla/jumping/carmilla-jumping000.png";
-  }
-  
-
-
+        const frame
