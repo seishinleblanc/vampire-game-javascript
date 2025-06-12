@@ -159,10 +159,4 @@ export function damageWerewolf(wolf) {
     wolf.dataset.frame = 0
     wolf.dataset.frameTime = 0
     wolf.src = 'imgs/white-werewolf/white-werewolf-dead/white-werewolf-dead000.png'
-  } else {
-    wolf.dataset.state = 'hurt'
-    wolf.dataset.frame = 0
-    wolf.dataset.frameTime = 0
-    wolf.src = 'imgs/white-werewolf/white-werewolf-hurt/white-werewolf-hurt000.png'
-  }
-}
+  } else 

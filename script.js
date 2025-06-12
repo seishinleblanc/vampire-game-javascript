@@ -43,6 +43,7 @@ let lastTime
 let speedScale
 let score
 let currentHearts
+let isGameOver = false
 let isStaggered = false
 let isInvincible = false
 let cameraX = 0
@@ -87,7 +88,10 @@ function update(time) {
     removeHeart()
   }
 
-  if (currentHearts <= 0) return handleLose()
+  if (currentHearts <= 0) {
+    if (!isGameOver) handleLose()
+    return
+  }
 
   lastTime = time
   window.requestAnimationFrame(update)
@@ -164,6 +168,7 @@ function handleStart() {
   currentHearts = MAX_HEARTS
   isStaggered = false
   isInvincible = false
+  isGameOver = false
   updateHeartDisplay()
 
   setupGround()
@@ -195,6 +200,7 @@ function handleStart() {
 }
 
 function handleLose() {
+  isGameOver = true
   setVampireLose()
   fireSound.play()
   deathSound.play()
@@ -213,19 +219,23 @@ function handleLose() {
   cameraX = 0
 
 // allow death animation to play before fading
-setTimeout(() => {
-  transitionOverlay.style.transition = 'opacity 2s ease'
-  transitionOverlay.classList.add('fade-out')
-  transitionOverlay.style.zIndex = '1000'
-}, 300)
-
   setTimeout(() => {
-    transitionOverlay.style.zIndex = '998'
-    endScreenElem.classList.remove('hide')
-    document.addEventListener('keydown', handleStart, { once: true })
-    document.addEventListener('click', handleStart, { once: true })
-    document.addEventListener('touchstart', handleStart, { once: true })
-  }, 2300)
+    transitionOverlay.style.transition = 'opacity 2s ease'
+    transitionOverlay.classList.add('fade-out')
+    transitionOverlay.style.zIndex = '1000'
+
+    transitionOverlay.addEventListener(
+      'transitionend',
+      () => {
+        transitionOverlay.style.zIndex = '998'
+        endScreenElem.classList.remove('hide')
+        document.addEventListener('keydown', handleStart, { once: true })
+        document.addEventListener('click', handleStart, { once: true })
+        document.addEventListener('touchstart', handleStart, { once: true })
+      },
+      { once: true }
+    )
+  }, 300)
 }
 
 function removeHeart() {

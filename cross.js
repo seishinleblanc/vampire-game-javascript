@@ -44,16 +44,4 @@ export function getCrossRects() {
 }
 
 function createCross(worldX) {
-  const cross = document.createElement("img")
-  cross.dataset.cross = true
-  cross.dataset.worldX = worldX
-  cross.src = "imgs/cross.png"
-  cross.classList.add("cross")
-  setCustomProperty(cross, "--left", worldX)
-
-  // append into game area so CSS .game-area .cross applies
-  gameAreaElem.append(cross)
-}
-
-  
-  
+  const cross = document.createElement("img"
