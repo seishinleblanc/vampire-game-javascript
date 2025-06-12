@@ -215,8 +215,7 @@ function handleLose() {
   gameOverMusic.volume = 0.4
   gameOverMusic.play()
 
-  worldElem.style.transform = 'translateX(0)'
-  cameraX = 0
+ 
 
 // allow death animation to play before fading
   setTimeout(() => {
@@ -224,17 +223,22 @@ function handleLose() {
     transitionOverlay.classList.add('fade-out')
     transitionOverlay.style.zIndex = '1000'
 
-    transitionOverlay.addEventListener(
-      'transitionend',
-      () => {
-        transitionOverlay.style.zIndex = '998'
-        endScreenElem.classList.remove('hide')
-        document.addEventListener('keydown', handleStart, { once: true })
-        document.addEventListener('click', handleStart, { once: true })
-        document.addEventListener('touchstart', handleStart, { once: true })
-      },
-      { once: true }
-    )
+    let shown = false
+    const showGameOver = () => {
+      if (shown) return
+      shown = true
+      // Now that the screen is black, center the UI by resetting world position
+      worldElem.style.transform = 'translateX(0)'
+      cameraX = 0
+      transitionOverlay.style.zIndex = '998'
+      endScreenElem.classList.remove('hide')
+      document.addEventListener('keydown', handleStart, { once: true })
+      document.addEventListener('click', handleStart, { once: true })
+      document.addEventListener('touchstart', handleStart, { once: true })
+    }
+
+    transitionOverlay.addEventListener('transitionend', showGameOver, { once: true })
+    setTimeout(showGameOver, 2100) // fallback in case transitionend doesn't fire
   }, 300)
 }
 
