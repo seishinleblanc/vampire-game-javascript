@@ -37,6 +37,7 @@ const dialogueText = document.getElementById('dialogue-text')
 const nextButton = document.getElementById('next-button')
 const avatarElem = document.getElementById('avatar')
 const speakerNameElem = document.getElementById('speaker-name')
+const controlsScreenElem = document.querySelector('[data-controls-screen]')
 
 let lastTime
 let speedScale
@@ -176,6 +177,7 @@ function handleStart() {
   gameAreaElem.classList.remove('hide')
   scoreElem.classList.remove('hide')
   dialogueBox.classList.add('hidden')
+  controlsScreenElem.classList.add('hide')
 
   dialogueMood.pause()
   dialogueMood.currentTime = 0
@@ -198,6 +200,9 @@ function handleLose() {
   gameOverMusic.currentTime = 0
   gameOverMusic.volume = 0.4
   gameOverMusic.play()
+
+  worldElem.style.transform = 'translateX(0)'
+  cameraX = 0
 
   setTimeout(() => {
     endScreenElem.classList.remove('hide')
@@ -298,7 +303,7 @@ function advanceDialogue(e) {
     dialogueBox.classList.add('hidden')
     dialogueBg.style.opacity = '0'
     cleanupDialogueListeners()
-    handleStart()
+    showControls()
   }
 
   if (e) e.preventDefault()
@@ -309,6 +314,19 @@ function cleanupDialogueListeners() {
   document.removeEventListener('click', advanceDialogue)
   document.removeEventListener('touchstart', advanceDialogue)
   nextButton.removeEventListener('click', advanceDialogue)
+}
+
+function showControls() {
+  controlsScreenElem.classList.remove('hide')
+  document.addEventListener('keydown', handleControlsKey, { once: true })
+  document.addEventListener('click', handleControlsKey, { once: true })
+  document.addEventListener('touchstart', handleControlsKey, { once: true })
+}
+
+function handleControlsKey(e) {
+  if (e) e.preventDefault()
+  controlsScreenElem.classList.add('hide')
+  handleStart()
 }
 
 function handleTitleKey(e) {

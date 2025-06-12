@@ -279,7 +279,8 @@ body {
 /* 🩸 Title & End Screens */
 
 .start-screen,
-.end-screen {
+.end-screen,
+.controls-screen {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -304,6 +305,24 @@ body {
   margin-bottom: 2vmin;
   color: crimson;
   text-shadow: 0 0 5px black;
+}
+
+.controls-screen {
+  padding: 2vmin;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid crimson;
+  border-radius: 8px;
+}
+
+.controls-screen p {
+  margin: 1vmin 0;
+  font-size: 4vmin;
+}
+
+.controls-title {
+  font-size: 6vmin;
+  margin-bottom: 1vmin;
+  color: crimson;
 }
 
 /* 💥 Screen Effects */
