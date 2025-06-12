@@ -7,6 +7,7 @@ import {
   getVampireX
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
+import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { getCustomProperty } from './updateCustomProperty.js'
 
 
@@ -75,6 +76,7 @@ function update(time) {
   updatePlayerAndCamera(delta)
   updateGround(cameraX)
   updateCross(cameraX)
+  updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
   updateSpeedScale(delta)
   updateScore(delta)
 
@@ -149,6 +151,7 @@ function handleStart() {
   setupGround()
   setupVampire()
   setupCross()
+  setupProjectiles()
 
   // Hide title splash & show backgrounds
   document.getElementById('title-bg').style.display = 'none'
