@@ -12,10 +12,14 @@ import {
   // ← now 5 frames instead of 2
   const VAMPIRE_FRAME_COUNT = 5;
   const FRAME_TIME = 100;
+  const JUMP_FRAME_COUNT = 5; // 000 used as idle frame
+  const JUMP_FRAME_TIME = 100;
   
   let isJumping;
   let vampireFrame;
   let currentFrameTime;
+  let jumpFrame;
+  let currentJumpFrameTime;
   let yVelocity;
   let moveDirection = 0;
   // track last non-zero direction for flipping
@@ -25,6 +29,8 @@ import {
     isJumping = false;
     vampireFrame = 0;
     currentFrameTime = 0;
+    jumpFrame = 0;
+    currentJumpFrameTime = 0;
     yVelocity = 0;
     moveDirection = 0;
     facingDirection = 1;
@@ -89,8 +95,11 @@ import {
   }
   
   function handleRun(delta, speedScale) {
-    // if not running, show stationary
-    if (isJumping || moveDirection === 0) {
+    // if jumping, let handleJump control the sprite
+    if (isJumping) return;
+
+    // if not moving, show stationary
+    if (moveDirection === 0) {
       vampireElem.src = "imgs/carmilla/running/carmilla-running000.png";
       return;
     }
@@ -109,11 +118,23 @@ import {
   function handleJump(delta) {
     if (!isJumping) return;
   
+    // animate jump frames
+    if (currentJumpFrameTime >= JUMP_FRAME_TIME) {
+        if (jumpFrame < JUMP_FRAME_COUNT) {
+          jumpFrame++;
+        }
+        const frameNum = String(jumpFrame).padStart(3, "0");
+        vampireElem.src = `imgs/carmilla/jumping/carmilla-jumping${frameNum}.png`;
+        currentJumpFrameTime -= JUMP_FRAME_TIME;
+      }
+      currentJumpFrameTime += delta;
+
     incrementCustomProperty(vampireElem, "--bottom", yVelocity * delta);
   
     if (getCustomProperty(vampireElem, "--bottom") <= 0) {
       setCustomProperty(vampireElem, "--bottom", 0);
       isJumping = false;
+      vampireElem.src = "imgs/carmilla/running/carmilla-running000.png"
     }
   
     yVelocity -= GRAVITY * delta;
@@ -145,6 +166,9 @@ import {
     if (isJumping) return;
     yVelocity = JUMP_SPEED;
     isJumping = true;
+    jumpFrame = 0;
+    currentJumpFrameTime = 0;
+    vampireElem.src = "imgs/carmilla/jumping/carmilla-jumping000.png";
   }
   
 
