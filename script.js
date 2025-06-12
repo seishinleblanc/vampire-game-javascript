@@ -103,8 +103,9 @@ function updatePlayerAndCamera(delta) {
     cameraX = x - (halfW + CAMERA_DEADZONE);
   }
 
-  // clamp so you don’t scroll beyond the level bounds
-  cameraX = Math.max(0, Math.min(cameraX, /* maxWorldWidth - viewportWidth */));
+  // clamp so you don’t scroll beyond the level bounds. The level currently
+  // scrolls indefinitely, so just prevent negative values.
+  cameraX = Math.max(0, cameraX)
 
   // slide the entire world
   worldElem.style.transform = `translateX(${-cameraX}% )`;
