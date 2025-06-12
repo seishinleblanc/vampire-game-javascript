@@ -8,7 +8,7 @@ import {
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
-import { setupWerewolves, updateWerewolves, getWerewolfRects } from './werewolf.js'
+import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
 import { getCustomProperty } from './updateCustomProperty.js'
 
 
@@ -124,7 +124,13 @@ function checkCrossCollision() {
 
 function checkWerewolfCollision() {
   const vampireRect = getVampireRect()
-  return getWerewolfRects().some(rect => isCollision(rect, vampireRect))
+  const wolves = getWerewolfElements()
+  return Array.from(wolves).some(w => {
+    if (w.dataset.state !== 'attack') return false
+    const frame = Number(w.dataset.frame)
+    if (frame < 6) return false
+    return isCollision(w.getBoundingClientRect(), vampireRect)
+  })
 }
 
 function isCollision(r1, r2) {

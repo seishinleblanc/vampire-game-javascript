@@ -11,6 +11,7 @@ import {
   const JUMP_SPEED = 0.45
   const GRAVITY = 0.0015
   const MOVE_SPEED = 0.02
+  const JUMP_SPEED_MULT = 1.5
   const VAMPIRE_FRAME_COUNT = 5
   const FRAME_TIME = 100
   const JUMP_FRAME_COUNT = 5 // 000 used as idle frame
@@ -106,7 +107,8 @@ import {
     if (moveDirection !== 0) {
       facingDirection = moveDirection
       vampireElem.style.transform = facingDirection === -1 ? 'scaleX(-1)' : 'scaleX(1)'
-      const newLeft = getVampireLeft() + moveDirection * MOVE_SPEED * delta
+      const speed = isJumping ? MOVE_SPEED * JUMP_SPEED_MULT : MOVE_SPEED
+      const newLeft = getVampireLeft() + moveDirection * speed * delta
       setVampireLeft(Math.max(0, newLeft))
     }
   }
