@@ -104,10 +104,23 @@ body {
   visibility: hidden;
 }
 
+.projectile {
+  --left: 0;
+  --bottom: 10;
+  position: absolute;
+  width: 6%;
+  left: calc(var(--left) * 1%);
+  bottom: calc(var(--bottom) * 1%);
+  z-index: 5;
+  visibility: hidden;
+}
+
+
 .game-area .midground,
 .game-area .ground,
 .game-area .vampire,
-.game-area .cross {
+.game-area .cross,
+.game-area .projectile {
   visibility: visible;
 }
 

@@ -21,8 +21,12 @@ export function updateCross(cameraX) {
     if (crossX < cameraX - REMOVE_DISTANCE) {
       cross.remove()
     } else {
-      const screenX = crossX - cameraX
-      setCustomProperty(cross, "--left", screenX)
+      // Crosses live inside the translated world element, so their
+      // `--left` value should stay in world coordinates. The world
+      // itself is shifted by `cameraX`, which will place the cross
+      // correctly on screen. Using world coordinates here avoids a
+      // double translation effect.
+      setCustomProperty(cross, "--left", crossX)
     }
   })
 
