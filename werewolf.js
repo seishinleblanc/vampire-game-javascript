@@ -61,6 +61,11 @@ function spawnWerewolf(cameraX, worldWidth) {
 }
 
 function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
+    // Determine which direction the wolf should face and move
+  const wolfX = getCustomProperty(wolf, '--left')
+  const newDirection = wolfX < vampireX ? 1 : -1
+  wolf.dataset.direction = newDirection
+  wolf.style.transform = newDirection === 1 ? 'scaleX(1)' : 'scaleX(-1)'
   let frame = Number(wolf.dataset.frame)
   let frameTime = Number(wolf.dataset.frameTime) + delta
   const state = wolf.dataset.state
@@ -73,9 +78,8 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
         frameTime -= RUN_FRAME_TIME
       }
       incrementCustomProperty(wolf, '--left', Number(wolf.dataset.direction) * WEREWOLF_SPEED * delta * speedScale)
-      wolf.style.transform = Number(wolf.dataset.direction) === 1 ? 'scaleX(1)' : 'scaleX(-1)'
 
-      if (Math.abs(getCustomProperty(wolf, '--left') - vampireX) < 7) {
+      if (Math.abs(getCustomProperty(wolf, '--left') - vampireX) < 8) {
         wolf.dataset.state = 'attack'
         frame = 0
         frameTime = 0

@@ -11,7 +11,7 @@ import {
   const JUMP_SPEED = 0.45
   const GRAVITY = 0.0015
   const MOVE_SPEED = 0.02
-  const JUMP_SPEED_MULT = 1.5
+  const JUMP_SPEED_MULT = 1.8
   const VAMPIRE_FRAME_COUNT = 5
   const FRAME_TIME = 100
   const JUMP_FRAME_COUNT = 5 // 000 used as idle frame
