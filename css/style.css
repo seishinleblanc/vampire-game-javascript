@@ -220,7 +220,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: 2vmin;
+  top: 1vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -236,7 +236,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 69vmin;
+  width: 55vmin;
   padding: 1vmin 0;
 }
 
@@ -245,7 +245,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 69vmin;
+  width: 55vmin;
   pointer-events: none;
   z-index: -1;
 }
@@ -257,8 +257,8 @@ body {
 }
 
 .boss-health-bar {
-  width: 64vmin;
-  height: 2vmin;
+  width: 50vmin;
+  height: 1.5vmin;
   border: 2px solid crimson;
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
@@ -583,6 +583,11 @@ body.shake {
 
 .credit-content div {
   margin: 6vmin 0;
+}
+
+.credit-content .credit-name {
+  margin-top: 1vmin;
+  margin-bottom: 6vmin;
 }
 
 .credit-title {
