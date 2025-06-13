@@ -169,6 +169,25 @@ body {
   z-index: 999;
 }
 
+.mana-bar {
+  position: fixed;
+  top: 10vmin;
+  left: 2vmin;
+  width: 30vmin;
+  height: 3vmin;
+  border: 2px solid purple;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.mana-fill {
+  height: 100%;
+  width: 100%;
+  background: purple;
+}
+
 .heart {
   width: 6vmin;
   height: auto;
