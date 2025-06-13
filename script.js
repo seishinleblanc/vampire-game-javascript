@@ -4,7 +4,10 @@ import {
   updateVampire,
   getVampireRect,
   setVampireLose,
-  getVampireX
+  getVampireX,
+  setMoveDirection,
+  enableInput,
+  setVampireLeft
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
@@ -36,6 +39,7 @@ const dialogueText = document.getElementById('dialogue-text')
 const nextButton = document.getElementById('next-button')
 const avatarElem = document.getElementById('avatar')
 const speakerNameElem = document.getElementById('speaker-name')
+const bossBg = document.getElementById('boss-bg')
 const controlsScreenElem = document.querySelector('[data-controls-screen]')
 
 let lastTime
@@ -58,6 +62,10 @@ const initialDialogueLines = [
   { text: 'What about you?', speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
   { text: "I'll hold them off. Take the back exit—", speaker: 'Mirelle', avatar: 'imgs/avatar-mirelle.png' },
   { text: "But be careful. They've set traps along the path. Watch your footing.", speaker: 'Mirelle', avatar: 'imgs/avatar-mirelle.png' }
+]
+
+const preBossLines = [
+  { text: "I can see the forest up ahead, I've made it out!", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' }
 ]
 
 let dialogueLines = initialDialogueLines.slice()
@@ -173,16 +181,87 @@ function updateDistance() {
 
   if (!bossTriggered && distance >= DISTANCE_TO_BOSS) {
     bossTriggered = true
-    triggerBossEncounter()
+    startBossTransition()
   }
 }
 
 function triggerBossEncounter() {
-  startDialogue(bossDialogueLines, startBossFight)
+  startDialogue(bossDialogueLines, startBossFight, false)
+}
+
+function startBossTransition() {
+  startDialogue(preBossLines, runOffscreen, false)
 }
 
 function startBossFight() {
   console.log('Boss fight begins!')
+}
+
+function runOffscreen() {
+  enableInput(false)
+  document.querySelectorAll('[data-cross]').forEach(c => c.remove())
+  document.querySelectorAll('[data-werewolf]').forEach(w => w.remove())
+  setMoveDirection(1)
+  lastTime = null
+  requestAnimationFrame(stepOffscreen)
+}
+
+function stepOffscreen(time) {
+  if (lastTime == null) {
+    lastTime = time
+    requestAnimationFrame(stepOffscreen)
+    return
+  }
+  const delta = time - lastTime
+  updatePlayerAndCamera(delta)
+  updateGround(cameraX)
+  lastTime = time
+
+  if (getVampireX() - cameraX > WORLD_WIDTH + 5) {
+    transitionToBossArea()
+  } else {
+    requestAnimationFrame(stepOffscreen)
+  }
+}
+
+function transitionToBossArea() {
+  transitionOverlay.classList.add('fade-out')
+  setTimeout(() => {
+    document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'none')
+    document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = 'none')
+    document.querySelectorAll('[data-ground]').forEach(g => g.style.display = 'none')
+    const fg = document.querySelector('.farground')
+    if (fg) fg.style.display = 'none'
+    bossBg.classList.remove('hide')
+    cameraX = 0
+    worldElem.style.transform = 'translateX(0)'
+    setVampireLeft(-10)
+    transitionOverlay.classList.remove('fade-out')
+    transitionOverlay.classList.add('fade-in')
+    setTimeout(() => {
+      transitionOverlay.classList.remove('fade-in')
+      lastTime = null
+      setMoveDirection(1)
+      requestAnimationFrame(stepIntoCenter)
+    }, 400)
+  }, 400)
+}
+
+function stepIntoCenter(time) {
+  if (lastTime == null) {
+    lastTime = time
+    requestAnimationFrame(stepIntoCenter)
+    return
+  }
+  const delta = time - lastTime
+  updateVampire(delta, 1)
+  lastTime = time
+  if (getVampireX() >= 50) {
+    setMoveDirection(0)
+    triggerBossEncounter()
+  } else {
+    requestAnimationFrame(stepIntoCenter)
+  }
 }
 
 
@@ -197,6 +276,13 @@ function handleStart() {
   distance = 0
   lastVampireX = 0
   bossTriggered = false
+  worldElem.style.transform = 'translateX(0)'
+  bossBg.classList.add('hide')
+  document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'block')
+  document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = '')
+  document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
+  const fg = document.querySelector('.farground')
+  if (fg) fg.style.display = ''
   currentHearts = MAX_HEARTS
   isStaggered = false
   isInvincible = false
@@ -321,11 +407,14 @@ function setPixelToWorldScale() {
 
 // 🩸 Dialogue System
 
-function startDialogue(lines, onComplete) {
+let dialogueWithBg = true
+
+function startDialogue(lines, onComplete, withBg = true) {
   dialogueLines = lines
   currentLine = 0
   lastAdvanceTime = 0
   onDialogueComplete = onComplete
+  dialogueWithBg = withBg
   showDialogue()
 }
 
@@ -339,9 +428,9 @@ function showDialogueLine(index) {
 }
 
 function showDialogue() {
-  // hide title and show bedroom
+  // hide title and optionally show bedroom
   document.getElementById('title-bg').style.display = 'none'
-  dialogueBg.style.opacity = '1'
+  dialogueBg.style.opacity = dialogueWithBg ? '1' : '0'
 
   dialogueBox.classList.remove('hidden')
   dialogueBox.classList.remove('fade-in')
