@@ -59,22 +59,22 @@ let bossTriggered = false
 const DISTANCE_TO_BOSS = 400
 
 const initialDialogueLines = [
-  { text: 'Carmilla, wake up.', speaker: 'Mirelle', avatar: 'assets/images/avatar-mirelle.png' },
-  { text: "...What? What's happening?", speaker: 'Carmilla', avatar: 'assets/images/avatar-carmilla.png' },
-  { text: 'Hunters. They breached the gate. You need to get out—now.', speaker: 'Mirelle', avatar: 'assets/images/avatar-mirelle.png' },
-  { text: 'What about you?', speaker: 'Carmilla', avatar: 'assets/images/avatar-carmilla.png' },
-  { text: "I'll hold them off. Take the back exit—", speaker: 'Mirelle', avatar: 'assets/images/avatar-mirelle.png' },
-  { text: "But be careful. They've set traps along the path. Watch your footing.", speaker: 'Mirelle', avatar: 'assets/images/avatar-mirelle.png' }
+  { text: 'Carmilla, wake up.', speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
+  { text: "...What? What's happening?", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: 'Hunters. They breached the gate. You need to get out—now.', speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
+  { text: 'What about you?', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: "I'll hold them off. Take the back exit—", speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
+  { text: "But be careful. They've set traps along the path. Watch your footing.", speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' }
 ]
 
 const preBossLines = [
-  { text: "I can see the forest up ahead, I've made it out!", speaker: 'Carmilla', avatar: 'assets/images/avatar-carmilla.png' }
+  { text: "I can see the forest up ahead, I've made it out!", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' }
 ]
 
 let dialogueLines = initialDialogueLines.slice()
 const bossDialogueLines = [
   { text: 'Thats far enough...', speaker: '???', avatar: 'assets/images/avatars/avatar-divine-knight-hidden.png' },
-  { text: "Huh? You think a mere human like you is any match for a vampire? I'll kill you like I killed your hounds.", speaker: 'Carmilla', avatar: 'assets/images/avatar-carmilla.png' },
+  { text: "Huh? You think a mere human like you is any match for a vampire? I'll kill you like I killed your hounds.", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
   { text: 'Foolish vampire. I am Divine Knight Seraphiel, blade of the sanctum, warden of the last light. Your sins end here.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
