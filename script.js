@@ -240,7 +240,9 @@ function transitionToBossArea() {
     document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'none')
     document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = 'none')
     document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
-    const fg = document.querySelector('.farground')
+    const far = document.querySelector('.farground')
+    if (far) far.style.display = ''
+    const fg = document.querySelector('.foreground')
     if (fg) fg.style.display = ''
     setupGround()
     bossBg.classList.remove('hide')
@@ -292,7 +294,9 @@ function handleStart() {
   document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'block')
   document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = '')
   document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
-  const fg = document.querySelector('.farground')
+  const far = document.querySelector('.farground')
+  if (far) far.style.display = ''
+  const fg = document.querySelector('.foreground')
   if (fg) fg.style.display = ''
   currentHearts = MAX_HEARTS
   setupMana()
