@@ -1,5 +1,7 @@
 import { getCustomProperty, setCustomProperty, incrementCustomProperty } from './updateCustomProperty.js'
 import { getWerewolfElements, damageWerewolf } from './werewolf.js'
+import { getKnightElement } from './divineKnight.js'
+import { damageBoss } from './boss.js'
 
 const PROJECTILE_SPEED = 0.1
 const FRAME_TIME = 100
@@ -54,6 +56,13 @@ export function updateProjectiles(delta, cameraX, worldWidth, crossRects) {
           return
         }
       }
+
+    const knight = getKnightElement()
+    if (knight && isCollision(knight.getBoundingClientRect(), projRect)) {
+      damageBoss(10)
+      proj.remove()
+      return
+    }
   
 
     if (worldX < cameraX - REMOVE_DISTANCE ||
