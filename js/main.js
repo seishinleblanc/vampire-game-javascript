@@ -7,7 +7,8 @@ import {
   getVampireX,
   setMoveDirection,
   enableInput,
-  setVampireLeft
+  setVampireLeft,
+  enterIdle
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
@@ -272,6 +273,7 @@ function stepIntoCenter(time) {
   lastTime = time
   if (getVampireX() >= 50) {
     setMoveDirection(0)
+    enterIdle()
     triggerBossEncounter()
   } else {
     requestAnimationFrame(stepIntoCenter)

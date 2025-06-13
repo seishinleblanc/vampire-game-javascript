@@ -213,6 +213,12 @@ import { spendMana } from './mana.js'
     currentAttackFrameTime = 0
     vampireElem.src = 'assets/images/carmilla/attack/carmilla-attack000.png'
   }
+
+  export function enterIdle() {
+    idleFrame = 0
+    currentIdleFrameTime = 0
+    vampireElem.src = 'assets/images/carmilla/idle/carmilla-idle000.png'
+  }
   
 
   export function setMoveDirection(dir) {
