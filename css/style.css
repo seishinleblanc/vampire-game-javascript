@@ -258,12 +258,12 @@ body {
 
 .boss-health-bar {
   width: 50vmin;
-  height: 1.5vmin;
+  height: 2vmin;
   border: 2px solid crimson;
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 6vmin;
+  margin-top: 2vmin;
 }
 
 .boss-health-fill {
@@ -576,18 +576,18 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 35s linear forwards;
+  animation: scrollCredits 60s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
 
 .credit-content div {
-  margin: 6vmin 0;
+  margin: 1vmin 0;
 }
 
 .credit-content .credit-name {
-  margin-top: 1vmin;
-  margin-bottom: 6vmin;
+  margin-top: 0;
+  margin-bottom: 4vmin;
 }
 
 .credit-title {
