@@ -3,7 +3,7 @@ import {
   setCustomProperty
 } from './updateCustomProperty.js'
 
-const GROUND_WIDTH = 300
+const GROUND_WIDTH = 100
 const MIDGROUND_WIDTH = 100
 const BACKGROUND_WIDTH = 100
 
