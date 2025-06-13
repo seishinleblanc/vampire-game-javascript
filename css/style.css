@@ -231,6 +231,16 @@ body {
   color: crimson;
 }
 
+.boss-border {
+  position: absolute;
+  top: -1vmin;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40vmin;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .boss-name {
   font-size: 5vmin;
   margin-bottom: 1vmin;
