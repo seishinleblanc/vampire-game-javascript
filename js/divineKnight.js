@@ -80,3 +80,10 @@ function updateKnight(delta) {
 export function getKnightElement() {
   return knightElem
 }
+
+export function removeDivineKnight() {
+  if (knightElem) {
+    knightElem.remove()
+    knightElem = null
+  }
+}

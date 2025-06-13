@@ -69,7 +69,7 @@ body {
 .foreground {
   --left: 0;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: calc(var(--left) * 1%);
   width: 100vw;
   height: 100vh;
@@ -541,6 +541,38 @@ body.shake {
   z-index: 1;
   pointer-events: none;
   display: block;
+}
+
+/* 🎉 Credits Screen */
+.credit-screen {
+  position: absolute;
+  inset: 0;
+  background: black;
+  color: crimson;
+  font-family: VT323-Regular;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.credit-content {
+  animation: scrollCredits 20s linear forwards;
+  text-align: center;
+  font-size: 5vmin;
+}
+
+.restart-prompt {
+  position: absolute;
+  bottom: 5vmin;
+  font-size: 4vmin;
+}
+
+@keyframes scrollCredits {
+  from { transform: translateY(100%); }
+  to { transform: translateY(-100%); }
 }
 
 

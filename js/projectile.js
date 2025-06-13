@@ -59,7 +59,8 @@ export function updateProjectiles(delta, cameraX, worldWidth, crossRects) {
 
     const knight = getKnightElement()
     if (knight && isCollision(knight.getBoundingClientRect(), projRect)) {
-      damageBoss(10)
+      const dead = damageBoss(10)
+      if (dead) document.dispatchEvent(new CustomEvent('bossDefeated'))
       proj.remove()
       return
     }

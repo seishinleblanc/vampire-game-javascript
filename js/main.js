@@ -16,7 +16,7 @@ import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
 import { getCustomProperty } from './updateCustomProperty.js'
-import { setupDivineKnight, walkOntoScreen } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
 
@@ -48,6 +48,7 @@ const avatarElem = document.getElementById('avatar')
 const speakerNameElem = document.getElementById('speaker-name')
 const bossBg = document.getElementById('boss-bg')
 const controlsScreenElem = document.querySelector('[data-controls-screen]')
+const creditScreenElem = document.querySelector('[data-credit-screen]')
 
 let lastTime
 let speedScale
@@ -58,6 +59,7 @@ let cameraX = 0
 let distance = 0
 let lastVampireX = 0
 let bossTriggered = false
+let bossActive = false
 
 const DISTANCE_TO_BOSS = 400
 
@@ -91,6 +93,7 @@ window.addEventListener('resize', setPixelToWorldScale)
 
 // Ensure end screen is hidden at load
 endScreenElem.classList.add('hide')
+creditScreenElem.classList.add('hide')
 
 function update(time) {
   if (lastTime == null) {
@@ -104,7 +107,7 @@ function update(time) {
   updatePlayerAndCamera(delta)
   updateGround(cameraX)
   updateCross(cameraX)
-  updateWerewolves(delta, speedScale, cameraX, WORLD_WIDTH, getVampireX())
+  updateWerewolves(delta, speedScale, cameraX, WORLD_WIDTH, getVampireX(), bossActive)
   updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
   updateSpeedScale(delta)
   updateDistance()
@@ -210,6 +213,7 @@ function startBossFight() {
   enableInput(true)
   showBossHealth('Divine Knight Seraphiel')
   stopIdleLoop()
+  bossActive = true
   bossTriggered = false
   lastTime = null
   window.requestAnimationFrame(update)
@@ -299,9 +303,14 @@ function handleStart() {
   distance = 0
   lastVampireX = 0
   bossTriggered = false
+  bossActive = false
   worldElem.style.transform = 'translateX(0)'
   bossBg.classList.add('hide')
   hideBossHealth()
+  combatMusic.pause()
+  combatMusic.currentTime = 0
+  removeDivineKnight()
+  creditScreenElem.classList.add('hide')
   document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'block')
   document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = '')
   document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
@@ -347,6 +356,7 @@ function handleStart() {
 function handleLose() {
   isGameOver = true
   hideBossHealth()
+  bossActive = false
   setVampireLose()
   fireSound.play()
   deathSound.play()
@@ -354,6 +364,10 @@ function handleLose() {
 
   heartContainer.classList.add('hide')
   manaContainer.classList.add('hide')
+
+  combatMusic.pause()
+  combatMusic.currentTime = 0
+  removeDivineKnight()
 
   myMusic.pause()
   myMusic.currentTime = 0
@@ -385,8 +399,28 @@ function handleLose() {
     }
 
     transitionOverlay.addEventListener('transitionend', showGameOver, { once: true })
-    setTimeout(showGameOver, 2100) // fallback in case transitionend doesn't fire
+  setTimeout(showGameOver, 2100) // fallback in case transitionend doesn't fire
   }, 300)
+}
+
+function handleBossDefeat() {
+  bossActive = false
+  combatMusic.pause()
+  combatMusic.currentTime = 0
+  hideBossHealth()
+  removeDivineKnight()
+  heartContainer.classList.add('hide')
+  manaContainer.classList.add('hide')
+  creditScreenElem.classList.remove('hide')
+  document.addEventListener('keydown', restartFromCredits, { once: true })
+  document.addEventListener('click', restartFromCredits, { once: true })
+  document.addEventListener('touchstart', restartFromCredits, { once: true })
+}
+
+function restartFromCredits(e) {
+  if (e) e.preventDefault()
+  creditScreenElem.classList.add('hide')
+  handleStart()
 }
 
   function removeHeart() {
@@ -551,6 +585,8 @@ window.addEventListener('touchstart', e => {
   // treat touch as spacebar
   document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', bubbles: true }))
 }, { passive: false })
+
+document.addEventListener('bossDefeated', handleBossDefeat)
 
 export { currentHearts, MAX_HEARTS, updateHeartDisplay }
 
