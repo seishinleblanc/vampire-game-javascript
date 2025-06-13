@@ -564,6 +564,17 @@ body.shake {
   font-size: 5vmin;
 }
 
+.credit-content div {
+  margin: 2vmin 0;
+}
+
+.credit-title {
+  font-size: 8vmin;
+  margin-bottom: 3vmin;
+  color: crimson;
+  text-shadow: 0 0 5px black;
+}
+
 .restart-prompt {
   position: absolute;
   bottom: 5vmin;
