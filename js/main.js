@@ -132,19 +132,31 @@ function update(time) {
 function updatePlayerAndCamera(delta) {
   updateVampire(delta, speedScale);
 
-  const x = getVampireX();
-  const halfW = WORLD_WIDTH / 2;
-  const leftBoundary  = cameraX + halfW - CAMERA_DEADZONE;
-  const rightBoundary = cameraX + halfW + CAMERA_DEADZONE;
+  let x = getVampireX();
 
-  if (x < leftBoundary) {
-    cameraX = x - (halfW - CAMERA_DEADZONE);
-  } else if (x > rightBoundary) {
-    cameraX = x - (halfW + CAMERA_DEADZONE);
+  if (bossActive) {
+    if (x < 0) {
+      setVampireLeft(0);
+      x = 0;
+    } else if (x > WORLD_WIDTH) {
+      setVampireLeft(WORLD_WIDTH);
+      x = WORLD_WIDTH;
+    }
+    cameraX = 0;
+  } else {
+    const halfW = WORLD_WIDTH / 2;
+    const leftBoundary  = cameraX + halfW - CAMERA_DEADZONE;
+    const rightBoundary = cameraX + halfW + CAMERA_DEADZONE;
+
+    if (x < leftBoundary) {
+      cameraX = x - (halfW - CAMERA_DEADZONE);
+    } else if (x > rightBoundary) {
+      cameraX = x - (halfW + CAMERA_DEADZONE);
+    }
+
+    // clamp so you don’t scroll beyond the level bounds
+    cameraX = Math.max(0, Math.min(cameraX, /* maxWorldWidth - viewportWidth */));
   }
-
-  // clamp so you don’t scroll beyond the level bounds
-  cameraX = Math.max(0, Math.min(cameraX, /* maxWorldWidth - viewportWidth */));
 
   // slide the entire world
   worldElem.style.transform = `translateX(${-cameraX}% )`;
@@ -405,12 +417,16 @@ function handleLose() {
 
 function handleBossDefeat() {
   bossActive = false
+  bossTriggered = true
   combatMusic.pause()
   combatMusic.currentTime = 0
   hideBossHealth()
   removeDivineKnight()
   heartContainer.classList.add('hide')
   manaContainer.classList.add('hide')
+  gameAreaElem.classList.add('hide')
+  worldElem.style.transform = 'translateX(0)'
+  cameraX = 0
   creditScreenElem.classList.remove('hide')
   document.addEventListener('keydown', restartFromCredits, { once: true })
   document.addEventListener('click', restartFromCredits, { once: true })
