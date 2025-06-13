@@ -2,7 +2,7 @@
 const MAX_MANA = 100
 const MANA_REGEN_RATE = 0.01 // mana per ms (~10 per second)
 const ATTACK_MANA_COST = 20
-const MANA_REGEN_DELAY = 1000 // ms delay before regen starts after spending
+const MANA_REGEN_DELAY = 1500 // ms delay before regen starts after spending
 
 let currentMana = MAX_MANA
 let regenCooldown = 0
