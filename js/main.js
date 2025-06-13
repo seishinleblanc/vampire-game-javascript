@@ -8,7 +8,9 @@ import {
   setMoveDirection,
   enableInput,
   setVampireLeft,
-  enterIdle
+  enterIdle,
+  startIdleLoop,
+  stopIdleLoop
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
@@ -204,6 +206,9 @@ function startBossFight() {
   combatMusic.currentTime = 0
   combatMusic.volume = 0.4
   combatMusic.play()
+  stopIdleLoop()
+  lastTime = null
+  window.requestAnimationFrame(update)
 }
 
 function runOffscreen() {
@@ -272,6 +277,7 @@ function stepIntoCenter(time) {
   if (getVampireX() >= 50) {
     setMoveDirection(0)
     enterIdle()
+    startIdleLoop()
     triggerBossEncounter()
   } else {
     requestAnimationFrame(stepIntoCenter)
@@ -302,6 +308,8 @@ function handleStart() {
   isInvincible = false
   isGameOver = false
   updateHeartDisplay()
+
+  stopIdleLoop()
 
   setupGround()
   setupVampire()
