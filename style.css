@@ -137,12 +137,24 @@ body {
   visibility: hidden;
 }
 
+.divine-knight {
+  --left: 0;
+  position: absolute;
+  height: 90%;
+  bottom: 0;
+  left: calc(var(--left) * 1%);
+  z-index: 4;
+  visibility: hidden;
+}
+
+
 .game-area .midground,
 .game-area .ground,
 .game-area .vampire,
 .game-area .cross,
 .game-area .projectile,
-.game-area .werewolf {
+.game-area .werewolf,
+.game-area .divine-knight {
   visibility: visible;
 }
 
@@ -426,3 +438,20 @@ body {
   object-fit: cover;
   z-index: 1;
   pointer-events: none;
+  display: block;
+}
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
