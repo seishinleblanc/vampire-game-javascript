@@ -171,10 +171,10 @@ body {
 
 .mana-bar {
   position: fixed;
-  top: 10vmin;
+  top: 8vmin;
   left: 2vmin;
-  width: 30vmin;
-  height: 3vmin;
+  width: 25vmin;
+  height: 2vmin;
   border: 2px solid #5a1e70;
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;

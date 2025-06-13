@@ -199,6 +199,8 @@ function startBossFight() {
   console.log('Boss fight begins!')
   myMusic.pause()
   myMusic.currentTime = 0
+  dialogueMood.pause()
+  dialogueMood.currentTime = 0
   combatMusic.currentTime = 0
   combatMusic.volume = 0.4
   combatMusic.play()
