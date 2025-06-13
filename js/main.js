@@ -18,6 +18,7 @@ import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewo
 import { getCustomProperty } from './updateCustomProperty.js'
 import { setupDivineKnight, walkOntoScreen } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
+import { showBossHealth, hideBossHealth } from './boss.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
@@ -206,6 +207,8 @@ function startBossFight() {
   combatMusic.currentTime = 0
   combatMusic.volume = 0.4
   combatMusic.play()
+  enableInput(true)
+  showBossHealth('Divine Knight Seraphiel')
   stopIdleLoop()
   lastTime = null
   window.requestAnimationFrame(update)
@@ -297,6 +300,7 @@ function handleStart() {
   bossTriggered = false
   worldElem.style.transform = 'translateX(0)'
   bossBg.classList.add('hide')
+  hideBossHealth()
   document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'block')
   document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = '')
   document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
@@ -341,6 +345,7 @@ function handleStart() {
 
 function handleLose() {
   isGameOver = true
+  hideBossHealth()
   setVampireLose()
   fireSound.play()
   deathSound.play()

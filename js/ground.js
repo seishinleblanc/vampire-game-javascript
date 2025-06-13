@@ -62,7 +62,7 @@ export function updateGround(cameraX) {
 
   const fgCamera = cameraX * FOREGROUND_SPEED
   const fgOffset = fgCamera % FOREGROUND_WIDTH
-  const baseFg = Math.floor(cameraX / FOREGROUND_WIDTH) - 1
+  const baseFg = Math.floor(fgCamera / FOREGROUND_WIDTH) - 1
   foregroundElems.forEach((fg, i) => {
     const left = (baseFg + i) * FOREGROUND_WIDTH - fgOffset
     setCustomProperty(fg, "--left", left)
