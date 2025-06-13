@@ -226,6 +226,9 @@ body {
   z-index: 999;
   font-family: VT323-Regular;
   color: crimson;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .boss-container {
@@ -260,6 +263,7 @@ body {
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
+  margin-top: 1vmin;
 }
 
 .boss-health-fill {
@@ -572,13 +576,13 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 20s linear forwards;
+  animation: scrollCredits 35s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
 
 .credit-content div {
-  margin: 2vmin 0;
+  margin: 4vmin 0;
 }
 
 .credit-title {
