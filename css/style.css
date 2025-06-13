@@ -236,7 +236,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60vmin;
+  width: 69vmin;
   padding: 1vmin 0;
 }
 
@@ -245,7 +245,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60vmin;
+  width: 69vmin;
   pointer-events: none;
   z-index: -1;
 }
@@ -257,13 +257,13 @@ body {
 }
 
 .boss-health-bar {
-  width: 55vmin;
+  width: 64vmin;
   height: 2vmin;
   border: 2px solid crimson;
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 1vmin;
+  margin-top: 6vmin;
 }
 
 .boss-health-fill {
@@ -582,7 +582,7 @@ body.shake {
 }
 
 .credit-content div {
-  margin: 4vmin 0;
+  margin: 6vmin 0;
 }
 
 .credit-title {
