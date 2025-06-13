@@ -19,7 +19,6 @@ const MAX_HEARTS = 3
 const CAMERA_DEADZONE = 5  // how far from center before camera scrolls
 
 const worldElem = document.querySelector('[data-world]')
-const scoreElem = document.querySelector('[data-score]')
 const startScreenElem = document.querySelector('[data-start-screen]')
 const endScreenElem = document.querySelector('[data-end-screen]')
 const gameAreaElem = document.querySelector('[data-game-area]')
@@ -41,14 +40,18 @@ const controlsScreenElem = document.querySelector('[data-controls-screen]')
 
 let lastTime
 let speedScale
-let score
 let currentHearts
 let isGameOver = false
 let isStaggered = false
 let isInvincible = false
 let cameraX = 0
+let distance = 0
+let lastVampireX = 0
+let bossTriggered = false
 
-const dialogueLines = [
+const DISTANCE_TO_BOSS = 500
+
+const initialDialogueLines = [
   { text: 'Carmilla, wake up.', speaker: 'Mirelle', avatar: 'imgs/avatar-mirelle.png' },
   { text: "...What? What's happening?", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
   { text: 'Hunters. They breached the gate. You need to get out—now.', speaker: 'Mirelle', avatar: 'imgs/avatar-mirelle.png' },
@@ -57,8 +60,17 @@ const dialogueLines = [
   { text: "But be careful. They've set traps along the path. Watch your footing.", speaker: 'Mirelle', avatar: 'imgs/avatar-mirelle.png' }
 ]
 
+let dialogueLines = initialDialogueLines.slice()
+const bossDialogueLines = [
+  { text: 'So you made it this far...', speaker: '???', avatar: 'imgs/avatar-mirelle.png' },
+  { text: "I'm here to end this.", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
+  { text: 'Foolish vampire. Prepare yourself.', speaker: '???', avatar: 'imgs/avatar-mirelle.png' }
+]
+
+
 let currentLine = 0
 let lastAdvanceTime = 0
+let onDialogueComplete = null
 
 // Initialize world scaling
 setPixelToWorldScale()
@@ -82,7 +94,7 @@ function update(time) {
   updateWerewolves(delta, speedScale, cameraX, WORLD_WIDTH, getVampireX())
   updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
   updateSpeedScale(delta)
-  updateScore(delta)
+  updateDistance()
 
   if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision())) {
     removeHeart()
@@ -94,7 +106,9 @@ function update(time) {
   }
 
   lastTime = time
-  window.requestAnimationFrame(update)
+  if (!bossTriggered) {
+    window.requestAnimationFrame(update)
+  }
 }
 
 // Margin‐based dead‐zone at the edges
@@ -151,10 +165,26 @@ function updateSpeedScale(delta) {
   speedScale += delta * SPEED_SCALE_INCREASE
 }
 
-function updateScore(delta) {
-  score += delta * 0.01
-  scoreElem.textContent = Math.floor(score)
+function updateDistance() {
+  const x = getVampireX()
+  if (lastVampireX === 0) lastVampireX = x
+  distance += x - lastVampireX
+  lastVampireX = x
+
+  if (!bossTriggered && distance >= DISTANCE_TO_BOSS) {
+    bossTriggered = true
+    triggerBossEncounter()
+  }
 }
+
+function triggerBossEncounter() {
+  startDialogue(bossDialogueLines, startBossFight)
+}
+
+function startBossFight() {
+  console.log('Boss fight begins!')
+}
+
 
 function handleStart() {
   transitionOverlay.classList.remove('fade-out')
@@ -163,8 +193,10 @@ function handleStart() {
 
   lastTime = null
   speedScale = 1
-  score = 0
   cameraX = 0
+  distance = 0
+  lastVampireX = 0
+  bossTriggered = false
   currentHearts = MAX_HEARTS
   isStaggered = false
   isInvincible = false
@@ -184,7 +216,6 @@ function handleStart() {
   startScreenElem.classList.add('hide')
   endScreenElem.classList.add('hide')
   gameAreaElem.classList.remove('hide')
-  scoreElem.classList.remove('hide')
   heartContainer.classList.remove('hide')
   dialogueBox.classList.add('hidden')
   controlsScreenElem.classList.add('hide')
@@ -206,7 +237,6 @@ function handleLose() {
   deathSound.play()
   deathSound.volume = 0.5
 
-  scoreElem.classList.add('hide')
   heartContainer.classList.add('hide')
 
   myMusic.pause()
@@ -291,6 +321,15 @@ function setPixelToWorldScale() {
 
 // 🩸 Dialogue System
 
+function startDialogue(lines, onComplete) {
+  dialogueLines = lines
+  currentLine = 0
+  lastAdvanceTime = 0
+  onDialogueComplete = onComplete
+  showDialogue()
+}
+
+
 function showDialogueLine(index) {
   const line = dialogueLines[index]
   dialogueText.textContent = line.text
@@ -336,7 +375,11 @@ function advanceDialogue(e) {
     dialogueBox.classList.add('hidden')
     dialogueBg.style.opacity = '0'
     cleanupDialogueListeners()
-    handleStart()
+    if (typeof onDialogueComplete === 'function') {
+      const cb = onDialogueComplete
+      onDialogueComplete = null
+      cb()
+    }
   }
 
   if (e) e.preventDefault()
@@ -361,7 +404,7 @@ function handleControlsKey(e) {
   if (e) e.preventDefault()
   controlsScreenElem.classList.add('hide')
   transitionOverlay.classList.remove('fade-out')
-  showDialogue()
+  startDialogue(initialDialogueLines, handleStart)
 }
 
 function handleTitleKey(e) {
