@@ -36,6 +36,8 @@ import { spendMana } from './mana.js'
   let moveDirection = 0
   let facingDirection = 1
   let inputEnabled = false
+  let idleLoopId = null
+  let idleLastTime = null
   
   export function setupVampire() {
     isJumping = false
@@ -219,6 +221,31 @@ import { spendMana } from './mana.js'
     currentIdleFrameTime = 0
     vampireElem.src = 'assets/images/carmilla/idle/carmilla-idle000.png'
   }
+
+  export function startIdleLoop() {
+    if (idleLoopId != null) return
+    idleLastTime = null
+    const step = time => {
+      if (idleLastTime == null) {
+        idleLastTime = time
+        idleLoopId = requestAnimationFrame(step)
+        return
+      }
+      const delta = time - idleLastTime
+      idleLastTime = time
+      handleIdle(delta)
+      idleLoopId = requestAnimationFrame(step)
+    }
+    idleLoopId = requestAnimationFrame(step)
+  }
+
+  export function stopIdleLoop() {
+    if (idleLoopId != null) {
+      cancelAnimationFrame(idleLoopId)
+      idleLoopId = null
+      idleLastTime = null
+    }
+  }
   
 
   export function setMoveDirection(dir) {
@@ -237,5 +264,6 @@ import { spendMana } from './mana.js'
       inputEnabled = false
     }
   }
+
 
 
