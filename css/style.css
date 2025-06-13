@@ -12,8 +12,8 @@
 body {
   margin: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   min-height: 100vh;
   background-color: rgb(17, 17, 17);
   overflow: hidden;
@@ -229,13 +229,14 @@ body {
   z-index: 999;
   font-family: VT323-Regular;
   color: crimson;
+  position: relative;
 }
 
 .boss-border {
   position: absolute;
-  top: -1vmin;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: 40vmin;
   pointer-events: none;
   z-index: -1;
@@ -556,6 +557,12 @@ body.shake {
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.credit-screen.fade-in {
+  opacity: 1;
 }
 
 .credit-content {
@@ -573,6 +580,11 @@ body.shake {
   margin-bottom: 3vmin;
   color: crimson;
   text-shadow: 0 0 5px black;
+}
+
+.credit-break {
+  font-size: 6vmin;
+  margin: 3vmin 0;
 }
 
 .restart-prompt {

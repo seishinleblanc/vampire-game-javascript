@@ -428,6 +428,9 @@ function handleBossDefeat() {
   worldElem.style.transform = 'translateX(0)'
   cameraX = 0
   creditScreenElem.classList.remove('hide')
+  creditScreenElem.classList.remove('fade-in')
+  void creditScreenElem.offsetWidth
+  creditScreenElem.classList.add('fade-in')
   document.addEventListener('keydown', restartFromCredits, { once: true })
   document.addEventListener('click', restartFromCredits, { once: true })
   document.addEventListener('touchstart', restartFromCredits, { once: true })
