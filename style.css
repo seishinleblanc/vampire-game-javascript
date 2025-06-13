@@ -69,11 +69,13 @@ body {
 .foreground {
   --left: 0;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: calc(var(--left) * 1%);
   width: 100vw;
-  height: 15vh;
+  height: 100vh;
   object-fit: cover;
+  object-position: bottom;
+  clip-path: inset(80% 0 0 0);
   image-rendering: pixelated;
   z-index: -8;
   pointer-events: none;
