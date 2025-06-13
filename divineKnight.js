@@ -24,6 +24,7 @@ export function setupDivineKnight() {
   knightElem.classList.add('divine-knight')
   setCustomProperty(knightElem, '--bottom', 0)
   setCustomProperty(knightElem, '--left', 110)
+  knightElem.style.transform = 'scaleX(-1)'
   knightElem.src = 'imgs/divine-knight/divine-knight-idle/tile000.png'
   gameAreaElem.append(knightElem)
   requestAnimationFrame(loop)

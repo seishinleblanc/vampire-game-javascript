@@ -18,7 +18,7 @@ import { setupDivineKnight, walkOntoScreen } from './divineKnight.js'
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
 const SPEED_SCALE_INCREASE = 0.00001
-const MAX_HEARTS = 3
+const MAX_HEARTS = 5
 const CAMERA_DEADZONE = 5  // how far from center before camera scrolls
 
 const worldElem = document.querySelector('[data-world]')
@@ -54,7 +54,7 @@ let distance = 0
 let lastVampireX = 0
 let bossTriggered = false
 
-const DISTANCE_TO_BOSS = 100
+const DISTANCE_TO_BOSS = 400
 
 const initialDialogueLines = [
   { text: 'Carmilla, wake up.', speaker: 'Mirelle', avatar: 'imgs/avatar-mirelle.png' },
@@ -72,7 +72,7 @@ const preBossLines = [
 let dialogueLines = initialDialogueLines.slice()
 const bossDialogueLines = [
   { text: 'Thats far enough...', speaker: '???', avatar: 'imgs/avatars/avatar-divine-knight-hidden.png' },
-  { text: "You think a pathetic human like you can stop me?", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
+  { text: "Huh? You think a mere human like you is any match for a vampire? I'll kill you like I killed your hounds.", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
   { text: 'Foolish vampire. I am Divine Knight Seraphiel, blade of the sanctum, warden of the last light. Your sins end here.', speaker: 'Divine Knight Seraphiel', avatar: 'imgs/avatars/avatar-divine-knight.PNG' }
 ]
 
@@ -183,11 +183,13 @@ function updateDistance() {
 }
 
 function triggerBossEncounter() {
-  startDialogue(bossDialogueLines, startBossFight, false)
+  startDialogue(bossDialogueLines, startBossFight, false, false)
 }
 
 function startBossTransition() {
-  startDialogue(preBossLines, runOffscreen, false)
+  myMusic.pause()
+  myMusic.currentTime = 0
+  startDialogue(preBossLines, runOffscreen, false, false)
 }
 
 function startBossFight() {
@@ -366,167 +368,4 @@ function handleLose() {
     if (currentHearts <= 0) return
     currentHearts--
     updateHeartDisplay()
-    fireSound.currentTime = 0
-    fireSound.volume = 0.4
-    fireSound.play()
-
-  if (navigator.vibrate) navigator.vibrate(100)
-  const vampireElem = document.querySelector('[data-vampire]')
-  vampireElem.classList.add('damaged')
-  screenFlash.classList.add('active')
-  setTimeout(() => screenFlash.classList.remove('active'), 100)
-  isStaggered = true
-  isInvincible = true
-  setTimeout(() => {
-    vampireElem.classList.remove('damaged')
-    isStaggered = false
-  }, 300)
-  setTimeout(() => (isInvincible = false), 1000)
-}
-
-function updateHeartDisplay() {
-  heartContainer.innerHTML = ''
-  for (let i = 0; i < MAX_HEARTS; i++) {
-    const heart = document.createElement('img')
-    heart.src = i < currentHearts ? 'imgs/heart-full.png' : 'imgs/heart-empty.png'
-    heart.classList.add('heart')
-    if (i < currentHearts) heart.classList.add('full-heart')
-    heartContainer.appendChild(heart)
-  }
-}
-
-function setPixelToWorldScale() {
-  let scale
-  if (window.innerWidth / window.innerHeight < WORLD_WIDTH / WORLD_HEIGHT) {
-    scale = window.innerWidth / WORLD_WIDTH
-  } else {
-    scale = window.innerHeight / WORLD_HEIGHT
-  }
-  worldElem.style.width = `${WORLD_WIDTH * scale}px`
-  worldElem.style.height = `${WORLD_HEIGHT * scale}px`
-}
-
-// 🩸 Dialogue System
-
-let dialogueWithBg = true
-
-function startDialogue(lines, onComplete, withBg = true) {
-  dialogueLines = lines
-  currentLine = 0
-  lastAdvanceTime = 0
-  onDialogueComplete = onComplete
-  dialogueWithBg = withBg
-  showDialogue()
-}
-
-function showDialogueLine(index) {
-  const line = dialogueLines[index]
-  dialogueText.textContent = line.text
-  speakerNameElem.textContent = line.speaker
-  avatarElem.src = line.avatar
-  speakerNameElem.className = 'speaker-name ' + line.speaker.toLowerCase()
-}
-
-function showDialogue() {
-  // hide title and optionally show bedroom
-  document.getElementById('title-bg').style.display = 'none'
-  dialogueBg.style.opacity = dialogueWithBg ? '1' : '0'
-
-  dialogueBox.classList.remove('hidden')
-  dialogueBox.classList.remove('fade-in')
-  void dialogueBox.offsetWidth
-  dialogueBox.classList.add('fade-in')
-
-  if (dialogueMood.paused) {
-    dialogueMood.currentTime = 0
-    dialogueMood.volume = 0.4
-    dialogueMood.play()
-  }
-
-  showDialogueLine(currentLine)
-  setTimeout(() => {
-    document.addEventListener('keydown', advanceDialogue)
-    document.addEventListener('click', advanceDialogue)
-    document.addEventListener('touchstart', advanceDialogue)
-    nextButton.addEventListener('click', advanceDialogue)
-  }, 300)
-}
-
-function advanceDialogue(e) {
-  const now = Date.now()
-  if (now - lastAdvanceTime < 300) return
-  lastAdvanceTime = now
-
-  currentLine++
-  if (currentLine < dialogueLines.length) {
-    if (dialogueLines === bossDialogueLines && currentLine === 2) {
-      cleanupDialogueListeners()
-      dialogueBox.classList.add('hidden')
-      walkOntoScreen(() => {
-        showDialogueLine(currentLine)
-        dialogueBox.classList.remove('hidden')
-        setTimeout(() => {
-          document.addEventListener('keydown', advanceDialogue)
-          document.addEventListener('click', advanceDialogue)
-          document.addEventListener('touchstart', advanceDialogue)
-          nextButton.addEventListener('click', advanceDialogue)
-        }, 100)
-      })
-      return
-    }
-    showDialogueLine(currentLine)
-  } else {
-    dialogueBox.classList.add('hidden')
-    dialogueBg.style.opacity = '0'
-    cleanupDialogueListeners()
-    if (typeof onDialogueComplete === 'function') {
-      const cb = onDialogueComplete
-      onDialogueComplete = null
-      cb()
-    }
-  }
-
-  if (e) e.preventDefault()
-}
-
-function cleanupDialogueListeners() {
-  document.removeEventListener('keydown', advanceDialogue)
-  document.removeEventListener('click', advanceDialogue)
-  document.removeEventListener('touchstart', advanceDialogue)
-  nextButton.removeEventListener('click', advanceDialogue)
-}
-
-function showControls() {
-  transitionOverlay.classList.add('fade-out')
-  controlsScreenElem.classList.remove('hide')
-  document.addEventListener('keydown', handleControlsKey, { once: true })
-  document.addEventListener('click', handleControlsKey, { once: true })
-  document.addEventListener('touchstart', handleControlsKey, { once: true })
-}
-
-function handleControlsKey(e) {
-  if (e) e.preventDefault()
-  controlsScreenElem.classList.add('hide')
-  transitionOverlay.classList.remove('fade-out')
-  startDialogue(initialDialogueLines, handleStart)
-}
-
-function handleTitleKey(e) {
-  if (e) e.preventDefault()
-  startScreenElem.classList.add('hide')
-  showControls()
-}
-
-window.addEventListener('keydown', handleTitleKey, { once: true })
-window.addEventListener('click', handleTitleKey, { once: true })
-window.addEventListener('touchstart', handleTitleKey, { once: true })
-window.addEventListener('touchstart', e => {
-  // treat touch as spacebar
-  document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', bubbles: true }))
-}, { passive: false })
-
-export { currentHearts, MAX_HEARTS, updateHeartDisplay }
-
-
-
-
+    fire
