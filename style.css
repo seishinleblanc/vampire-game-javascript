@@ -267,6 +267,15 @@ body {
   animation: fadeIn 0.4s ease-out;
 }
 
+@keyframes fadeInSlow {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.end-screen.fade-in {
+  animation: fadeInSlow 2s ease-out;
+}
+
 .hidden {
   display: none !important;
 }
@@ -317,7 +326,7 @@ body {
 .end-screen {
   padding: 2vmin;
   background: rgba(0, 0, 0, 0.85);
-  border: 2px solid crimson;
+  border: none;
   border-radius: 8px;
 }
 
