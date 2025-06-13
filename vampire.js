@@ -34,6 +34,7 @@ import {
   let yVelocity
   let moveDirection = 0
   let facingDirection = 1
+  let inputEnabled = false
   
   export function setupVampire() {
     isJumping = false
@@ -55,10 +56,7 @@ import {
     vampireElem.style.transform = 'scaleX(1)'
     vampireElem.src = 'imgs/carmilla/idle/carmilla-idle000.png'
   
-    document.removeEventListener('keydown', onKeyDown)
-    document.removeEventListener('keyup', onKeyUp)
-    document.addEventListener('keydown', onKeyDown)
-    document.addEventListener('keyup', onKeyUp)
+    enableInput(true)
   }
   
   export function updateVampire(delta, speedScale) {
@@ -214,5 +212,22 @@ import {
     vampireElem.src = 'imgs/carmilla/attack/carmilla-attack000.png'
   }
   
+
+  export function setMoveDirection(dir) {
+    moveDirection = dir
+  }
+
+  export function enableInput(enable) {
+    if (enable && !inputEnabled) {
+      document.addEventListener('keydown', onKeyDown)
+      document.addEventListener('keyup', onKeyUp)
+      inputEnabled = true
+    } else if (!enable && inputEnabled) {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('keyup', onKeyUp)
+      moveDirection = 0
+      inputEnabled = false
+    }
+  }
 
 
