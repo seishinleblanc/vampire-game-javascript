@@ -23,7 +23,9 @@ export function setupWerewolves() {
   document.querySelectorAll('[data-werewolf]').forEach(w => w.remove())
 }
 
-export function updateWerewolves(delta, speedScale, cameraX, worldWidth, vampireX) {
+export function updateWerewolves(delta, speedScale, cameraX, worldWidth, vampireX, bossActive = false) {
+  if (bossActive) return
+
   nextSpawnTime -= delta
   if (nextSpawnTime <= 0) {
     spawnWerewolf(cameraX, worldWidth)
