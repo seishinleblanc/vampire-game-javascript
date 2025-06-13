@@ -232,6 +232,9 @@ function handleLose() {
       cameraX = 0
       transitionOverlay.style.zIndex = '998'
       endScreenElem.classList.remove('hide')
+      endScreenElem.classList.remove('fade-in')
+      void endScreenElem.offsetWidth
+      endScreenElem.classList.add('fade-in')
       document.addEventListener('keydown', handleStart, { once: true })
       document.addEventListener('click', handleStart, { once: true })
       document.addEventListener('touchstart', handleStart, { once: true })
