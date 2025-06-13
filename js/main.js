@@ -224,7 +224,7 @@ function startBossFight() {
   combatMusic.volume = 0.4
   combatMusic.play()
   enableInput(true)
-  showBossHealth('Divine Knight Seraphiel')
+  showBossHealth()
   stopIdleLoop()
   bossActive = true
   bossTriggered = false
