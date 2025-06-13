@@ -33,7 +33,7 @@ const dialogueMood = document.getElementById('dialogue-mood')
 const gameOverMusic = document.querySelector('[data-gameovermusic]')
 const combatMusic = document.querySelector('[data-combatmusic]')
 const heartContainer = document.querySelector('[data-hearts]')
-const manaBar = document.querySelector('.mana-bar')
+const manaContainer = document.querySelector('.mana-container')
 const screenFlash = document.getElementById('screen-flash')
 const transitionOverlay = document.getElementById('transition-overlay')
 const dialogueBg = document.getElementById('dialogue-bg')
@@ -239,9 +239,10 @@ function transitionToBossArea() {
   setTimeout(() => {
     document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'none')
     document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = 'none')
-    document.querySelectorAll('[data-ground]').forEach(g => g.style.display = 'none')
+    document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
     const fg = document.querySelector('.farground')
-    if (fg) fg.style.display = 'none'
+    if (fg) fg.style.display = ''
+    setupGround()
     bossBg.classList.remove('hide')
     setupDivineKnight()
     cameraX = 0
@@ -314,7 +315,7 @@ function handleStart() {
   endScreenElem.classList.add('hide')
   gameAreaElem.classList.remove('hide')
   heartContainer.classList.remove('hide')
-  manaBar.classList.remove('hide')
+  manaContainer.classList.remove('hide')
   dialogueBox.classList.add('hidden')
   controlsScreenElem.classList.add('hide')
 
@@ -336,7 +337,7 @@ function handleLose() {
   deathSound.volume = 0.5
 
   heartContainer.classList.add('hide')
-  manaBar.classList.add('hide')
+  manaContainer.classList.add('hide')
 
   myMusic.pause()
   myMusic.currentTime = 0
