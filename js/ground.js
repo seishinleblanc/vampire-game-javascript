@@ -6,12 +6,13 @@ import {
 const GROUND_WIDTH = 100
 const MIDGROUND_WIDTH = 100
 const BACKGROUND_WIDTH = 100
-const FOREGROUND_SPEED = 0.1
+const FOREGROUND_WIDTH = 100
+const FOREGROUND_SPEED = 1.2
 
 const groundElems = document.querySelectorAll("[data-ground]")
 const midgroundElems = document.querySelectorAll("[data-midground]")
 const backgroundElems = document.querySelectorAll("[data-background]")
-const foregroundElem = document.querySelector('.foreground')
+const foregroundElems = document.querySelectorAll('[data-foreground]')
 
 export function setupGround() {
   groundElems.forEach((ground, i) => {
@@ -19,9 +20,10 @@ export function setupGround() {
     ground.dataset.index = i
   })
 
-  if (foregroundElem) {
-    setCustomProperty(foregroundElem, "--left", 0)
-  }
+  foregroundElems.forEach((fg, i) => {
+    setCustomProperty(fg, "--left", i * FOREGROUND_WIDTH)
+    fg.dataset.index = i
+  })
 
   midgroundElems.forEach((mg, i) => {
     setCustomProperty(mg, "--left", i * MIDGROUND_WIDTH)
@@ -58,10 +60,13 @@ export function updateGround(cameraX) {
     setCustomProperty(bg, "--left", left)
   })
 
-  if (foregroundElem) {
-    const fgLeft = -cameraX * FOREGROUND_SPEED
-    setCustomProperty(foregroundElem, "--left", fgLeft)
-  }
+  const fgCamera = cameraX * FOREGROUND_SPEED
+  const fgOffset = fgCamera % FOREGROUND_WIDTH
+  const baseFg = Math.floor(fgCamera / FOREGROUND_WIDTH)
+  foregroundElems.forEach((fg, i) => {
+    const left = (baseFg + i) * FOREGROUND_WIDTH - fgOffset
+    setCustomProperty(fg, "--left", left)
+  })
 }
 
 
