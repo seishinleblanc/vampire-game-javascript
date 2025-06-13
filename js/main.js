@@ -50,7 +50,6 @@ let lastTime
 let speedScale
 let currentHearts
 let isGameOver = false
-let isStaggered = false
 let isInvincible = false
 let cameraX = 0
 let distance = 0
@@ -125,7 +124,7 @@ function update(time) {
 
 // Margin‐based dead‐zone at the edges
 function updatePlayerAndCamera(delta) {
-  if (!isStaggered) updateVampire(delta, speedScale);
+  updateVampire(delta, speedScale);
 
   const x = getVampireX();
   const halfW = WORLD_WIDTH / 2;
@@ -243,8 +242,7 @@ function transitionToBossArea() {
     document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
     const far = document.querySelector('.farground')
     if (far) far.style.display = ''
-    const fg = document.querySelector('.foreground')
-    if (fg) fg.style.display = ''
+    document.querySelectorAll('.foreground').forEach(fg => fg.style.display = '')
     setupGround()
     bossBg.classList.remove('hide')
     setupDivineKnight()
@@ -298,11 +296,9 @@ function handleStart() {
   document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
   const far = document.querySelector('.farground')
   if (far) far.style.display = ''
-  const fg = document.querySelector('.foreground')
-  if (fg) fg.style.display = ''
+  document.querySelectorAll('.foreground').forEach(fg => fg.style.display = '')
   currentHearts = MAX_HEARTS
   setupMana()
-  isStaggered = false
   isInvincible = false
   isGameOver = false
   updateHeartDisplay()
@@ -392,11 +388,11 @@ function handleLose() {
   vampireElem.classList.add('damaged')
   screenFlash.classList.add('active')
   setTimeout(() => screenFlash.classList.remove('active'), 100)
-  isStaggered = true
+  document.body.classList.add('shake')
   isInvincible = true
+  setTimeout(() => document.body.classList.remove('shake'), 300)
   setTimeout(() => {
     vampireElem.classList.remove('damaged')
-    isStaggered = false
   }, 300)
   setTimeout(() => (isInvincible = false), 1000)
 }
