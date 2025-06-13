@@ -1,12 +1,10 @@
 const bossContainer = document.getElementById('boss-health');
 const bossFill = document.getElementById('boss-health-fill');
-const bossNameElem = bossContainer ? bossContainer.querySelector('.boss-name') : null;
 
 const MAX_HEALTH = 100;
 let currentHealth = MAX_HEALTH;
 
-export function showBossHealth(name = '') {
-  if (bossNameElem) bossNameElem.textContent = name;
+export function showBossHealth() {
   currentHealth = MAX_HEALTH;
   updateDisplay();
   if (bossContainer) bossContainer.classList.remove('hide');

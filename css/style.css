@@ -251,11 +251,11 @@ body {
   z-index: 1;
 }
 
-.boss-name {
+.boss-nameplate {
   position: relative;
-  font-size: 5vmin;
   margin-bottom: 1vmin;
-  text-align: center;
+  width: 50vmin;
+  pointer-events: none;
   z-index: 2;
 }
 
