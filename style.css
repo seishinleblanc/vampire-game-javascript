@@ -169,6 +169,27 @@ body {
   z-index: 999;
 }
 
+.mana-bar {
+  position: fixed;
+  top: 10vmin;
+  left: 2vmin;
+  width: 30vmin;
+  height: 2.5vmin;
+  border: 2px solid #4b006e;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1.5vmin;
+  box-shadow: 0 0 0.5vmin #000 inset, 0 0 1vmin #4b006e;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.mana-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #bd5cff, #6a0dad);
+  transition: width 0.2s;
+}
+
 .heart {
   width: 6vmin;
   height: auto;

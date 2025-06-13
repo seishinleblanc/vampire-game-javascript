@@ -14,6 +14,7 @@ import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
 import { getCustomProperty } from './updateCustomProperty.js'
 import { setupDivineKnight, walkOntoScreen } from './divineKnight.js'
+import { setupMana, updateMana } from './mana.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
@@ -32,6 +33,7 @@ const dialogueMood = document.getElementById('dialogue-mood')
 const gameOverMusic = document.querySelector('[data-gameovermusic]')
 const combatMusic = document.querySelector('[data-combatmusic]')
 const heartContainer = document.querySelector('[data-hearts]')
+const manaBar = document.querySelector('.mana-bar')
 const screenFlash = document.getElementById('screen-flash')
 const transitionOverlay = document.getElementById('transition-overlay')
 const dialogueBg = document.getElementById('dialogue-bg')
@@ -42,6 +44,10 @@ const avatarElem = document.getElementById('avatar')
 const speakerNameElem = document.getElementById('speaker-name')
 const bossBg = document.getElementById('boss-bg')
 const controlsScreenElem = document.querySelector('[data-controls-screen]')
+
+// hide UI elements until gameplay begins
+heartContainer.classList.add('hide')
+manaBar.classList.add('hide')
 
 let lastTime
 let speedScale
@@ -103,6 +109,7 @@ function update(time) {
   updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
   updateSpeedScale(delta)
   updateDistance()
+  updateMana(delta)
 
   if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision())) {
     removeHeart()
@@ -289,6 +296,7 @@ function handleStart() {
   const fg = document.querySelector('.farground')
   if (fg) fg.style.display = ''
   currentHearts = MAX_HEARTS
+  setupMana()
   isStaggered = false
   isInvincible = false
   isGameOver = false
@@ -308,6 +316,7 @@ function handleStart() {
   endScreenElem.classList.add('hide')
   gameAreaElem.classList.remove('hide')
   heartContainer.classList.remove('hide')
+  manaBar.classList.remove('hide')
   dialogueBox.classList.add('hidden')
   controlsScreenElem.classList.add('hide')
 
@@ -329,6 +338,7 @@ function handleLose() {
   deathSound.volume = 0.5
 
   heartContainer.classList.add('hide')
+  manaBar.classList.add('hide')
 
   myMusic.pause()
   myMusic.currentTime = 0
