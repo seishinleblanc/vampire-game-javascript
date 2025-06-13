@@ -36,6 +36,7 @@ const deathSound = document.querySelector('[data-deathsound]')
 const dialogueMood = document.getElementById('dialogue-mood')
 const gameOverMusic = document.querySelector('[data-gameovermusic]')
 const combatMusic = document.querySelector('[data-combatmusic]')
+const heartbeat = document.getElementById('heartbeat')
 const heartContainer = document.querySelector('[data-hearts]')
 const manaContainer = document.querySelector('.mana-container')
 const screenFlash = document.getElementById('screen-flash')
@@ -321,6 +322,8 @@ function handleStart() {
   hideBossHealth()
   combatMusic.pause()
   combatMusic.currentTime = 0
+  heartbeat.pause()
+  heartbeat.currentTime = 0
   removeDivineKnight()
   creditScreenElem.classList.add('hide')
   document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'block')
@@ -431,6 +434,11 @@ function handleBossDefeat() {
   creditScreenElem.classList.remove('fade-in')
   void creditScreenElem.offsetWidth
   creditScreenElem.classList.add('fade-in')
+  if (heartbeat.paused) {
+    heartbeat.currentTime = 0
+    heartbeat.volume = 0.5
+    heartbeat.play()
+  }
   setTimeout(() => {
     document.addEventListener('keydown', restartFromCredits, { once: true })
     document.addEventListener('click', restartFromCredits, { once: true })
@@ -441,7 +449,13 @@ function handleBossDefeat() {
 function restartFromCredits(e) {
   if (e) e.preventDefault()
   creditScreenElem.classList.add('hide')
-  handleStart()
+  heartbeat.pause()
+  heartbeat.currentTime = 0
+  document.getElementById('title-bg').style.display = ''
+  startScreenElem.classList.remove('hide')
+  document.addEventListener('keydown', handleTitleKey, { once: true })
+  document.addEventListener('click', handleTitleKey, { once: true })
+  document.addEventListener('touchstart', handleTitleKey, { once: true })
 }
 
   function removeHeart() {
