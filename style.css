@@ -40,15 +40,14 @@ body {
 }
 
 .boss-bg {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  /* Align the background with the horizon so the ground can overlap the
-     bottom portion during the boss fight */
-  object-position: center -34vh;
+  /* Keep the image anchored to the top of the viewport */
+  object-position: top;
   z-index: -10;
   pointer-events: none;
 }
