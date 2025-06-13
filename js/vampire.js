@@ -55,7 +55,7 @@ import { spendMana } from './mana.js'
     setCustomProperty(vampireElem, '--bottom', -5)
     setCustomProperty(vampireElem, '--left', 10)
     vampireElem.style.transform = 'scaleX(1)'
-    vampireElem.src = 'imgs/carmilla/idle/carmilla-idle000.png'
+    vampireElem.src = 'assets/images/carmilla/idle/carmilla-idle000.png'
   
     enableInput(true)
   }
@@ -87,7 +87,7 @@ import { spendMana } from './mana.js'
   }
   
   export function setVampireLose() {
-    vampireElem.src = 'imgs/vampire-death.png'
+    vampireElem.src = 'assets/images/vampire-death.png'
   }
   
   export function getVampireLeft() {
@@ -116,7 +116,7 @@ import { spendMana } from './mana.js'
     if (currentFrameTime >= FRAME_TIME) {
       vampireFrame = (vampireFrame + 1) % VAMPIRE_FRAME_COUNT
       const frameNum = String(vampireFrame + 1).padStart(3, '0')
-      vampireElem.src = `imgs/carmilla/running/carmilla-running${frameNum}.png`
+      vampireElem.src = `assets/images/carmilla/running/carmilla-running${frameNum}.png`
       currentFrameTime -= FRAME_TIME
     }
     currentFrameTime += delta * speedScale
@@ -126,7 +126,7 @@ import { spendMana } from './mana.js'
     if (currentIdleFrameTime >= IDLE_FRAME_TIME) {
       idleFrame = (idleFrame + 1) % IDLE_FRAME_COUNT
       const frameNum = String(idleFrame).padStart(3, '0')
-      vampireElem.src = `imgs/carmilla/idle/carmilla-idle${frameNum}.png`
+      vampireElem.src = `assets/images/carmilla/idle/carmilla-idle${frameNum}.png`
       currentIdleFrameTime -= IDLE_FRAME_TIME
     }
     currentIdleFrameTime += delta
@@ -138,7 +138,7 @@ import { spendMana } from './mana.js'
         jumpFrame++
       }
       const frameNum = String(jumpFrame).padStart(3, '0')
-      vampireElem.src = `imgs/carmilla/jumping/carmilla-jumping${frameNum}.png`
+      vampireElem.src = `assets/images/carmilla/jumping/carmilla-jumping${frameNum}.png`
       currentJumpFrameTime -= JUMP_FRAME_TIME
     }
     currentJumpFrameTime += delta
@@ -148,7 +148,7 @@ import { spendMana } from './mana.js'
     if (getCustomProperty(vampireElem, '--bottom') <= 0) {
       setCustomProperty(vampireElem, '--bottom', 0)
       isJumping = false
-      vampireElem.src = 'imgs/carmilla/running/carmilla-running000.png'
+      vampireElem.src = 'assets/images/carmilla/running/carmilla-running000.png'
     }
   
     yVelocity -= GRAVITY * delta
@@ -165,7 +165,7 @@ import { spendMana } from './mana.js'
       }
 
       const frameNum = String(attackFrame).padStart(3, '0')
-      vampireElem.src = `imgs/carmilla/attack/carmilla-attack${frameNum}.png`
+      vampireElem.src = `assets/images/carmilla/attack/carmilla-attack${frameNum}.png`
 
       if (attackFrame === ATTACK_FRAME_COUNT - 1) {
         const startX = getVampireLeft() + (facingDirection === 1 ? 5 : -2)
@@ -202,7 +202,7 @@ import { spendMana } from './mana.js'
     isJumping = true
     jumpFrame = 0
     currentJumpFrameTime = 0
-    vampireElem.src = 'imgs/carmilla/jumping/carmilla-jumping000.png'
+    vampireElem.src = 'assets/images/carmilla/jumping/carmilla-jumping000.png'
   }
   
   function onAttack() {
@@ -211,7 +211,7 @@ import { spendMana } from './mana.js'
     isAttacking = true
     attackFrame = 0
     currentAttackFrameTime = 0
-    vampireElem.src = 'imgs/carmilla/attack/carmilla-attack000.png'
+    vampireElem.src = 'assets/images/carmilla/attack/carmilla-attack000.png'
   }
   
 
