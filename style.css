@@ -46,7 +46,9 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  object-position: center bottom;
+  /* Align the background with the horizon so the ground can overlap the
+     bottom portion during the boss fight */
+  object-position: center -34vh;
   z-index: -10;
   pointer-events: none;
 }
