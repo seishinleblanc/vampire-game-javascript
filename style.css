@@ -136,15 +136,6 @@ body {
 
 /* 🖤 UI Elements */
 
-.score {
-  position: fixed;
-  font-size: 4vmin;
-  right: 7vmin;
-  top: 1vmin;
-  color: rgb(129, 12, 12);
-  z-index: 999;
-}
-
 .hearts {
   position: fixed;
   top: 2vmin;
