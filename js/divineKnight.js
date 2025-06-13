@@ -25,7 +25,7 @@ export function setupDivineKnight() {
   setCustomProperty(knightElem, '--bottom', 0)
   setCustomProperty(knightElem, '--left', 110)
   knightElem.style.transform = 'scaleX(-1)'
-  knightElem.src = 'imgs/divine-knight/divine-knight-idle/tile000.png'
+  knightElem.src = 'assets/images/divine-knight/divine-knight-idle/tile000.png'
   gameAreaElem.append(knightElem)
   requestAnimationFrame(loop)
 }
@@ -35,7 +35,7 @@ export function walkOntoScreen(callback) {
   knightElem.dataset.state = 'walk'
   walkFrame = 0
   walkFrameTime = 0
-  knightElem.src = 'imgs/divine-knight/divine-knight-walking/divine-knight-walking000.png'
+  knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
   onWalkComplete = callback
 }
 
@@ -57,7 +57,7 @@ function updateKnight(delta) {
   if (state === 'walk') {
     if (walkFrameTime >= WALK_FRAME_TIME) {
       walkFrame = (walkFrame + 1) % WALK_FRAME_COUNT
-      knightElem.src = `imgs/divine-knight/divine-knight-walking/divine-knight-walking${String(walkFrame).padStart(3,'0')}.png`
+      knightElem.src = `assets/images/divine-knight/divine-knight-walking/divine-knight-walking${String(walkFrame).padStart(3,'0')}.png`
       walkFrameTime -= WALK_FRAME_TIME
     }
     walkFrameTime += delta
@@ -70,7 +70,7 @@ function updateKnight(delta) {
   } else {
     if (idleFrameTime >= IDLE_FRAME_TIME) {
       idleFrame = (idleFrame + 1) % IDLE_FRAME_COUNT
-      knightElem.src = `imgs/divine-knight/divine-knight-idle/tile${String(idleFrame).padStart(3,'0')}.png`
+      knightElem.src = `assets/images/divine-knight/divine-knight-idle/tile${String(idleFrame).padStart(3,'0')}.png`
       idleFrameTime -= IDLE_FRAME_TIME
     }
     idleFrameTime += delta

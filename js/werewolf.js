@@ -56,7 +56,7 @@ function spawnWerewolf(cameraX, worldWidth) {
     wolf.style.transform = 'scaleX(-1)'
   }
 
-  wolf.src = 'imgs/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
+  wolf.src = 'assets/images/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
   gameAreaElem.append(wolf)
 }
 
@@ -74,7 +74,7 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
     case 'run':
       if (frameTime >= RUN_FRAME_TIME) {
         frame = (frame + 1) % RUN_FRAME_COUNT
-        wolf.src = `imgs/white-werewolf/white-werewolf-running/white-werewolf-running${String(frame).padStart(3,'0')}.png`
+        wolf.src = `assets/images/white-werewolf/white-werewolf-running/white-werewolf-running${String(frame).padStart(3,'0')}.png`
         frameTime -= RUN_FRAME_TIME
       }
       incrementCustomProperty(wolf, '--left', Number(wolf.dataset.direction) * WEREWOLF_SPEED * delta * speedScale)
@@ -83,7 +83,7 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
         wolf.dataset.state = 'attack'
         frame = 0
         frameTime = 0
-        wolf.src = 'imgs/white-werewolf/white-werewolf-attacking/white-werewolf-attacking000.png'
+        wolf.src = 'assets/images/white-werewolf/white-werewolf-attacking/white-werewolf-attacking000.png'
       }
       break
 
@@ -93,9 +93,9 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
         if (frame >= ATTACK_FRAME_COUNT) {
           wolf.dataset.state = 'run'
           frame = 0
-          wolf.src = 'imgs/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
+          wolf.src = 'assets/images/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
         } else {
-          wolf.src = `imgs/white-werewolf/white-werewolf-attacking/white-werewolf-attacking${String(frame).padStart(3,'0')}.png`
+          wolf.src = `assets/images/white-werewolf/white-werewolf-attacking/white-werewolf-attacking${String(frame).padStart(3,'0')}.png`
         }
         frameTime -= ATTACK_FRAME_TIME
       }
@@ -107,9 +107,9 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
         if (frame >= HURT_FRAME_COUNT) {
           wolf.dataset.state = 'run'
           frame = 0
-          wolf.src = 'imgs/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
+          wolf.src = 'assets/images/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
         } else {
-          wolf.src = `imgs/white-werewolf/white-werewolf-hurt/white-werewolf-hurt${String(frame).padStart(3,'0')}.png`
+          wolf.src = `assets/images/white-werewolf/white-werewolf-hurt/white-werewolf-hurt${String(frame).padStart(3,'0')}.png`
         }
         frameTime -= HURT_FRAME_TIME
       }
@@ -122,7 +122,7 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
           wolf.remove()
           return
         } else {
-          wolf.src = `imgs/white-werewolf/white-werewolf-dead/white-werewolf-dead${String(frame).padStart(3,'0')}.png`
+          wolf.src = `assets/images/white-werewolf/white-werewolf-dead/white-werewolf-dead${String(frame).padStart(3,'0')}.png`
         }
         frameTime -= DEAD_FRAME_TIME
       }
@@ -158,11 +158,11 @@ export function damageWerewolf(wolf) {
     wolf.dataset.state = 'dead'
     wolf.dataset.frame = 0
     wolf.dataset.frameTime = 0
-    wolf.src = 'imgs/white-werewolf/white-werewolf-dead/white-werewolf-dead000.png'
+    wolf.src = 'assets/images/white-werewolf/white-werewolf-dead/white-werewolf-dead000.png'
   } else {
     wolf.dataset.state = 'hurt'
     wolf.dataset.frame = 0
     wolf.dataset.frameTime = 0
-    wolf.src = 'imgs/white-werewolf/white-werewolf-hurt/white-werewolf-hurt000.png'
+    wolf.src = 'assets/images/white-werewolf/white-werewolf-hurt/white-werewolf-hurt000.png'
   }
 }

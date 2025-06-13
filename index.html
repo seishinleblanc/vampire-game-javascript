@@ -5,18 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carmilla: Blood Escape</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js" type="module" defer></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/main.js" type="module" defer></script>
 </head>
 <body>
 
   <!-- 🌌 Static Background Layers -->
-  <img src="imgs/background-updated.png" class="background" data-background hidden />
-  <img src="imgs/background-updated.png" class="background" data-background hidden />
-  <img id="boss-bg" src="imgs/backgrounds/boss-1-background.PNG" class="boss-bg hide" />
-  <img src="imgs/backgrounds/farground.png" class="farground" alt="Far Ground" />
-  <img src="imgs/background-updated.png" class="foreground" alt="Foreground" />
-  <img src="imgs/title-bg.png" id="title-bg" alt="Title Background" />
+  <img src="assets/images/background-updated.png" class="background" data-background hidden />
+  <img src="assets/images/background-updated.png" class="background" data-background hidden />
+  <img id="boss-bg" src="assets/images/backgrounds/boss-1-background.PNG" class="boss-bg hide" />
+  <img src="assets/images/backgrounds/farground.png" class="farground" alt="Far Ground" />
+  <img src="assets/images/background-updated.png" class="foreground" alt="Foreground" />
+  <img src="assets/images/title-bg.png" id="title-bg" alt="Title Background" />
 
 
   <!-- ❤️ Health Bar -->
@@ -39,23 +39,23 @@
     
 
       <!-- Layered Midground -->
-      <img src="imgs/backgrounds/midground-1.png" class="midground" data-midground />
-      <img src="imgs/backgrounds/midground-2.png" class="midground" data-midground />
-      <img src="imgs/backgrounds/midground-1.png" class="midground" data-midground />
-      <img src="imgs/backgrounds/midground-2.png" class="midground" data-midground />
+      <img src="assets/images/backgrounds/midground-1.png" class="midground" data-midground />
+      <img src="assets/images/backgrounds/midground-2.png" class="midground" data-midground />
+      <img src="assets/images/backgrounds/midground-1.png" class="midground" data-midground />
+      <img src="assets/images/backgrounds/midground-2.png" class="midground" data-midground />
 
       <!-- Ground Tiles -->
-      <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground />
-      <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground />
-      <img src="imgs/backgrounds/ground.PNG" class="ground" data-ground />
+      <img src="assets/images/backgrounds/ground.PNG" class="ground" data-ground />
+      <img src="assets/images/backgrounds/ground.PNG" class="ground" data-ground />
+      <img src="assets/images/backgrounds/ground.PNG" class="ground" data-ground />
 
       <!-- Player -->
-      <img src="imgs/carmilla/idle/carmilla-idle000.png" class="vampire" data-vampire />
+      <img src="assets/images/carmilla/idle/carmilla-idle000.png" class="vampire" data-vampire />
 
       <!-- 🎵 Audio -->
-      <audio loop src="sound/background.mp3" class="backgroundmusic" data-backgroundmusic></audio>
-      <audio src="sound/fire-sound.wav" class="firesound" data-firesound></audio>
-      <audio src="sound/vampire-death-sound-female.wav" class="deathsound" data-deathsound></audio>
+      <audio loop src="assets/sounds/background.mp3" class="backgroundmusic" data-backgroundmusic></audio>
+      <audio src="assets/sounds/fire-sound.wav" class="firesound" data-firesound></audio>
+      <audio src="assets/sounds/vampire-death-sound-female.wav" class="deathsound" data-deathsound></audio>
     </div>
   </div>
 
@@ -83,11 +83,11 @@
   </div>
 
   <!-- 🖤 Dialogue Background -->
-  <img id="dialogue-bg" src="imgs/gothic-bedroom.png" alt="Gothic Bedroom Background" />
+  <img id="dialogue-bg" src="assets/images/gothic-bedroom.png" alt="Gothic Bedroom Background" />
 
   <!-- 🗨️ Dialogue Box -->
   <div id="dialogue-box" class="dialogue-box hidden">
-    <img id="avatar" src="imgs/avatar-mirelle.png" alt="Mirelle" />
+    <img id="avatar" src="assets/images/avatar-mirelle.png" alt="Mirelle" />
     <div class="dialogue-content">
       <div id="speaker-name" class="speaker-name">Mirelle</div>
       <div id="dialogue-text">...</div>
@@ -96,9 +96,9 @@
   </div>
 
   <!-- 🎵 Other Audio -->
-  <audio loop id="dialogue-mood" src="sound/dialogue-mood.wav"></audio>
-  <audio src="sound/game-over-music.mp3" class="gameovermusic" data-gameovermusic></audio>
-  <audio loop src="sound/gothic-fight-music.mp3" data-combatmusic></audio>
+  <audio loop id="dialogue-mood" src="assets/sounds/dialogue-mood.wav"></audio>
+  <audio src="assets/sounds/game-over-music.mp3" class="gameovermusic" data-gameovermusic></audio>
+  <audio loop src="assets/sounds/gothic-fight-music.mp3" data-combatmusic></audio>
 
   <!-- 💥 Effects -->
   <div id="screen-flash"></div>

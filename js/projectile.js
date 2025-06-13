@@ -18,7 +18,7 @@ export function createProjectile(x, direction, bottom = 17) {
   proj.dataset.direction = direction
   proj.dataset.frame = '0'
   proj.dataset.frameTime = '0'
-  proj.src = 'imgs/carmilla/attack/projectile000.png'
+  proj.src = 'assets/images/carmilla/attack/projectile000.png'
   proj.classList.add('projectile')
   setCustomProperty(proj, '--left', x)
   setCustomProperty(proj, '--bottom', bottom)
@@ -32,7 +32,7 @@ export function updateProjectiles(delta, cameraX, worldWidth, crossRects) {
     if (frameTime >= FRAME_TIME) {
       let frame = (Number(proj.dataset.frame) + 1) % FRAME_COUNT
       proj.dataset.frame = frame
-      proj.src = `imgs/carmilla/attack/projectile${String(frame).padStart(3, '0')}.png`
+      proj.src = `assets/images/carmilla/attack/projectile${String(frame).padStart(3, '0')}.png`
       frameTime -= FRAME_TIME
     }
     proj.dataset.frameTime = frameTime
