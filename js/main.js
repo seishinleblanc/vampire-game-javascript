@@ -210,6 +210,7 @@ function startBossFight() {
   enableInput(true)
   showBossHealth('Divine Knight Seraphiel')
   stopIdleLoop()
+  bossTriggered = false
   lastTime = null
   window.requestAnimationFrame(update)
 }
