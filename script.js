@@ -70,9 +70,9 @@ const preBossLines = [
 
 let dialogueLines = initialDialogueLines.slice()
 const bossDialogueLines = [
-  { text: 'So you made it this far...', speaker: '???', avatar: 'imgs/avatar-mirelle.png' },
-  { text: "I'm here to end this.", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
-  { text: 'Foolish vampire. Prepare yourself.', speaker: '???', avatar: 'imgs/avatar-mirelle.png' }
+  { text: 'Thats far enough...', speaker: '???', avatar: 'imgs/avatar-mirelle.png' },
+  { text: "You think a pathetic human like you can stop me?", speaker: 'Carmilla', avatar: 'imgs/avatar-carmilla.png' },
+  { text: 'Foolish vampire. I am Divine Knight Seraphiel, blade of the sanctum, warden of the last light. Your sins end here.', speaker: '???', avatar: 'imgs/avatar-mirelle.png' }
 ]
 
 
@@ -213,7 +213,8 @@ function stepOffscreen(time) {
     return
   }
   const delta = time - lastTime
-  updatePlayerAndCamera(delta)
+  // Move Carmilla but keep the camera fixed so she can run off-screen
+  updateVampire(delta, 1)
   updateGround(cameraX)
   lastTime = time
 

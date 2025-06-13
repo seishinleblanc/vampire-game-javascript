@@ -46,6 +46,7 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
+  object-position: center top;
   z-index: -10;
   pointer-events: none;
 }
