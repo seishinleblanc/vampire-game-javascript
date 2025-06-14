@@ -318,6 +318,19 @@ export function getKnightRect() {
   }
 }
 
+export function getKnightAttackRect() {
+  if (!knightElem) return { left: 0, right: 0, top: 0, bottom: 0 }
+  const r = knightElem.getBoundingClientRect()
+  const extendX = r.width * 0.25
+  const insetY = r.height * 0.45
+  return {
+    left: r.left - extendX,
+    right: r.right + extendX,
+    top: r.top + insetY,
+    bottom: r.bottom
+  }
+}
+
 export function removeDivineKnight() {
   if (knightElem) {
     knightElem.remove()

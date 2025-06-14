@@ -252,8 +252,8 @@ body {
   width: 60vmin;
   pointer-events: none;
   z-index: 4;
-  margin-top: -8.5vmin; 
-}sd
+  margin-top: -8.5vmin;
+}
 
 .boss-health-bar {
   position: relative;
