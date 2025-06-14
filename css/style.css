@@ -558,7 +558,7 @@ body.shake {
 .credit-screen {
   position: absolute;
   inset: 0;
-  background: url('../assets/images/backgrounds/credits-background-2.PNG') center/cover no-repeat;
+  background: black;
   color: crimson;
   font-family: VT323-Regular;
   display: flex;
@@ -569,6 +569,20 @@ body.shake {
   z-index: 1000;
   opacity: 0;
   transition: opacity 2s ease;
+}
+
+.credit-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/images/backgrounds/credits-background-2.PNG') center/cover no-repeat;
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: -1;
+}
+
+.credit-screen.show-bg::after {
+  opacity: 1;
 }
 
 .credit-screen.fade-in {
@@ -606,6 +620,12 @@ body.shake {
   position: absolute;
   bottom: 5vmin;
   font-size: 4vmin;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.credit-screen.show-bg .restart-prompt {
+  opacity: 1;
 }
 
 @keyframes scrollCredits {
