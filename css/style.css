@@ -224,7 +224,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: 3vmin; /* lower so health bar is not hidden */
+  top: -2vmin; /* lower so health bar is not hidden */
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -260,11 +260,11 @@ body {
   z-index: 3;
   width: 45vmin;
   height: 2vmin;
-  border: 2px solid crimson;
+  /* border: 2px solid crimson; */
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: -5vmin; /* lowered below the nameplate */
+  margin-top: -6.5vmin; /* lowered below the nameplate */
 }
 
 .boss-health-fill {
