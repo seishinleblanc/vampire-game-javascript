@@ -236,25 +236,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 55vmin;
+  width: 60vmin;
   padding: 1vmin 0;
 }
 
 
-.boss-border {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 55vmin;
-  pointer-events: none;
-  z-index: 1;
-}
 
 .boss-nameplate {
   position: relative;
   margin-bottom: 1vmin;
-  width: 50vmin;
+  width: 60vmin;
   pointer-events: none;
   z-index: 2;
 }
@@ -262,13 +253,13 @@ body {
 .boss-health-bar {
   position: relative;
   z-index: 0;
-  width: 50vmin;
+  width: 45vmin;
   height: 2vmin;
   border: 2px solid crimson;
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 2vmin;
+  margin-top: -4vmin;
 }
 
 .boss-health-fill {
