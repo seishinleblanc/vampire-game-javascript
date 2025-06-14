@@ -212,6 +212,10 @@ body {
   box-shadow: 0 0 6px rgba(90, 30, 112, 0.6);
 }
 
+.mana-bar.shake {
+  animation: screenShake 0.3s;
+}
+
 .mana-fill {
   height: 100%;
   width: 100%;
@@ -220,7 +224,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: -9vmin;
+  top: -12vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -244,7 +248,7 @@ body {
 
 .boss-nameplate {
   position: relative;
-  margin-bottom: 1vmin;
+  margin-bottom: -2vmin;
   width: 60vmin;
   pointer-events: none;
   z-index: 2;
@@ -259,7 +263,7 @@ body {
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: -7.vmin;
+  margin-top: -8vmin;
 }
 
 .boss-health-fill {
@@ -564,7 +568,7 @@ body.shake {
   overflow: hidden;
   z-index: 1000;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 2s ease;
 }
 
 .credit-screen.fade-in {

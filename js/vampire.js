@@ -7,6 +7,8 @@ import {
   } from './updateCustomProperty.js'
 import { createProjectile } from './projectile.js'
 import { spendMana } from './mana.js'
+
+const manaBarElem = document.querySelector('.mana-bar')
   
   const vampireElem = document.querySelector('[data-vampire]')
   const JUMP_SPEED = 0.45
@@ -209,7 +211,14 @@ import { spendMana } from './mana.js'
   
   function onAttack() {
     if (isAttacking || isJumping) return
-    if (!spendMana()) return
+    if (!spendMana()) {
+      if (manaBarElem) {
+        manaBarElem.classList.remove('shake')
+        void manaBarElem.offsetWidth
+        manaBarElem.classList.add('shake')
+      }
+      return
+    }
     isAttacking = true
     attackFrame = 0
     currentAttackFrameTime = 0
