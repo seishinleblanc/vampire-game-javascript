@@ -505,20 +505,21 @@ async function playBossCutscene() {
   stopIdleLoop()
 
   await new Promise(res => startDying(res))
+  setKnightDyingFrame(1)
   await runDialogue(bossDeath1, false)
 
   await moveVampireTo(60)
   await runDialogue(bossDeath2, false)
 
-  setKnightDyingFrame(3)
+  setKnightDyingFrame(2)
   await runDialogue(bossDeath3, false)
 
-  setKnightDyingFrame(2)
+  setKnightDyingFrame(1)
   await runDialogue(bossDeath4, false)
 
   lightOverlay.classList.add('fade-in')
   await delay(1000)
-  setKnightDyingFrame(1)
+  setKnightDyingFrame(0)
   await runDialogue(bossDeath5, false)
 
   lightOverlay.classList.add('flash')
