@@ -18,6 +18,7 @@ import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewo
 import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect, startDying, setKnightDyingFrame, getKnightX } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
+import { setupHearts, updateHearts, getHeartElements } from './hearts.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
@@ -134,6 +135,7 @@ function update(time) {
   updateCross(cameraX)
   updateWerewolves(delta, speedScale, cameraX, WORLD_WIDTH, getVampireX(), bossActive)
   updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
+  updateHearts(cameraX, WORLD_WIDTH)
   updateSpeedScale(delta)
   updateDistance()
   updateMana(delta)
@@ -141,6 +143,7 @@ function update(time) {
   if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision() || checkKnightCollision())) {
     removeHeart()
   }
+  checkHeartPickup()
 
   if (currentHearts <= 0) {
     if (!isGameOver) handleLose()
@@ -241,7 +244,7 @@ function updateDistance() {
 }
 
 function triggerBossEncounter() {
-  startDialogue(bossDialogueLines, startBossFight, false, false)
+  startDialogue(bossDialogueLines, startBossFight, false, true)
 }
 
 function startBossTransition() {
@@ -383,6 +386,7 @@ function handleStart() {
   setupCross()
   setupWerewolves()
   setupProjectiles()
+  setupHearts()
 
   // Hide title splash & show backgrounds
   document.getElementById('title-bg').style.display = 'none'
@@ -611,6 +615,22 @@ function updateHeartDisplay() {
     heart.classList.add('heart')
     if (i < currentHearts) heart.classList.add('full-heart')
     heartContainer.appendChild(heart)
+  }
+}
+
+function addHeart() {
+  if (currentHearts >= MAX_HEARTS) return
+  currentHearts++
+  updateHeartDisplay()
+}
+
+function checkHeartPickup() {
+  const vampireRect = getVampireRect()
+  for (const heart of getHeartElements()) {
+    if (isCollision(heart.getBoundingClientRect(), vampireRect)) {
+      heart.remove()
+      addHeart()
+    }
   }
 }
 

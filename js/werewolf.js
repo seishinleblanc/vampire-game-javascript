@@ -1,4 +1,5 @@
 import { getCustomProperty, setCustomProperty, incrementCustomProperty } from './updateCustomProperty.js'
+import { spawnHeart } from './hearts.js'
 
 const gameAreaElem = document.querySelector('[data-game-area]')
 
@@ -121,6 +122,9 @@ function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {
       if (frameTime >= DEAD_FRAME_TIME) {
         frame++
         if (frame >= DEAD_FRAME_COUNT) {
+          if (wolf.dataset.dropHeart === '1') {
+            spawnHeart(getCustomProperty(wolf, '--left'))
+          }
           wolf.remove()
           return
         } else {
@@ -158,6 +162,7 @@ export function damageWerewolf(wolf) {
   wolf.dataset.hits = hits
   if (hits >= 3) {
     wolf.dataset.state = 'dead'
+    wolf.dataset.dropHeart = Math.random() < 0.3 ? '1' : '0'
     wolf.dataset.frame = 0
     wolf.dataset.frameTime = 0
     wolf.src = 'assets/images/white-werewolf/white-werewolf-dead/white-werewolf-dead000.png'
