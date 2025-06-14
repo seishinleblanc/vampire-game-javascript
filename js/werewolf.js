@@ -162,7 +162,7 @@ export function damageWerewolf(wolf) {
   wolf.dataset.hits = hits
   if (hits >= 3) {
     wolf.dataset.state = 'dead'
-    wolf.dataset.dropHeart = Math.random() < 0.3 ? '1' : '0'
+    wolf.dataset.dropHeart = Math.random() < 0.6 ? '1' : '0'
     wolf.dataset.frame = 0
     wolf.dataset.frameTime = 0
     wolf.src = 'assets/images/white-werewolf/white-werewolf-dead/white-werewolf-dead000.png'

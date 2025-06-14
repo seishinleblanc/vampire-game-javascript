@@ -14,7 +14,7 @@ export function spawnHeart(worldX) {
   heart.src = 'assets/images/heart-full.png'
   heart.classList.add('pickup-heart')
   setCustomProperty(heart, '--left', worldX)
-  setCustomProperty(heart, '--bottom', 0)
+  setCustomProperty(heart, '--bottom', 5)
   gameAreaElem.append(heart)
 }
 

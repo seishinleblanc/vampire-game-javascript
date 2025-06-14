@@ -165,12 +165,31 @@ body {
 
 .pickup-heart {
   --left: 0;
+  --bottom: 5;
   position: absolute;
-  width: 6vmin;
-  bottom: 0;
+  width: 8vmin;
+  bottom: calc(var(--bottom) * 1%);
   left: calc(var(--left) * 1%);
   z-index: 3;
   visibility: hidden;
+  transform-origin: center;
+  animation: pulse 0.8s infinite;
+}
+
+.essence-warning {
+  --left: 0;
+  --bottom: 0;
+  position: absolute;
+  color: crimson;
+  font-family: VT323-Regular;
+  font-size: 4vmin;
+  left: calc(var(--left) * 1%);
+  bottom: calc(var(--bottom) * 1%);
+  transform: translate(-50%, 0);
+  text-shadow: 0 0 2px black;
+  pointer-events: none;
+  z-index: 6;
+  animation: floatText 1s forwards;
 }
 
 
@@ -181,7 +200,8 @@ body {
 .game-area .projectile,
 .game-area .werewolf,
 .game-area .divine-knight,
-.game-area .pickup-heart {
+.game-area .pickup-heart,
+.game-area .essence-warning {
   visibility: visible;
 }
 
@@ -410,6 +430,16 @@ body {
   0%, 100% { transform: translate(0, 0); }
   20%, 60% { transform: translate(-3px, 0); }
   40%, 80% { transform: translate(3px, 0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes floatText {
+  from { opacity: 1; transform: translate(-50%, 0); }
+  to { opacity: 0; transform: translate(-50%, 2vmin); }
 }
 
 body.shake {
