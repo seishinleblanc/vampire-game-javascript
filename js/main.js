@@ -15,7 +15,7 @@ import {
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
-import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect, startDying, setKnightDyingFrame } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect, startDying, setKnightDyingFrame, getKnightX } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
 
@@ -506,21 +506,21 @@ async function playBossCutscene() {
 
   await new Promise(res => startDying(res))
   setKnightDyingFrame(1)
-  await runDialogue(bossDeath1, false)
+  await runDialogue(bossDeath1, false, false)
 
-  await moveVampireTo(60)
-  await runDialogue(bossDeath2, false)
+  await moveVampireTo(getKnightX() - 5)
+  await runDialogue(bossDeath2, false, false)
 
   setKnightDyingFrame(2)
-  await runDialogue(bossDeath3, false)
+  await runDialogue(bossDeath3, false, false)
 
   setKnightDyingFrame(1)
-  await runDialogue(bossDeath4, false)
+  await runDialogue(bossDeath4, false, false)
 
   lightOverlay.classList.add('fade-in')
   await delay(1000)
   setKnightDyingFrame(0)
-  await runDialogue(bossDeath5, false)
+  await runDialogue(bossDeath5, false, false)
 
   lightOverlay.classList.add('flash')
   await delay(200)
@@ -532,8 +532,8 @@ async function playBossCutscene() {
   showCreditsScreen()
 }
 
-function runDialogue(lines, withBg = false) {
-  return new Promise(resolve => startDialogue(lines, resolve, withBg))
+function runDialogue(lines, withBg = false, playMusic = true) {
+  return new Promise(resolve => startDialogue(lines, resolve, withBg, playMusic))
 }
 
 function delay(ms) {
@@ -628,13 +628,15 @@ function setPixelToWorldScale() {
 // 🩸 Dialogue System
 
 let dialogueWithBg = true
+let dialoguePlayMusic = true
 
-function startDialogue(lines, onComplete, withBg = true) {
+function startDialogue(lines, onComplete, withBg = true, playMusic = true) {
   dialogueLines = lines
   currentLine = 0
   lastAdvanceTime = 0
   onDialogueComplete = onComplete
   dialogueWithBg = withBg
+  dialoguePlayMusic = playMusic
   showDialogue()
 }
 
@@ -656,10 +658,12 @@ function showDialogue() {
   void dialogueBox.offsetWidth
   dialogueBox.classList.add('fade-in')
 
-  if (dialogueMood.paused) {
+  if (dialoguePlayMusic && dialogueMood.paused) {
     dialogueMood.currentTime = 0
     dialogueMood.volume = 0.4
     dialogueMood.play()
+  } else if (!dialoguePlayMusic) {
+    dialogueMood.pause()
   }
 
   showDialogueLine(currentLine)

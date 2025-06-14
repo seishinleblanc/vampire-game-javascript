@@ -300,6 +300,10 @@ export function getKnightElement() {
   return knightElem
 }
 
+export function getKnightX() {
+  return knightElem ? getCustomProperty(knightElem, '--left') : 0
+}
+
 export function damageDivineKnight(amount) {
   if (!knightElem) return false
   if (Math.random() < DEFEND_CHANCE) {
