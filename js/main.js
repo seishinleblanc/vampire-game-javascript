@@ -15,9 +15,10 @@ import {
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
-import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect, startDying, setKnightDyingFrame, getKnightX } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
+import { setupHearts, updateHearts, getHeartElements } from './hearts.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
@@ -51,6 +52,7 @@ const controlsScreenElem = document.querySelector('[data-controls-screen]')
 const creditScreenElem = document.querySelector('[data-credit-screen]')
 const creditContentElem = document.querySelector('[data-credit-content]')
 const restartPromptElem = document.querySelector('[data-restart-prompt]')
+const lightOverlay = document.getElementById('light-overlay')
 
 let lastTime
 let speedScale
@@ -76,6 +78,28 @@ const initialDialogueLines = [
 
 const preBossLines = [
   { text: "I can see the forest up ahead, I've made it out!", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' }
+]
+
+const bossDeath1 = [
+  { text: "No... it can't end like this.", speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath2 = [
+  { text: 'Breath easy. The Creator calls you home.', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: 'No....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' },
+  { text: 'My service to her is not yet finished.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath3 = [
+  { text: 'Creator, grant me strength one last time.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath4 = [
+  { text: 'Divine....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath5 = [
+  { text: 'RETRIBUTION!', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 let dialogueLines = initialDialogueLines.slice()
@@ -111,6 +135,7 @@ function update(time) {
   updateCross(cameraX)
   updateWerewolves(delta, speedScale, cameraX, WORLD_WIDTH, getVampireX(), bossActive)
   updateProjectiles(delta, cameraX, WORLD_WIDTH, getCrossRects())
+  updateHearts(cameraX, WORLD_WIDTH)
   updateSpeedScale(delta)
   updateDistance()
   updateMana(delta)
@@ -118,6 +143,7 @@ function update(time) {
   if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision() || checkKnightCollision())) {
     removeHeart()
   }
+  checkHeartPickup()
 
   if (currentHearts <= 0) {
     if (!isGameOver) handleLose()
@@ -218,7 +244,7 @@ function updateDistance() {
 }
 
 function triggerBossEncounter() {
-  startDialogue(bossDialogueLines, startBossFight, false, false)
+  startDialogue(bossDialogueLines, startBossFight, false, true)
 }
 
 function startBossTransition() {
@@ -360,6 +386,7 @@ function handleStart() {
   setupCross()
   setupWerewolves()
   setupProjectiles()
+  setupHearts()
 
   // Hide title splash & show backgrounds
   document.getElementById('title-bg').style.display = 'none'
@@ -433,12 +460,16 @@ function handleLose() {
   }, 300)
 }
 
-function handleBossDefeat() {
+async function handleBossDefeat() {
   bossActive = false
   bossTriggered = true
   combatMusic.pause()
   combatMusic.currentTime = 0
   hideBossHealth()
+  await playBossCutscene()
+}
+
+function showCreditsScreen() {
   removeDivineKnight()
   heartContainer.classList.add('hide')
   manaContainer.classList.add('hide')
@@ -467,9 +498,77 @@ function handleBossDefeat() {
       document.addEventListener('keydown', restartFromCredits, { once: true })
       document.addEventListener('click', restartFromCredits, { once: true })
       document.addEventListener('touchstart', restartFromCredits, { once: true })
-    }, 1000) // show prompt after background image fades in
+    }, 1000)
   }
   creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
+}
+
+async function playBossCutscene() {
+  enableInput(false)
+  setMoveDirection(0)
+  stopIdleLoop()
+
+  await new Promise(res => startDying(res))
+  setKnightDyingFrame(1)
+  await runDialogue(bossDeath1, false, false)
+
+  await moveVampireTo(getKnightX() - 5)
+  await runDialogue(bossDeath2, false, false)
+
+  setKnightDyingFrame(2)
+  await runDialogue(bossDeath3, false, false)
+
+  setKnightDyingFrame(1)
+  await runDialogue(bossDeath4, false, false)
+
+  lightOverlay.classList.add('fade-in')
+  await delay(1000)
+  setKnightDyingFrame(0)
+  await runDialogue(bossDeath5, false, false)
+
+  lightOverlay.classList.add('flash')
+  await delay(200)
+  transitionOverlay.classList.add('fade-out')
+  await delay(1500)
+  lightOverlay.classList.remove('flash')
+  lightOverlay.classList.remove('fade-in')
+
+  showCreditsScreen()
+}
+
+function runDialogue(lines, withBg = false, playMusic = true) {
+  return new Promise(resolve => startDialogue(lines, resolve, withBg, playMusic))
+}
+
+function delay(ms) {
+  return new Promise(r => setTimeout(r, ms))
+}
+
+function moveVampireTo(targetX) {
+  return new Promise(resolve => {
+    const dir = targetX < getVampireX() ? -1 : 1
+    setMoveDirection(dir)
+    lastTime = null
+    const step = time => {
+      if (lastTime == null) {
+        lastTime = time
+        requestAnimationFrame(step)
+        return
+      }
+      const delta = time - lastTime
+      updateVampire(delta, 1)
+      lastTime = time
+      const x = getVampireX()
+      if ((dir === 1 && x >= targetX) || (dir === -1 && x <= targetX)) {
+        setMoveDirection(0)
+        enterIdle()
+        resolve()
+      } else {
+        requestAnimationFrame(step)
+      }
+    }
+    requestAnimationFrame(step)
+  })
 }
 
 function restartFromCredits(e) {
@@ -519,6 +618,22 @@ function updateHeartDisplay() {
   }
 }
 
+function addHeart() {
+  if (currentHearts >= MAX_HEARTS) return
+  currentHearts++
+  updateHeartDisplay()
+}
+
+function checkHeartPickup() {
+  const vampireRect = getVampireRect()
+  for (const heart of getHeartElements()) {
+    if (isCollision(heart.getBoundingClientRect(), vampireRect)) {
+      heart.remove()
+      addHeart()
+    }
+  }
+}
+
 function setPixelToWorldScale() {
   let scale
   if (window.innerWidth / window.innerHeight < WORLD_WIDTH / WORLD_HEIGHT) {
@@ -533,13 +648,15 @@ function setPixelToWorldScale() {
 // 🩸 Dialogue System
 
 let dialogueWithBg = true
+let dialoguePlayMusic = true
 
-function startDialogue(lines, onComplete, withBg = true) {
+function startDialogue(lines, onComplete, withBg = true, playMusic = true) {
   dialogueLines = lines
   currentLine = 0
   lastAdvanceTime = 0
   onDialogueComplete = onComplete
   dialogueWithBg = withBg
+  dialoguePlayMusic = playMusic
   showDialogue()
 }
 
@@ -561,10 +678,12 @@ function showDialogue() {
   void dialogueBox.offsetWidth
   dialogueBox.classList.add('fade-in')
 
-  if (dialogueMood.paused) {
+  if (dialoguePlayMusic && dialogueMood.paused) {
     dialogueMood.currentTime = 0
     dialogueMood.volume = 0.4
     dialogueMood.play()
+  } else if (!dialoguePlayMusic) {
+    dialogueMood.pause()
   }
 
   showDialogueLine(currentLine)

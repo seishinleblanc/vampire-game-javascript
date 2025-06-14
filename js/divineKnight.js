@@ -28,6 +28,7 @@ const ATTACK3_RANGE = 15
 const RUN_ATTACK_DISTANCE = 20
 const RUN_ATTACK_SPEED = 0.03
 const DEFEND_CHANCE = 0.25
+const DYING_FRAME_TIME = 200
 
 let knightElem
 let walkFrame = 0
@@ -38,6 +39,7 @@ let attackFrame = 0
 let attackFrameTime = 0
 let lastTime = null
 let onWalkComplete = null
+let deathCallback = null
 
 export function setupDivineKnight() {
   knightElem = document.createElement('img')
@@ -132,6 +134,9 @@ function updateKnight(delta) {
 
     case 'hurt':
       handleHurt(delta)
+      break
+
+    case 'dead':
       break
 
     default:
@@ -295,14 +300,24 @@ export function getKnightElement() {
   return knightElem
 }
 
+export function getKnightX() {
+  return knightElem ? getCustomProperty(knightElem, '--left') : 0
+}
+
 export function damageDivineKnight(amount) {
   if (!knightElem) return false
   if (Math.random() < DEFEND_CHANCE) {
     startDefend()
     return false
   }
-  startHurt()
-  return damageBoss(amount)
+  const dead = damageBoss(amount)
+  if (dead) {
+    startDying()
+    return true
+  } else {
+    startHurt()
+    return false
+  }
 }
 
 export function getKnightRect() {
@@ -329,6 +344,20 @@ export function getKnightAttackRect() {
     top: r.top + insetY,
     bottom: r.bottom
   }
+}
+
+export function setKnightDyingFrame(frame) {
+  if (!knightElem) return
+  knightElem.src = `assets/images/divine-knight/divine-knight-dying/divine-knight-dying${String(frame).padStart(3,'0')}.png`
+}
+
+export function startDying(callback) {
+  if (!knightElem) { if (callback) callback(); return }
+  const dir = getVampireX() < getCustomProperty(knightElem, '--left') ? -1 : 1
+  knightElem.style.transform = dir === -1 ? 'scaleX(-1)' : 'scaleX(1)'
+  knightElem.dataset.state = 'dead'
+  setKnightDyingFrame(0)
+  if (callback) setTimeout(callback, DYING_FRAME_TIME * 2)
 }
 
 export function removeDivineKnight() {
