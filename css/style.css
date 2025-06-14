@@ -183,6 +183,8 @@ body {
   color: crimson;
   font-family: VT323-Regular;
   font-size: 4vmin;
+  width: 22vmin;
+  text-align: center;
   left: calc(var(--left) * 1%);
   bottom: calc(var(--bottom) * 1%);
   transform: translate(-50%, 0);
