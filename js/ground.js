@@ -4,7 +4,7 @@ import {
 } from './updateCustomProperty.js'
 
 const GROUND_WIDTH = 100
-const MIDGROUND_WIDTH = 100
+const MIDGROUND_WIDTH = 50
 const BACKGROUND_WIDTH = 100
 const FOREGROUND_WIDTH = 100
 const FOREGROUND_SPEED = 1.2
