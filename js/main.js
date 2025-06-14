@@ -447,10 +447,12 @@ function handleBossDefeat() {
   }
 
   const onCreditsEnd = () => {
-    creditScreenElem.classList.add('show-bg')
-    document.addEventListener('keydown', restartFromCredits, { once: true })
-    document.addEventListener('click', restartFromCredits, { once: true })
-    document.addEventListener('touchstart', restartFromCredits, { once: true })
+    setTimeout(() => {
+      creditScreenElem.classList.add('show-bg')
+      document.addEventListener('keydown', restartFromCredits, { once: true })
+      document.addEventListener('click', restartFromCredits, { once: true })
+      document.addEventListener('touchstart', restartFromCredits, { once: true })
+    }, 50000)
   }
   creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
 }
