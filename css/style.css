@@ -33,7 +33,7 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  transform: translateX(calc(var(--left, 0) * 1%));
+  transform: translateX(calc(var(--left, 0) * 1vw));
   z-index: -10;
   pointer-events: none;
   image-rendering: pixelated;
@@ -59,9 +59,8 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  object-position: center -34vh;
+  object-position: top;
   image-rendering: pixelated;
-  clip-path: inset(0 0 20% 0);
   z-index: -9;
   pointer-events: none;
 }
@@ -70,7 +69,7 @@ body {
   --left: 0;
   position: absolute;
   bottom: 0;
-  left: calc(var(--left) * 1%);
+  left: calc(var(--left) * 1vw);
   width: 100vw;
   height: 100vh;
   object-fit: cover;
@@ -84,10 +83,11 @@ body {
 .midground {
   --left: 0;
   position: absolute;
-  bottom: -6.2vh;
-  width: 100%;
-  height: 50vw;
-  left: calc(var(--left) * 1%);
+  top: 0;
+  left: calc(var(--left) * 1vw);
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
   z-index: -1;
   image-rendering: pixelated;
   pointer-events: none;
@@ -97,10 +97,10 @@ body {
 .ground {
   --left: 0;
   position: absolute;
-  width: 100%;
+  width: 100vw;
   height: 15vh;
   bottom: 0;
-  left: calc(var(--left) * 1%);
+  left: calc(var(--left) * 1vw);
   transform: translateY(10vh);
   z-index: 2;
   visibility: hidden;
@@ -654,7 +654,7 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 45s linear forwards;
+  animation: scrollCredits 40s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
