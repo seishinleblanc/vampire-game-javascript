@@ -8,6 +8,8 @@ import {
 import { createProjectile } from './projectile.js'
 import { spendMana } from './mana.js'
 
+const gameAreaElem = document.querySelector('[data-game-area]')
+
 const manaBarElem = document.querySelector('.mana-bar')
   
   const vampireElem = document.querySelector('[data-vampire]')
@@ -24,6 +26,13 @@ const manaBarElem = document.querySelector('.mana-bar')
   const IDLE_FRAME_TIME = 100
   const ATTACK_FRAME_COUNT = 6
   const ATTACK_FRAME_TIME = 100
+
+  const ESSENCE_MESSAGES = [
+    "I don't have enough essence.",
+    "I can't do that right now.",
+    "My life force is running thin.",
+    "I need more vampiric essence."
+  ]
   
   let isJumping
   let isAttacking
@@ -218,6 +227,7 @@ const manaBarElem = document.querySelector('.mana-bar')
         void manaBarElem.offsetWidth
         manaBarElem.classList.add('shake')
       }
+      showEssenceWarning()
       return
     }
     isAttacking = true
@@ -273,6 +283,18 @@ const manaBarElem = document.querySelector('.mana-bar')
       moveDirection = 0
       inputEnabled = false
     }
+  }
+
+  function showEssenceWarning() {
+    const msg = ESSENCE_MESSAGES[Math.floor(Math.random() * ESSENCE_MESSAGES.length)]
+    const text = document.createElement('div')
+    text.textContent = msg
+    text.dataset.warning = true
+    text.classList.add('essence-warning')
+    setCustomProperty(text, '--left', getVampireLeft() + 5)
+    setCustomProperty(text, '--bottom', getCustomProperty(vampireElem, '--bottom') + 25)
+    gameAreaElem.append(text)
+    text.addEventListener('animationend', () => text.remove())
   }
 
 
