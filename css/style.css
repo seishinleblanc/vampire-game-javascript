@@ -163,6 +163,16 @@ body {
   visibility: hidden;
 }
 
+.pickup-heart {
+  --left: 0;
+  position: absolute;
+  width: 6vmin;
+  bottom: 0;
+  left: calc(var(--left) * 1%);
+  z-index: 3;
+  visibility: hidden;
+}
+
 
 .game-area .midground,
 .game-area .ground,
@@ -170,7 +180,8 @@ body {
 .game-area .cross,
 .game-area .projectile,
 .game-area .werewolf,
-.game-area .divine-knight {
+.game-area .divine-knight,
+.game-area .pickup-heart {
   visibility: visible;
 }
 
@@ -611,7 +622,7 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 35s linear forwards;
+  animation: scrollCredits 45s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
@@ -651,7 +662,7 @@ body.shake {
 
 @keyframes scrollCredits {
   from { transform: translateY(100%); }
-  to { transform: translateY(-100%); }
+  to { transform: translateY(-110%); }
 }
 
 
