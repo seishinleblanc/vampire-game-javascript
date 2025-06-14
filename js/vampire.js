@@ -26,6 +26,8 @@ const manaBarElem = document.querySelector('.mana-bar')
   const IDLE_FRAME_TIME = 100
   const ATTACK_FRAME_COUNT = 6
   const ATTACK_FRAME_TIME = 100
+  const DYING_FRAME_COUNT = 8
+  const DYING_FRAME_TIME = 100
 
   const ESSENCE_MESSAGES = [
     "I don't have enough essence.",
@@ -51,6 +53,7 @@ const manaBarElem = document.querySelector('.mana-bar')
   let idleLoopId = null
   let idleLastTime = null
   let essenceWarningActive = false
+  let dyingIntervalId = null
   
   export function setupVampire() {
     isJumping = false
@@ -66,6 +69,10 @@ const manaBarElem = document.querySelector('.mana-bar')
     yVelocity = 0
     moveDirection = 0
     facingDirection = 1
+    if (dyingIntervalId != null) {
+      clearInterval(dyingIntervalId)
+      dyingIntervalId = null
+    }
   
     setCustomProperty(vampireElem, '--bottom', -5)
     setCustomProperty(vampireElem, '--left', 10)
@@ -102,7 +109,19 @@ const manaBarElem = document.querySelector('.mana-bar')
   }
   
   export function setVampireLose() {
-    vampireElem.src = 'assets/images/vampire-death.png'
+    if (dyingIntervalId != null) return
+    let frame = 0
+    vampireElem.src = 'assets/images/carmilla/carmilla-dying/carmilla-dying000.png'
+    dyingIntervalId = setInterval(() => {
+      frame++
+      if (frame >= DYING_FRAME_COUNT) {
+        clearInterval(dyingIntervalId)
+        dyingIntervalId = null
+        return
+      }
+      const frameNum = String(frame).padStart(3, '0')
+      vampireElem.src = `assets/images/carmilla/carmilla-dying/carmilla-dying${frameNum}.png`
+    }, DYING_FRAME_TIME)
   }
   
   export function getVampireLeft() {

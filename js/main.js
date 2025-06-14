@@ -432,7 +432,7 @@ function handleLose() {
   gameOverMusic.volume = 0.4
   gameOverMusic.play()
 
-  // allow death animation to play before fading
+  // allow full death animation to play before fading
   setTimeout(() => {
     transitionOverlay.style.transition = 'opacity 2s ease'
     transitionOverlay.classList.add('fade-out')
@@ -457,7 +457,7 @@ function handleLose() {
 
     transitionOverlay.addEventListener('transitionend', showGameOver, { once: true })
   setTimeout(showGameOver, 2100) // fallback in case transitionend doesn't fire
-  }, 300)
+  }, 800)
 }
 
 async function handleBossDefeat() {
