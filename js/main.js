@@ -16,7 +16,7 @@ import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
 import { getCustomProperty } from './updateCustomProperty.js'
-import { setupDivineKnight, walkOntoScreen, removeDivineKnight } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
 
@@ -116,7 +116,7 @@ function update(time) {
   updateDistance()
   updateMana(delta)
 
-  if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision())) {
+  if (!isInvincible && (checkCrossCollision() || checkWerewolfCollision() || checkKnightCollision())) {
     removeHeart()
   }
 
@@ -181,6 +181,18 @@ function checkWerewolfCollision() {
   })
 }
 
+function checkKnightCollision() {
+  const knight = getKnightElement()
+  if (!knight) return false
+  const state = knight.dataset.state
+  if (!state || !state.startsWith('attack')) return false
+  const frame = Number(knight.dataset.frame)
+  if (frame < 2) return false
+  const range = state === 'attack3' ? 15 : 10
+  const distance = Math.abs(getCustomProperty(knight, '--left') - getVampireX())
+  return distance <= range
+}
+
 function isCollision(r1, r2) {
   return (
     r1.left < r2.right &&
@@ -227,6 +239,7 @@ function startBossFight() {
   combatMusic.play()
   enableInput(true)
   showBossHealth()
+  startKnightAI()
   stopIdleLoop()
   bossActive = true
   bossTriggered = false
