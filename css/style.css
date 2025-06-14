@@ -611,7 +611,7 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 45s linear forwards;
+  animation: scrollCredits 35s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
