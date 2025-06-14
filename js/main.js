@@ -15,15 +15,14 @@ import {
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
-import { getCustomProperty } from './updateCustomProperty.js'
-import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
 const SPEED_SCALE_INCREASE = 0.00001
-const MAX_HEARTS = 5
+const MAX_HEARTS = 6
 const CAMERA_DEADZONE = 5  // how far from center before camera scrolls
 
 const worldElem = document.querySelector('[data-world]')
@@ -188,9 +187,9 @@ function checkKnightCollision() {
   if (!state || !state.startsWith('attack')) return false
   const frame = Number(knight.dataset.frame)
   if (frame < 2) return false
-  const range = state === 'attack3' ? 15 : 10
-  const distance = Math.abs(getCustomProperty(knight, '--left') - getVampireX())
-  return distance <= range
+  const knightRect = getKnightRect()
+  const vampireRect = getVampireRect()
+  return isCollision(knightRect, vampireRect)
 }
 
 function isCollision(r1, r2) {
@@ -462,15 +461,13 @@ function handleBossDefeat() {
   }
 
   const onCreditsEnd = () => {
+    creditScreenElem.classList.add('show-bg')
     setTimeout(() => {
-      creditScreenElem.classList.add('show-bg')
-      setTimeout(() => {
-        creditScreenElem.classList.add('show-prompt')
-        document.addEventListener('keydown', restartFromCredits, { once: true })
-        document.addEventListener('click', restartFromCredits, { once: true })
-        document.addEventListener('touchstart', restartFromCredits, { once: true })
-      }, 2000)
-    }, 37500)
+      creditScreenElem.classList.add('show-prompt')
+      document.addEventListener('keydown', restartFromCredits, { once: true })
+      document.addEventListener('click', restartFromCredits, { once: true })
+      document.addEventListener('touchstart', restartFromCredits, { once: true })
+    }, 2000)
   }
   creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
 }

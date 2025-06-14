@@ -3,8 +3,8 @@ import { getVampireX } from './vampire.js'
 
 const gameAreaElem = document.querySelector('[data-game-area]')
 
-const WALK_SPEED = 0.03
-const MOVE_SPEED = 0.02
+const WALK_SPEED = 0.015
+const MOVE_SPEED = 0.01
 const WALK_FRAME_COUNT = 8
 const WALK_FRAME_TIME = 100
 const IDLE_FRAME_COUNT = 4
@@ -190,7 +190,7 @@ export function getKnightRect() {
   if (!knightElem) return { left: 0, right: 0, top: 0, bottom: 0 }
   const r = knightElem.getBoundingClientRect()
   const insetX = r.width * 0.45
-  const insetY = r.height * 0.3
+  const insetY = r.height * 0.45
   return {
     left: r.left + insetX,
     right: r.right - insetX,
