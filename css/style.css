@@ -248,7 +248,7 @@ body {
 
 .boss-nameplate {
   position: relative;
-  margin-bottom: -2vmin;
+  margin-bottom: 1vmin;
   width: 60vmin;
   pointer-events: none;
   z-index: 2;
