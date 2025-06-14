@@ -224,7 +224,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: 20vmin;
+  top: 8vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
