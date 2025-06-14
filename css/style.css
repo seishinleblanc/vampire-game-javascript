@@ -85,7 +85,7 @@ body {
   position: fixed;
   top: 0;
   left: calc(var(--left) * 1vw);
-  width: 50vw;
+  width: 100vw;
   height: 100vh;
   object-fit: cover;
   object-position: top;
@@ -98,11 +98,10 @@ body {
 .ground {
   --left: 0;
   position: fixed;
-  width: 100vw;
-  height: 15vh;
-  bottom: 0;
+  top: 0;
   left: calc(var(--left) * 1vw);
-  transform: translateY(10vh);
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   object-position: top;
   z-index: 2;
