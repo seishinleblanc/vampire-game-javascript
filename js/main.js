@@ -244,7 +244,7 @@ function updateDistance() {
 }
 
 function triggerBossEncounter() {
-  startDialogue(bossDialogueLines, startBossFight, false, true)
+  startDialogue(bossDialogueLines, startBossFight, false, false)
 }
 
 function startBossTransition() {
@@ -259,9 +259,6 @@ function startBossFight() {
   myMusic.currentTime = 0
   dialogueMood.pause()
   dialogueMood.currentTime = 0
-  combatMusic.currentTime = 0
-  combatMusic.volume = 0.4
-  combatMusic.play()
   enableInput(true)
   showBossHealth()
   startKnightAI()
@@ -678,7 +675,14 @@ function showDialogue() {
   void dialogueBox.offsetWidth
   dialogueBox.classList.add('fade-in')
 
-  if (dialoguePlayMusic && dialogueMood.paused) {
+  if (dialogueLines === bossDialogueLines) {
+    if (combatMusic.paused) {
+      combatMusic.currentTime = 0
+      combatMusic.volume = 0.4
+      combatMusic.play()
+    }
+    dialogueMood.pause()
+  } else if (dialoguePlayMusic && dialogueMood.paused) {
     dialogueMood.currentTime = 0
     dialogueMood.volume = 0.4
     dialogueMood.play()
