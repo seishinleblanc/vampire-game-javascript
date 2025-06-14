@@ -33,7 +33,7 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  transform: translateX(calc(var(--left, 0) * 1%));
+  transform: translateX(calc(var(--left, 0) * 1vw));
   z-index: -10;
   pointer-events: none;
   image-rendering: pixelated;
@@ -69,7 +69,7 @@ body {
   --left: 0;
   position: absolute;
   bottom: 0;
-  left: calc(var(--left) * 1%);
+  left: calc(var(--left) * 1vw);
   width: 100vw;
   height: 100vh;
   object-fit: cover;
@@ -84,7 +84,7 @@ body {
   --left: 0;
   position: absolute;
   top: 0;
-  left: calc(var(--left) * 1%);
+  left: calc(var(--left) * 1vw);
   width: 100vw;
   height: 100vh;
   object-fit: cover;
@@ -100,7 +100,7 @@ body {
   width: 100vw;
   height: 15vh;
   bottom: 0;
-  left: calc(var(--left) * 1%);
+  left: calc(var(--left) * 1vw);
   transform: translateY(10vh);
   z-index: 2;
   visibility: hidden;
