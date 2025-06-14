@@ -11,7 +11,8 @@ import { spendMana } from './mana.js'
 const manaBarElem = document.querySelector('.mana-bar')
   
   const vampireElem = document.querySelector('[data-vampire]')
-  const JUMP_SPEED = 0.432 // reduced jump height by 20%
+  // Increase jump height slightly to make it easier to clear the divine knight
+  const JUMP_SPEED = 0.48 // about 11% higher than before
   const GRAVITY = 0.0015
   const MOVE_SPEED = 0.02
   const JUMP_SPEED_MULT = 1.8
