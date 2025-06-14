@@ -467,7 +467,7 @@ function handleBossDefeat() {
       document.addEventListener('keydown', restartFromCredits, { once: true })
       document.addEventListener('click', restartFromCredits, { once: true })
       document.addEventListener('touchstart', restartFromCredits, { once: true })
-    }, 2000)
+    }, 1000) // show prompt after background image fades in
   }
   creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
 }
