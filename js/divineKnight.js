@@ -27,7 +27,7 @@ const ATTACK_RANGE = 10
 const ATTACK3_RANGE = 15
 const RUN_ATTACK_DISTANCE = 20
 const RUN_ATTACK_SPEED = 0.03
-const DEFEND_CHANCE = 0.2
+const DEFEND_CHANCE = 0.25
 
 let knightElem
 let walkFrame = 0

@@ -224,7 +224,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: 2vmin;
+  top: -2vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -577,7 +577,7 @@ body.shake {
   inset: 0;
   background: url('../assets/images/backgrounds/credits-background-2.PNG') center/cover no-repeat;
   opacity: 0;
-  transition: opacity 2s ease;
+  transition: opacity 1s ease;
   z-index: -1;
 }
 
@@ -590,7 +590,7 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 60s linear forwards;
+  animation: scrollCredits 45s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
