@@ -15,7 +15,7 @@ import {
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
-import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect, startDying, setKnightDyingFrame } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
 
@@ -51,6 +51,7 @@ const controlsScreenElem = document.querySelector('[data-controls-screen]')
 const creditScreenElem = document.querySelector('[data-credit-screen]')
 const creditContentElem = document.querySelector('[data-credit-content]')
 const restartPromptElem = document.querySelector('[data-restart-prompt]')
+const lightOverlay = document.getElementById('light-overlay')
 
 let lastTime
 let speedScale
@@ -76,6 +77,28 @@ const initialDialogueLines = [
 
 const preBossLines = [
   { text: "I can see the forest up ahead, I've made it out!", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' }
+]
+
+const bossDeath1 = [
+  { text: "No... it can't end like this.", speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath2 = [
+  { text: 'Breath easy. The Creator calls you home.', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: 'No....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' },
+  { text: 'My service to her is not yet finished.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath3 = [
+  { text: 'Creator, grant me strength one last time.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath4 = [
+  { text: 'Divine....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+]
+
+const bossDeath5 = [
+  { text: 'RETRIBUTION!', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 let dialogueLines = initialDialogueLines.slice()
@@ -433,12 +456,16 @@ function handleLose() {
   }, 300)
 }
 
-function handleBossDefeat() {
+async function handleBossDefeat() {
   bossActive = false
   bossTriggered = true
   combatMusic.pause()
   combatMusic.currentTime = 0
   hideBossHealth()
+  await playBossCutscene()
+}
+
+function showCreditsScreen() {
   removeDivineKnight()
   heartContainer.classList.add('hide')
   manaContainer.classList.add('hide')
@@ -467,9 +494,76 @@ function handleBossDefeat() {
       document.addEventListener('keydown', restartFromCredits, { once: true })
       document.addEventListener('click', restartFromCredits, { once: true })
       document.addEventListener('touchstart', restartFromCredits, { once: true })
-    }, 1000) // show prompt after background image fades in
+    }, 1000)
   }
   creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
+}
+
+async function playBossCutscene() {
+  enableInput(false)
+  setMoveDirection(0)
+  stopIdleLoop()
+
+  await new Promise(res => startDying(res))
+  await runDialogue(bossDeath1, false)
+
+  await moveVampireTo(60)
+  await runDialogue(bossDeath2, false)
+
+  setKnightDyingFrame(3)
+  await runDialogue(bossDeath3, false)
+
+  setKnightDyingFrame(2)
+  await runDialogue(bossDeath4, false)
+
+  lightOverlay.classList.add('fade-in')
+  await delay(1000)
+  setKnightDyingFrame(1)
+  await runDialogue(bossDeath5, false)
+
+  lightOverlay.classList.add('flash')
+  await delay(200)
+  transitionOverlay.classList.add('fade-out')
+  await delay(1500)
+  lightOverlay.classList.remove('flash')
+  lightOverlay.classList.remove('fade-in')
+
+  showCreditsScreen()
+}
+
+function runDialogue(lines, withBg = false) {
+  return new Promise(resolve => startDialogue(lines, resolve, withBg))
+}
+
+function delay(ms) {
+  return new Promise(r => setTimeout(r, ms))
+}
+
+function moveVampireTo(targetX) {
+  return new Promise(resolve => {
+    const dir = targetX < getVampireX() ? -1 : 1
+    setMoveDirection(dir)
+    lastTime = null
+    const step = time => {
+      if (lastTime == null) {
+        lastTime = time
+        requestAnimationFrame(step)
+        return
+      }
+      const delta = time - lastTime
+      updateVampire(delta, 1)
+      lastTime = time
+      const x = getVampireX()
+      if ((dir === 1 && x >= targetX) || (dir === -1 && x <= targetX)) {
+        setMoveDirection(0)
+        enterIdle()
+        resolve()
+      } else {
+        requestAnimationFrame(step)
+      }
+    }
+    requestAnimationFrame(step)
+  })
 }
 
 function restartFromCredits(e) {
