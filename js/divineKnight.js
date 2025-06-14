@@ -353,13 +353,7 @@ export function startDying(callback) {
   knightElem.style.transform = dir === -1 ? 'scaleX(-1)' : 'scaleX(1)'
   knightElem.dataset.state = 'dead'
   setKnightDyingFrame(0)
-  setTimeout(() => {
-    setKnightDyingFrame(1)
-    setTimeout(() => {
-      setKnightDyingFrame(2)
-      if (callback) callback()
-    }, DYING_FRAME_TIME)
-  }, DYING_FRAME_TIME)
+  if (callback) setTimeout(callback, DYING_FRAME_TIME * 2)
 }
 
 export function removeDivineKnight() {
