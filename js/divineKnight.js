@@ -1,5 +1,6 @@
 import { getCustomProperty, setCustomProperty, incrementCustomProperty } from './updateCustomProperty.js'
 import { getVampireX } from './vampire.js'
+import { damageBoss } from './boss.js'
 
 const gameAreaElem = document.querySelector('[data-game-area]')
 
@@ -15,9 +16,18 @@ const ATTACK2_FRAME_COUNT = 4
 const ATTACK2_FRAME_TIME = 100
 const ATTACK3_FRAME_COUNT = 4
 const ATTACK3_FRAME_TIME = 100
+const RUN_ATTACK_FRAME_COUNT = 6
+const RUN_ATTACK_FRAME_TIME = 100
+const HURT_FRAME_COUNT = 2
+const HURT_FRAME_TIME = 100
+const DEFEND_FRAME_COUNT = 5
+const DEFEND_FRAME_TIME = 100
 const TARGET_LEFT = 70
 const ATTACK_RANGE = 10
 const ATTACK3_RANGE = 15
+const RUN_ATTACK_DISTANCE = 20
+const RUN_ATTACK_SPEED = 0.03
+const DEFEND_CHANCE = 0.2
 
 let knightElem
 let walkFrame = 0
@@ -112,6 +122,18 @@ function updateKnight(delta) {
       handleAttack(delta, 3)
       break
 
+    case 'attack4':
+      handleRunAttack(delta)
+      break
+
+    case 'defend':
+      handleDefend(delta)
+      break
+
+    case 'hurt':
+      handleHurt(delta)
+      break
+
     default:
       if (idleFrameTime >= IDLE_FRAME_TIME) {
         idleFrame = (idleFrame + 1) % IDLE_FRAME_COUNT
@@ -138,8 +160,11 @@ function handleMove(delta) {
   knightElem.style.transform = dir === -1 ? 'scaleX(-1)' : 'scaleX(1)'
   incrementCustomProperty(knightElem, '--left', dir * MOVE_SPEED * delta)
 
-  if (Math.abs(knightX - targetX) <= ATTACK_RANGE) {
+  const distance = Math.abs(knightX - targetX)
+  if (distance <= ATTACK_RANGE) {
     startRandomAttack()
+  } else if (distance >= RUN_ATTACK_DISTANCE && Math.random() < 0.002) {
+    startRunAttack()
   }
 }
 
@@ -164,6 +189,90 @@ function handleAttack(delta, type) {
   knightElem.dataset.frameTime = attackFrameTime
 }
 
+function handleRunAttack(delta) {
+  if (attackFrameTime >= RUN_ATTACK_FRAME_TIME) {
+    attackFrame++
+    if (attackFrame >= RUN_ATTACK_FRAME_COUNT) {
+      knightElem.dataset.state = 'move'
+      attackFrame = 0
+      knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
+    } else {
+      knightElem.src = `assets/images/divine-knight/divine-knight-run-attack/divine-knight-run-attack${String(attackFrame).padStart(3,'0')}.png`
+    }
+    attackFrameTime -= RUN_ATTACK_FRAME_TIME
+  }
+  attackFrameTime += delta
+  knightElem.dataset.frame = attackFrame
+  knightElem.dataset.frameTime = attackFrameTime
+
+  const knightX = getCustomProperty(knightElem, '--left')
+  const targetX = getVampireX()
+  const dir = targetX < knightX ? -1 : 1
+  knightElem.style.transform = dir === -1 ? 'scaleX(-1)' : 'scaleX(1)'
+  incrementCustomProperty(knightElem, '--left', dir * RUN_ATTACK_SPEED * delta)
+}
+
+function handleDefend(delta) {
+  if (attackFrameTime >= DEFEND_FRAME_TIME) {
+    attackFrame++
+    if (attackFrame >= DEFEND_FRAME_COUNT) {
+      knightElem.dataset.state = 'move'
+      attackFrame = 0
+      knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
+    } else {
+      knightElem.src = `assets/images/divine-knight/divine-knight-defend/divine-knight-defend${String(attackFrame).padStart(3,'0')}.png`
+    }
+    attackFrameTime -= DEFEND_FRAME_TIME
+  }
+  attackFrameTime += delta
+  knightElem.dataset.frame = attackFrame
+  knightElem.dataset.frameTime = attackFrameTime
+}
+
+function handleHurt(delta) {
+  if (attackFrameTime >= HURT_FRAME_TIME) {
+    attackFrame++
+    if (attackFrame >= HURT_FRAME_COUNT) {
+      knightElem.dataset.state = 'move'
+      attackFrame = 0
+      knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
+    } else {
+      knightElem.src = `assets/images/divine-knight/divine-knight-hurt/divine-knight-hurt${String(attackFrame).padStart(3,'0')}.png`
+    }
+    attackFrameTime -= HURT_FRAME_TIME
+  }
+  attackFrameTime += delta
+  knightElem.dataset.frame = attackFrame
+  knightElem.dataset.frameTime = attackFrameTime
+}
+
+function startRunAttack() {
+  knightElem.dataset.state = 'attack4'
+  attackFrame = 0
+  attackFrameTime = 0
+  knightElem.dataset.frame = '0'
+  knightElem.dataset.frameTime = '0'
+  knightElem.src = 'assets/images/divine-knight/divine-knight-run-attack/divine-knight-run-attack000.png'
+}
+
+function startDefend() {
+  knightElem.dataset.state = 'defend'
+  attackFrame = 0
+  attackFrameTime = 0
+  knightElem.dataset.frame = '0'
+  knightElem.dataset.frameTime = '0'
+  knightElem.src = 'assets/images/divine-knight/divine-knight-defend/divine-knight-defend000.png'
+}
+
+function startHurt() {
+  knightElem.dataset.state = 'hurt'
+  attackFrame = 0
+  attackFrameTime = 0
+  knightElem.dataset.frame = '0'
+  knightElem.dataset.frameTime = '0'
+  knightElem.src = 'assets/images/divine-knight/divine-knight-hurt/divine-knight-hurt000.png'
+}
+
 function startRandomAttack() {
   const r = Math.random()
   attackFrame = 0
@@ -184,6 +293,16 @@ function startRandomAttack() {
 
 export function getKnightElement() {
   return knightElem
+}
+
+export function damageDivineKnight(amount) {
+  if (!knightElem) return false
+  if (Math.random() < DEFEND_CHANCE) {
+    startDefend()
+    return false
+  }
+  startHurt()
+  return damageBoss(amount)
 }
 
 export function getKnightRect() {
