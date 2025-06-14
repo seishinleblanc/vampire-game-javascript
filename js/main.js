@@ -328,6 +328,7 @@ function handleStart() {
   heartbeat.currentTime = 0
   removeDivineKnight()
   creditScreenElem.classList.add('hide')
+  creditScreenElem.classList.remove('show-prompt')
   document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'block')
   document.querySelectorAll('[data-midground]').forEach(mg => mg.style.display = '')
   document.querySelectorAll('[data-ground]').forEach(g => g.style.display = '')
@@ -433,6 +434,7 @@ function handleBossDefeat() {
   worldElem.style.transform = 'translateX(0)'
   cameraX = 0
   creditScreenElem.classList.remove('show-bg')
+  creditScreenElem.classList.remove('show-prompt')
   creditContentElem.style.animation = 'none'
   void creditContentElem.offsetWidth
   creditContentElem.style.animation = ''
@@ -449,10 +451,13 @@ function handleBossDefeat() {
   const onCreditsEnd = () => {
     setTimeout(() => {
       creditScreenElem.classList.add('show-bg')
-      document.addEventListener('keydown', restartFromCredits, { once: true })
-      document.addEventListener('click', restartFromCredits, { once: true })
-      document.addEventListener('touchstart', restartFromCredits, { once: true })
-    }, 50000)
+      setTimeout(() => {
+        creditScreenElem.classList.add('show-prompt')
+        document.addEventListener('keydown', restartFromCredits, { once: true })
+        document.addEventListener('click', restartFromCredits, { once: true })
+        document.addEventListener('touchstart', restartFromCredits, { once: true })
+      }, 2000)
+    }, 37500)
   }
   creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
 }
@@ -460,6 +465,7 @@ function handleBossDefeat() {
 function restartFromCredits(e) {
   if (e) e.preventDefault()
   creditScreenElem.classList.remove('show-bg')
+  creditScreenElem.classList.remove('show-prompt')
   creditScreenElem.classList.add('hide')
   heartbeat.pause()
   heartbeat.currentTime = 0

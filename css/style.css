@@ -224,7 +224,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: 8vmin;
+  top: 20vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -624,7 +624,7 @@ body.shake {
   transition: opacity 2s ease;
 }
 
-.credit-screen.show-bg .restart-prompt {
+.credit-screen.show-prompt .restart-prompt {
   opacity: 1;
 }
 
