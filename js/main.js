@@ -50,6 +50,8 @@ const speakerNameElem = document.getElementById('speaker-name')
 const bossBg = document.getElementById('boss-bg')
 const controlsScreenElem = document.querySelector('[data-controls-screen]')
 const creditScreenElem = document.querySelector('[data-credit-screen]')
+const creditContentElem = document.querySelector('[data-credit-content]')
+const restartPromptElem = document.querySelector('[data-restart-prompt]')
 
 let lastTime
 let speedScale
@@ -430,6 +432,10 @@ function handleBossDefeat() {
   gameAreaElem.classList.add('hide')
   worldElem.style.transform = 'translateX(0)'
   cameraX = 0
+  creditScreenElem.classList.remove('show-bg')
+  creditContentElem.style.animation = 'none'
+  void creditContentElem.offsetWidth
+  creditContentElem.style.animation = ''
   creditScreenElem.classList.remove('hide')
   creditScreenElem.classList.remove('fade-in')
   void creditScreenElem.offsetWidth
@@ -439,15 +445,19 @@ function handleBossDefeat() {
     heartbeat.volume = 0.5
     heartbeat.play()
   }
-  setTimeout(() => {
+
+  const onCreditsEnd = () => {
+    creditScreenElem.classList.add('show-bg')
     document.addEventListener('keydown', restartFromCredits, { once: true })
     document.addEventListener('click', restartFromCredits, { once: true })
     document.addEventListener('touchstart', restartFromCredits, { once: true })
-  }, 300)
+  }
+  creditContentElem.addEventListener('animationend', onCreditsEnd, { once: true })
 }
 
 function restartFromCredits(e) {
   if (e) e.preventDefault()
+  creditScreenElem.classList.remove('show-bg')
   creditScreenElem.classList.add('hide')
   heartbeat.pause()
   heartbeat.currentTime = 0
