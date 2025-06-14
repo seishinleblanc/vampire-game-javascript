@@ -50,6 +50,7 @@ const manaBarElem = document.querySelector('.mana-bar')
   let inputEnabled = false
   let idleLoopId = null
   let idleLastTime = null
+  let essenceWarningActive = false
   
   export function setupVampire() {
     isJumping = false
@@ -286,6 +287,7 @@ const manaBarElem = document.querySelector('.mana-bar')
   }
 
   function showEssenceWarning() {
+    if (essenceWarningActive) return
     const msg = ESSENCE_MESSAGES[Math.floor(Math.random() * ESSENCE_MESSAGES.length)]
     const text = document.createElement('div')
     text.textContent = msg
@@ -294,7 +296,11 @@ const manaBarElem = document.querySelector('.mana-bar')
     setCustomProperty(text, '--left', getVampireLeft() + 5)
     setCustomProperty(text, '--bottom', getCustomProperty(vampireElem, '--bottom') + 25)
     gameAreaElem.append(text)
-    text.addEventListener('animationend', () => text.remove())
+    essenceWarningActive = true
+    text.addEventListener('animationend', () => {
+      text.remove()
+      essenceWarningActive = false
+    })
   }
 
 
