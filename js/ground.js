@@ -40,7 +40,7 @@ export function updateGround(cameraX) {
   const groundOffset = cameraX % GROUND_WIDTH
   const baseGround = Math.floor(cameraX / GROUND_WIDTH)
   groundElems.forEach((ground, i) => {
-    const left = (baseGround + i) * GROUND_WIDTH - groundOffset
+    const left = (baseGround + i) * GROUND_WIDTH - groundOffset - cameraX
     setCustomProperty(ground, "--left", left)
   })
 
@@ -48,7 +48,7 @@ export function updateGround(cameraX) {
   const midOffset = midCamera % MIDGROUND_WIDTH
   const baseMid = Math.floor(midCamera / MIDGROUND_WIDTH)
   midgroundElems.forEach((mg, i) => {
-    const left = (baseMid + i) * MIDGROUND_WIDTH - midOffset // parallax speed
+    const left = (baseMid + i) * MIDGROUND_WIDTH - midOffset - cameraX
     setCustomProperty(mg, "--left", left)
   })
 

@@ -82,7 +82,7 @@ body {
 
 .midground {
   --left: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: calc(var(--left) * 1vw);
   width: 50vw;
@@ -96,7 +96,7 @@ body {
 
 .ground {
   --left: 0;
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 15vh;
   bottom: 0;
