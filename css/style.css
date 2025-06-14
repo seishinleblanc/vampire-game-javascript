@@ -220,7 +220,7 @@ body {
 
 .boss-health {
   position: fixed;
-  top: 1vmin;
+  top: -9vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -554,7 +554,7 @@ body.shake {
 .credit-screen {
   position: absolute;
   inset: 0;
-  background: black;
+  background: url('../assets/images/backgrounds/credits-background-2.PNG') center/cover no-repeat;
   color: crimson;
   font-family: VT323-Regular;
   display: flex;
