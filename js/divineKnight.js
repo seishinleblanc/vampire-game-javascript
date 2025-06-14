@@ -190,7 +190,7 @@ export function getKnightRect() {
   if (!knightElem) return { left: 0, right: 0, top: 0, bottom: 0 }
   const r = knightElem.getBoundingClientRect()
   const insetX = r.width * 0.45
-  const insetY = r.height * 0.3
+  const insetY = r.height * 0.45
   return {
     left: r.left + insetX,
     right: r.right - insetX,

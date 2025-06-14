@@ -15,8 +15,7 @@ import {
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
 import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
-import { getCustomProperty } from './updateCustomProperty.js'
-import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement } from './divineKnight.js'
+import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
 
@@ -188,9 +187,9 @@ function checkKnightCollision() {
   if (!state || !state.startsWith('attack')) return false
   const frame = Number(knight.dataset.frame)
   if (frame < 2) return false
-  const range = state === 'attack3' ? 15 : 10
-  const distance = Math.abs(getCustomProperty(knight, '--left') - getVampireX())
-  return distance <= range
+  const knightRect = getKnightRect()
+  const vampireRect = getVampireRect()
+  return isCollision(knightRect, vampireRect)
 }
 
 function isCollision(r1, r2) {
