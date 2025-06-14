@@ -251,8 +251,8 @@ body {
   margin-bottom: 1vmin;
   width: 60vmin;
   pointer-events: none;
-  z-index: 2;
-  margin-top: -3vmin;
+  z-index: 4;
+  margin-top: -4.5vmin;
 }
 
 .boss-health-bar {
@@ -264,7 +264,7 @@ body {
   background: rgba(30, 0, 40, 0.5);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: -11vmin;
+  margin-top: -12vmin;
 }
 
 .boss-health-fill {
