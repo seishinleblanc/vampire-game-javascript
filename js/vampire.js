@@ -11,6 +11,7 @@ import { spendMana } from './mana.js'
 const gameAreaElem = document.querySelector('[data-game-area]')
 
 const manaBarElem = document.querySelector('.mana-bar')
+const projectileSound = document.getElementById('blood-project-sound')
   
   const vampireElem = document.querySelector('[data-vampire]')
   // Increase jump height slightly to make it easier to clear the divine knight
@@ -205,6 +206,10 @@ const manaBarElem = document.querySelector('.mana-bar')
         const startX = getVampireLeft() + (facingDirection === 1 ? 5 : -2)
         const bottom = getCustomProperty(vampireElem, '--bottom') + 17
         createProjectile(startX, facingDirection, bottom)
+        if (projectileSound) {
+          projectileSound.currentTime = 0
+          projectileSound.play()
+        }
       }
 
       currentAttackFrameTime -= ATTACK_FRAME_TIME
