@@ -16,6 +16,8 @@ const HURT_FRAME_COUNT = 2
 const HURT_FRAME_TIME = 100
 const DEAD_FRAME_COUNT = 2
 const DEAD_FRAME_TIME = 200
+const wolfGrowlSound = document.getElementById('wolf-growls')
+if (wolfGrowlSound) wolfGrowlSound.volume = 0.4
 
 let nextSpawnTime = SPAWN_INTERVAL_MIN
 
@@ -61,6 +63,10 @@ function spawnWerewolf(cameraX, worldWidth) {
 
   wolf.src = 'assets/images/white-werewolf/white-werewolf-running/white-werewolf-running000.png'
   gameAreaElem.append(wolf)
+  if (wolfGrowlSound && Math.random() < 0.3) {
+    wolfGrowlSound.currentTime = 0
+    wolfGrowlSound.play()
+  }
 }
 
 function updateWolf(wolf, delta, speedScale, cameraX, worldWidth, vampireX) {

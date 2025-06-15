@@ -38,6 +38,7 @@ const gameOverMusic = document.querySelector('[data-gameovermusic]')
 const combatMusic = document.querySelector('[data-combatmusic]')
 const heartbeat = document.getElementById('heartbeat')
 const retributionSound = document.getElementById('divine-retribution-sfx')
+const knightDyingMusic = document.getElementById('divine-knight-dying-music')
 const heartContainer = document.querySelector('[data-hearts]')
 const manaContainer = document.querySelector('.mana-container')
 const screenFlash = document.getElementById('screen-flash')
@@ -360,6 +361,10 @@ function handleStart() {
   hideBossHealth()
   combatMusic.pause()
   combatMusic.currentTime = 0
+  if (knightDyingMusic) {
+    knightDyingMusic.pause()
+    knightDyingMusic.currentTime = 0
+  }
   heartbeat.pause()
   heartbeat.currentTime = 0
   removeDivineKnight()
@@ -507,6 +512,11 @@ async function playBossCutscene() {
   enableInput(false)
   setMoveDirection(0)
   stopIdleLoop()
+  if (knightDyingMusic && knightDyingMusic.paused) {
+    knightDyingMusic.currentTime = 0
+    knightDyingMusic.volume = 0.4
+    knightDyingMusic.play()
+  }
 
   await new Promise(res => startDying(res))
   setKnightDyingFrame(1)
@@ -533,6 +543,11 @@ async function playBossCutscene() {
   await delay(1500)
   lightOverlay.classList.remove('flash')
   lightOverlay.classList.remove('fade-in')
+
+  if (knightDyingMusic) {
+    knightDyingMusic.pause()
+    knightDyingMusic.currentTime = 0
+  }
 
   showCreditsScreen()
 }
