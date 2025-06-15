@@ -12,6 +12,10 @@ const gameAreaElem = document.querySelector('[data-game-area]')
 
 const manaBarElem = document.querySelector('.mana-bar')
 const projectileSound = document.getElementById('blood-project-sound')
+if (projectileSound) {
+  // Lower the blood projectile volume so it doesn't overpower other sounds
+  projectileSound.volume = 0.5
+}
   
   const vampireElem = document.querySelector('[data-vampire]')
   // Increase jump height slightly to make it easier to clear the divine knight

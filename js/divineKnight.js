@@ -348,7 +348,10 @@ export function getKnightRect() {
 export function getKnightAttackRect() {
   if (!knightElem) return { left: 0, right: 0, top: 0, bottom: 0 }
   const r = knightElem.getBoundingClientRect()
-  const extendX = r.width * 0.25
+  const isRunAttack = knightElem.dataset.state === 'attack4'
+  // Running attack should have a much smaller hitbox so the knight
+  // must be right on top of the player to land it
+  const extendX = r.width * (isRunAttack ? 0.05 : 0.25)
   const insetY = r.height * 0.45
   return {
     left: r.left - extendX,
