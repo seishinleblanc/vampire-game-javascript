@@ -88,7 +88,7 @@ const bossDeath1 = [
 const bossDeath2 = [
   { text: 'Rest now. The Creator calls you home.', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
   { text: 'No....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' },
-  { text: 'My vow... it isn’t complete. Her will remains unfinished..', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+  { text: 'My vow... it isn’t complete. Her will remains unfinished.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 const bossDeath3 = [
@@ -106,7 +106,7 @@ const bossDeath5 = [
 let dialogueLines = initialDialogueLines.slice()
 const bossDialogueLines = [
   { text: 'Thats far enough...', speaker: '???', avatar: 'assets/images/avatars/avatar-divine-knight-hidden.png' },
-  { text: "Whoever you are, step aside. I’ve already bled your pets across the road—don’t make me dirty my hands again", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: "Whoever you are, step aside. I’ve already bled your pets across the road—don’t make me dirty my hands again.", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
   { text: 'Foolish vampire. I am Divine Knight Seraphiel, blade of the sanctum, warden of the last light. Your sins end here.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 

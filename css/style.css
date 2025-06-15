@@ -693,7 +693,7 @@ body.shake {
 }
 
 .credit-name {
-  margin-bottom: 1.5em; /* Or adjust value to your liking */
+  margin-bottom: 3.5em; /* Or adjust value to your liking */
 }
 
 @keyframes scrollCredits {
