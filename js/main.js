@@ -664,7 +664,10 @@ function startDialogue(lines, onComplete, withBg = true, playMusic = true) {
 
 function showDialogueLine(index) {
   const line = dialogueLines[index]
-  if (line.text.toUpperCase().includes('RETRIBUTION') && retributionSound) {
+  if (
+    retributionSound &&
+    line.text.trim().toUpperCase() === 'DIVINE....'
+  ) {
     retributionSound.currentTime = 0
     retributionSound.play()
   }
