@@ -40,14 +40,15 @@ body {
 }
 
 .boss-bg {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 115vh;
   object-fit: cover;
-  /* Keep the image anchored to the top of the viewport */
-  object-position: top;
+  object-position: center -34vh;
+  image-rendering: pixelated;
+  clip-path: inset(0 0 0% 0);
   z-index: -10;
   pointer-events: none;
 }
