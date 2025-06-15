@@ -654,7 +654,7 @@ body.shake {
 }
 
 .credit-content {
-  animation: scrollCredits 35s linear forwards;
+  animation: scrollCredits 45s linear forwards;
   text-align: center;
   font-size: 5vmin;
 }
@@ -694,13 +694,19 @@ body.shake {
 
 @keyframes scrollCredits {
   from { transform: translateY(80%); }
-  to { transform: translateY(-110%); }
+  to { transform: translateY(-90%); }
 }
 
 .credit-logo {
   width: 40vmin;
   margin-top: 5vmin;
 }
+
+.copyright {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
 
 
 
