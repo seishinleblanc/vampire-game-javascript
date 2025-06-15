@@ -71,24 +71,24 @@ const DISTANCE_TO_BOSS = 400
 const initialDialogueLines = [
   { text: 'Carmilla, wake up.', speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
   { text: "...What? What's happening?", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
-  { text: 'Hunters. They breached the gate. You need to get out—now.', speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
+  { text: 'Hunters. They broken through the gate. You need to get out—now.', speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
   { text: 'What about you?', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
-  { text: "I'll hold them off. Take the back exit—", speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
+  { text: "I’m right behind you. I have to warn the others first. Go—through the back passage.", speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
   { text: "But be careful. They've set traps along the path. Watch your footing.", speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' }
 ]
 
 const preBossLines = [
-  { text: "I can see the forest up ahead, I've made it out!", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' }
+  { text: "I can see the forest up ahead, I'm almost free.", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' }
 ]
 
 const bossDeath1 = [
-  { text: "No... it can't end like this.", speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+  { text: "No... this isn't how it ends.", speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 const bossDeath2 = [
-  { text: 'Breath easy. The Creator calls you home.', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: 'Rest now. The Creator calls you home.', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
   { text: 'No....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' },
-  { text: 'My service to her is not yet finished.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+  { text: 'My vow... it isn’t complete. Her will remains unfinished..', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 const bossDeath3 = [
@@ -106,7 +106,7 @@ const bossDeath5 = [
 let dialogueLines = initialDialogueLines.slice()
 const bossDialogueLines = [
   { text: 'Thats far enough...', speaker: '???', avatar: 'assets/images/avatars/avatar-divine-knight-hidden.png' },
-  { text: "Huh? You think a mere human like you is any match for a vampire? I'll kill you like I killed your hounds.", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
+  { text: "Whoever you are, step aside. I’ve already bled your pets across the road—don’t make me dirty my hands again", speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
   { text: 'Foolish vampire. I am Divine Knight Seraphiel, blade of the sanctum, warden of the last light. Your sins end here.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
