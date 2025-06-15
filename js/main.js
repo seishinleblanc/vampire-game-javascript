@@ -37,6 +37,7 @@ const dialogueMood = document.getElementById('dialogue-mood')
 const gameOverMusic = document.querySelector('[data-gameovermusic]')
 const combatMusic = document.querySelector('[data-combatmusic]')
 const heartbeat = document.getElementById('heartbeat')
+const retributionSound = document.getElementById('divine-retribution-sfx')
 const heartContainer = document.querySelector('[data-hearts]')
 const manaContainer = document.querySelector('.mana-container')
 const screenFlash = document.getElementById('screen-flash')
@@ -475,6 +476,7 @@ function showCreditsScreen() {
   cameraX = 0
   creditScreenElem.classList.remove('show-bg')
   creditScreenElem.classList.remove('show-prompt')
+  restartPromptElem.classList.remove('blinking')
   creditContentElem.style.animation = 'none'
   void creditContentElem.offsetWidth
   creditContentElem.style.animation = ''
@@ -492,6 +494,7 @@ function showCreditsScreen() {
     creditScreenElem.classList.add('show-bg')
     setTimeout(() => {
       creditScreenElem.classList.add('show-prompt')
+      restartPromptElem.classList.add('blinking')
       document.addEventListener('keydown', restartFromCredits, { once: true })
       document.addEventListener('click', restartFromCredits, { once: true })
       document.addEventListener('touchstart', restartFromCredits, { once: true })
@@ -509,7 +512,8 @@ async function playBossCutscene() {
   setKnightDyingFrame(1)
   await runDialogue(bossDeath1, false, false)
 
-  await moveVampireTo(getKnightX() - 5)
+  const offset = getVampireX() < getKnightX() ? -5 : 5
+  await moveVampireTo(getKnightX() + offset)
   await runDialogue(bossDeath2, false, false)
 
   setKnightDyingFrame(2)
@@ -572,6 +576,7 @@ function restartFromCredits(e) {
   if (e) e.preventDefault()
   creditScreenElem.classList.remove('show-bg')
   creditScreenElem.classList.remove('show-prompt')
+  restartPromptElem.classList.remove('blinking')
   creditScreenElem.classList.add('hide')
   heartbeat.pause()
   heartbeat.currentTime = 0
@@ -659,6 +664,10 @@ function startDialogue(lines, onComplete, withBg = true, playMusic = true) {
 
 function showDialogueLine(index) {
   const line = dialogueLines[index]
+  if (line.text.startsWith('Divine') && retributionSound) {
+    retributionSound.currentTime = 0
+    retributionSound.play()
+  }
   dialogueText.textContent = line.text
   speakerNameElem.textContent = line.speaker
   avatarElem.src = line.avatar
