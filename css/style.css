@@ -665,7 +665,7 @@ body.shake {
 
 .credit-content .credit-name {
   margin-top: 0;
-  margin-bottom: 4vmin;
+  margin-bottom: 6vmin;
 }
 
 .credit-title {
@@ -692,12 +692,8 @@ body.shake {
   opacity: 1;
 }
 
-.credit-name {
-  margin-bottom: 3.5em; /* Or adjust value to your liking */
-}
-
 @keyframes scrollCredits {
-  from { transform: translateY(100%); }
+  from { transform: translateY(80%); }
   to { transform: translateY(-110%); }
 }
 
