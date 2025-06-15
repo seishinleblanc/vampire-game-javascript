@@ -694,7 +694,7 @@ body.shake {
 
 @keyframes scrollCredits {
   from { transform: translateY(80%); }
-  to { transform: translateY(-90%); }
+  to { transform: translateY(-60%); }
 }
 
 .credit-logo {
@@ -703,7 +703,9 @@ body.shake {
 }
 
 .copyright {
-  font-size: 0.85em;
+  margin-top: 0;
+  margin-bottom: 1vmin;
+  font-size: 0.55em;
   opacity: 0.8;
 }
 
