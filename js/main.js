@@ -665,12 +665,14 @@ function startDialogue(lines, onComplete, withBg = true, playMusic = true) {
 function showDialogueLine(index) {
   const line = dialogueLines[index]
   if (
-    retributionSound &&
-    line.text.trim().toUpperCase() === 'DIVINE....'
-  ) {
+  retributionSound &&
+  line.text.trim().toUpperCase() === 'DIVINE....'
+) {
+  setTimeout(() => {
     retributionSound.currentTime = 0
     retributionSound.play()
-  }
+  }, 2000)
+}
   dialogueText.textContent = line.text
   speakerNameElem.textContent = line.speaker
   avatarElem.src = line.avatar

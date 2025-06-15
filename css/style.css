@@ -692,6 +692,10 @@ body.shake {
   opacity: 1;
 }
 
+.credit-name {
+  margin-bottom: 1.5em; /* Or adjust value to your liking */
+}
+
 @keyframes scrollCredits {
   from { transform: translateY(100%); }
   to { transform: translateY(-110%); }
