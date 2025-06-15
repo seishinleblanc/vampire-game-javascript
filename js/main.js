@@ -89,11 +89,11 @@ const bossDeath1 = [
 const bossDeath2 = [
   { text: 'Rest now. The Creator calls you home.', speaker: 'Carmilla', avatar: 'assets/images/avatars/avatar-carmilla.png' },
   { text: 'No....', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' },
-  { text: 'My vow... it isn’t complete. Her will remains unfinished.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+  { text: 'My vow... it isn’t complete. Her will... remains... unfinished.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 const bossDeath3 = [
-  { text: 'Creator, grant me strength one last time.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
+  { text: 'Creator... grant me strength one last time.', speaker: 'Divine Knight Seraphiel', avatar: 'assets/images/avatars/avatar-divine-knight.PNG' }
 ]
 
 const bossDeath4 = [
