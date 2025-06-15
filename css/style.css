@@ -57,11 +57,11 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 115vh;
   object-fit: cover;
   object-position: center -34vh;
   image-rendering: pixelated;
-  clip-path: inset(0 0 20% 0);
+  clip-path: inset(0 0 0% 0);
   z-index: -9;
   pointer-events: none;
 }
@@ -84,7 +84,7 @@ body {
 .midground {
   --left: 0;
   position: absolute;
-  bottom: -6.2vh;
+  bottom: -13vh;
   width: 100%;
   height: 50vw;
   left: calc(var(--left) * 1%);
@@ -101,7 +101,7 @@ body {
   height: 15vh;
   bottom: 0;
   left: calc(var(--left) * 1%);
-  transform: translateY(10vh);
+  transform: translateY(13vh);
   z-index: 2;
   visibility: hidden;
 }

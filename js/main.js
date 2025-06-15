@@ -67,7 +67,7 @@ let lastVampireX = 0
 let bossTriggered = false
 let bossActive = false
 
-const DISTANCE_TO_BOSS = 400
+const DISTANCE_TO_BOSS = 750
 
 const initialDialogueLines = [
   { text: 'Carmilla, wake up.', speaker: 'Mirelle', avatar: 'assets/images/avatars/avatar-mirelle.png' },
