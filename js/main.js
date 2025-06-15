@@ -613,7 +613,7 @@ function updateHeartDisplay() {
   heartContainer.innerHTML = ''
   for (let i = 0; i < MAX_HEARTS; i++) {
     const heart = document.createElement('img')
-    heart.src = i < currentHearts ? 'assets/images/heart-full.png' : 'assets/images/heart-empty.png'
+    heart.src = i < currentHearts ? 'assets/images/UI/heart-full.png' : 'assets/images/UI/heart-empty.png'
     heart.classList.add('heart')
     if (i < currentHearts) heart.classList.add('full-heart')
     heartContainer.appendChild(heart)

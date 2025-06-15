@@ -47,7 +47,7 @@ function createCross(worldX) {
   const cross = document.createElement("img")
   cross.dataset.cross = true
   cross.dataset.worldX = worldX
-  cross.src = "assets/images/cross.png"
+  cross.src = "assets/images/items/cross.png"
   cross.classList.add("cross")
   setCustomProperty(cross, "--left", worldX)
 
