@@ -29,6 +29,7 @@ const RUN_ATTACK_DISTANCE = 20
 const RUN_ATTACK_SPEED = 0.03
 const DEFEND_CHANCE = 0.25
 const DYING_FRAME_TIME = 200
+const ATTACK_COOLDOWN = 1000
 
 let knightElem
 let walkFrame = 0
@@ -37,6 +38,7 @@ let idleFrame = 0
 let idleFrameTime = 0
 let attackFrame = 0
 let attackFrameTime = 0
+let attackCooldown = 0
 let lastTime = null
 let onWalkComplete = null
 let deathCallback = null
@@ -72,6 +74,7 @@ export function startKnightAI() {
   walkFrameTime = 0
   attackFrame = 0
   attackFrameTime = 0
+  attackCooldown = 0
   knightElem.dataset.frame = '0'
   knightElem.dataset.frameTime = '0'
   knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
@@ -159,6 +162,11 @@ function handleMove(delta) {
   knightElem.dataset.frame = walkFrame
   knightElem.dataset.frameTime = walkFrameTime
 
+  if (attackCooldown > 0) {
+    attackCooldown -= delta
+    if (attackCooldown < 0) attackCooldown = 0
+  }
+
   const knightX = getCustomProperty(knightElem, '--left')
   const targetX = getVampireX()
   const dir = targetX < knightX ? -1 : 1
@@ -166,10 +174,12 @@ function handleMove(delta) {
   incrementCustomProperty(knightElem, '--left', dir * MOVE_SPEED * delta)
 
   const distance = Math.abs(knightX - targetX)
-  if (distance <= ATTACK_RANGE) {
-    startRandomAttack()
-  } else if (distance >= RUN_ATTACK_DISTANCE && Math.random() < 0.002) {
-    startRunAttack()
+  if (attackCooldown === 0) {
+    if (distance <= ATTACK_RANGE) {
+      startRandomAttack()
+    } else if (distance >= RUN_ATTACK_DISTANCE && Math.random() < 0.002) {
+      startRunAttack()
+    }
   }
 }
 
@@ -183,6 +193,7 @@ function handleAttack(delta, type) {
       knightElem.dataset.state = 'move'
       attackFrame = 0
       knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
+      attackCooldown = ATTACK_COOLDOWN
     } else {
       const folder = type === 1 ? 'divine-knight-attack-one' : type === 2 ? 'divine-knight-attack-two' : 'divine-knight-attack-three'
       knightElem.src = `assets/images/divine-knight/${folder}/divine-knight-${type === 1 ? 'attack-one' : type === 2 ? 'attack-two' : 'attack-three'}${String(attackFrame).padStart(3,'0')}.png`
@@ -201,6 +212,7 @@ function handleRunAttack(delta) {
       knightElem.dataset.state = 'move'
       attackFrame = 0
       knightElem.src = 'assets/images/divine-knight/divine-knight-walking/divine-knight-walking000.png'
+      attackCooldown = ATTACK_COOLDOWN
     } else {
       knightElem.src = `assets/images/divine-knight/divine-knight-run-attack/divine-knight-run-attack${String(attackFrame).padStart(3,'0')}.png`
     }
