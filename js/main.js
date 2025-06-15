@@ -14,7 +14,7 @@ import {
 } from './vampire.js'
 import { setupCross, updateCross, getCrossRects } from './cross.js'
 import { setupProjectiles, updateProjectiles } from './projectile.js'
-import { setupWerewolves, updateWerewolves, getWerewolfElements } from './werewolf.js'
+import { setupWerewolves, updateWerewolves, getWerewolfElements, stopWolfGrowls } from './werewolf.js'
 import { setupDivineKnight, walkOntoScreen, removeDivineKnight, startKnightAI, getKnightElement, getKnightRect, getKnightAttackRect, startDying, setKnightDyingFrame, getKnightX } from './divineKnight.js'
 import { setupMana, updateMana } from './mana.js'
 import { showBossHealth, hideBossHealth } from './boss.js'
@@ -300,6 +300,7 @@ function stepOffscreen(time) {
 }
 
 function transitionToBossArea() {
+  stopWolfGrowls()
   transitionOverlay.classList.add('fade-out')
   setTimeout(() => {
     document.querySelectorAll('[data-background]').forEach(bg => bg.style.display = 'none')
@@ -610,7 +611,7 @@ function restartFromCredits(e) {
     fireSound.volume = 0.4
     fireSound.play()
 
-  if (navigator.vibrate) navigator.vibrate(100)
+  // Vibration removed to prevent potential freezing on some devices
   const vampireElem = document.querySelector('[data-vampire]')
   vampireElem.classList.add('damaged')
   screenFlash.classList.add('active')

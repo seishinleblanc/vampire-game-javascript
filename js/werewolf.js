@@ -19,6 +19,12 @@ const DEAD_FRAME_TIME = 200
 const wolfGrowlSound = document.getElementById('wolf-growls')
 if (wolfGrowlSound) wolfGrowlSound.volume = 0.4
 
+export function stopWolfGrowls() {
+  if (!wolfGrowlSound) return
+  wolfGrowlSound.pause()
+  wolfGrowlSound.currentTime = 0
+}
+
 let nextSpawnTime = SPAWN_INTERVAL_MIN
 
 export function setupWerewolves() {
