@@ -11,7 +11,7 @@ export function spawnHeart(worldX) {
   const heart = document.createElement('img')
   heart.dataset.heart = true
   heart.dataset.worldX = worldX
-  heart.src = 'assets/images/heart-full.png'
+  heart.src = 'assets/images/UI/heart-full.png'
   heart.classList.add('pickup-heart')
   setCustomProperty(heart, '--left', worldX)
   setCustomProperty(heart, '--bottom', 5)

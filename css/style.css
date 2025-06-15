@@ -697,6 +697,11 @@ body.shake {
   to { transform: translateY(-110%); }
 }
 
+.credit-logo {
+  width: 40vmin;
+  margin-top: 5vmin;
+}
+
 
 
   
