@@ -693,7 +693,7 @@ body.shake {
 }
 
 @keyframes scrollCredits {
-  from { transform: translateY(80%); }
+  from { transform: translateY(70%); }
   to { transform: translateY(-60%); }
 }
 
@@ -702,9 +702,14 @@ body.shake {
   margin-top: 5vmin;
 }
 
-.copyright {
+.copyrightprior {
   margin-top: 0;
   margin-bottom: 1vmin;
+}
+
+.copyright {
+  margin-top: 0;
+  margin-bottom: 6vmin;
   font-size: 0.55em;
   opacity: 0.8;
 }
