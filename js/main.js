@@ -165,13 +165,19 @@ function updatePlayerAndCamera(delta) {
   let x = getVampireX();
 
   if (bossActive) {
+    const rect = getVampireRect();
+    const worldWidthPx = worldElem.clientWidth;
+    const vampWidth = (rect.width / worldWidthPx) * WORLD_WIDTH;
+    const maxX = WORLD_WIDTH - vampWidth;
+
     if (x < 0) {
       setVampireLeft(0);
       x = 0;
-    } else if (x > WORLD_WIDTH) {
-      setVampireLeft(WORLD_WIDTH);
-      x = WORLD_WIDTH;
+    } else if (x > maxX) {
+      setVampireLeft(maxX);
+      x = maxX;
     }
+
     cameraX = 0;
   } else {
     const halfW = WORLD_WIDTH / 2;
